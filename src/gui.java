@@ -4,19 +4,17 @@ import java.awt.*;
 class gui {
     public static void main(String args[]) {
 
-        //Creating the Frame
-        JFrame frame = new JFrame("Chat Frame");
+        JFrame frame = new JFrame("Auto Repair");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 400);
+        frame.setSize(600, 600);
 
-        //Creating the MenuBar and adding components
         JMenuBar mb = new JMenuBar();
         JMenu m1 = new JMenu("Item 1");
         JMenu m2 = new JMenu("Item 2");
         mb.add(m1);
         mb.add(m2);
-        JMenuItem m11 = new JMenuItem("Open");
-        JMenuItem m22 = new JMenuItem("Save as");
+        JMenuItem m11 = new JMenuItem("Option 1");
+        JMenuItem m22 = new JMenuItem("Option 2");
         m1.add(m11);
         m1.add(m22);
 
