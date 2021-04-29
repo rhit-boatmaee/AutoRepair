@@ -58,7 +58,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 	}
 
 	public void setLocationAndSize() {
-
+		this.setJMenuBar(toolBar);
 	}
 
 	public void addMenuItemsToToolBar() {

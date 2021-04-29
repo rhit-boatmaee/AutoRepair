@@ -92,16 +92,16 @@ public class LoginFrame extends JFrame implements ActionListener {
 			
 			if (loginData.status) {
 				JOptionPane.showMessageDialog(this, "Login Successful");
-				if(loginData.type == "Manager") {
+				if(loginData.type.equals("Manager")) {
 					app.openManagerFrame();
 					this.setVisible(false);
 					
-				} else if(loginData.type == "Employee") {
+				} else if(loginData.type.equals("Employee")) {
 					
 					app.openEmployeeFrame();
 					this.setVisible(false);
 					
-				} else if(loginData.type == "Customer") {
+				} else if(loginData.type.equals("Customer")) {
 					app.openCustomerFrame();
 					this.setVisible(false);
 				}

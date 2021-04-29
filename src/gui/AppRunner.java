@@ -100,7 +100,7 @@ class AppRunner {
 
 		System.out.println("login" + username + " " + password);
 
-		String query = "SELECT PasswordSalt, PasswordHash, UserType FROM [User] WHERE Username = ? ";
+		String query = "SELECT PasswordSalt, PasswordHash, UserType FROM [Users] WHERE Username = ? ";
 		byte[] saltPass = null;
 		String hashPass = "";
 
