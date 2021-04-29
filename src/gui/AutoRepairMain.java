@@ -10,9 +10,8 @@ public class AutoRepairMain {
 		
 		AppRunner application = new AppRunner(db);
 		
-		db.connect("emilyTestARS", "basicPass!");
+		db.connect("boatmaee", "Catsmeow8");
 		
-		System.out.println(db.getConnection().toString());
 		LoginFrame loginFrame = new LoginFrame(application);
 		
 		
