@@ -87,9 +87,9 @@ public class LoginFrame extends JFrame implements ActionListener {
 			}
 
 			System.out.println(userText + pass);
-
+			
 			LoginInfo loginData = app.startLogin(userText, pass);
-
+			
 			if (loginData.status) {
 				JOptionPane.showMessageDialog(this, "Login Successful");
 				if(loginData.type == "Manager") {

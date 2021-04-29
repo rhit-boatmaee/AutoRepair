@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.BorderLayout;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
@@ -17,19 +16,17 @@ import java.util.Random;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import javax.swing.*;
-import java.awt.*;
 import services.DatabaseConnectionService;
-
-
 
 class AppRunner {
 	private static final Random RANDOM = new SecureRandom();
 	private static final Base64.Encoder enc = Base64.getEncoder();
 	private static final Base64.Decoder dec = Base64.getDecoder();
-	private DatabaseConnectionService dbService = null;
+	public DatabaseConnectionService dbService = null;
 
 	public AppRunner(DatabaseConnectionService dbService) {
 		this.dbService = dbService;
+		
 	}
 
 	public void openManagerFrame() {
@@ -61,7 +58,7 @@ class AppRunner {
 
 	}
 
-	public boolean completeRegistration(String username, String password) {
+	public boolean completeRegistration(String username, String password, String userType) {
 
 		System.out.println("Registration completed for " + username);
 
@@ -71,11 +68,14 @@ class AppRunner {
 		System.out.println("register" + username + " " + password);
 		try {
 			Connection c = dbService.getConnection();
-			CallableStatement cs = c.prepareCall(" {? = CALL Register(?,?,?)}");
+			System.out.println(dbService);
+			System.out.println(c);
+			CallableStatement cs = c.prepareCall(" {? = CALL Register(?,?,?,?)}");
 			cs.registerOutParameter(1, Types.INTEGER);
 			cs.setString(2, username);
 			cs.setBytes(3, saltPass);
 			cs.setString(4, hashedPass);
+			cs.setString(5,  userType);
 
 			cs.execute();
 
@@ -94,7 +94,7 @@ class AppRunner {
 
 	}
 
-	public  LoginInfo startLogin(String username, String password) {
+	public LoginInfo startLogin(String username, String password) {
 
 		String type = "not yet implemented";
 
@@ -103,7 +103,7 @@ class AppRunner {
 		String query = "SELECT PasswordSalt, PasswordHash, UserType FROM [User] WHERE Username = ? ";
 		byte[] saltPass = null;
 		String hashPass = "";
-		
+
 		Connection c = dbService.getConnection();
 
 		try {
@@ -120,11 +120,11 @@ class AppRunner {
 		}
 
 		String newHashPass = this.hashPassword(saltPass, password);
-		
+
 		if (newHashPass.equals(hashPass)) {
 			return new LoginInfo(true, type);
 		}
-		
+
 		System.out.println(newHashPass + " " + hashPass);
 		JOptionPane.showMessageDialog(null, "Login Failed");
 		return new LoginInfo(false, type);

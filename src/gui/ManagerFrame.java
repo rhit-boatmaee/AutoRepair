@@ -25,20 +25,20 @@ public class ManagerFrame extends JFrame implements ActionListener {
 	JMenuItem deleteRepair = new JMenuItem("Delete Repair");
 
 	JMenuItem addVehicle = new JMenuItem("Add Vehicle");
-	JMenuItem updateVehicle = new JMenuItem("Option 2");
-	JMenuItem deleteVehicle = new JMenuItem("Option 2");
+	JMenuItem updateVehicle = new JMenuItem("Update Vehicle");
+	JMenuItem deleteVehicle = new JMenuItem("Delete Vehicle");
 
-	JMenuItem addTask = new JMenuItem("Option 2");
-	JMenuItem updateTask = new JMenuItem("Option 2");
-	JMenuItem deleteTask = new JMenuItem("Option 2");
+	JMenuItem addTask = new JMenuItem("Add Task");
+	JMenuItem updateTask = new JMenuItem("Update Task");
+	JMenuItem deleteTask = new JMenuItem("Delete Task");
 
-	JMenuItem addTool = new JMenuItem("Option 2");
-	JMenuItem updateTool = new JMenuItem("Option 2");
-	JMenuItem deleteTool = new JMenuItem("Option 2");
+	JMenuItem addTool = new JMenuItem("Add Tool");
+	JMenuItem updateTool = new JMenuItem("Update Tool");
+	JMenuItem deleteTool = new JMenuItem("Delete Tool");
 
-	JMenuItem addPart = new JMenuItem("Option 2");
-	JMenuItem updatePart = new JMenuItem("Option 2");
-	JMenuItem deletePart = new JMenuItem("Option 2");
+	JMenuItem addPart = new JMenuItem("Add Part");
+	JMenuItem updatePart = new JMenuItem("Update Part");
+	JMenuItem deletePart = new JMenuItem("Delete Part");
 
 	Container container = getContentPane();
 
@@ -106,6 +106,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		if (e.getSource() == addRepair) {
 			// call stored procedure from database
+			
 		}
 		if (e.getSource() == updateRepair) {
 			// call stored procedure from database

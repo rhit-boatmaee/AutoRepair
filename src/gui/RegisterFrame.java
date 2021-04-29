@@ -15,11 +15,14 @@ import javax.swing.JTextField;
 public class RegisterFrame extends JFrame implements ActionListener {
 
 	Container container = getContentPane();
-	JLabel userLabel = new JLabel("USERNAME");
+	JLabel userNameLabel = new JLabel("USERNAME");
+	JLabel userTypeLabel = new JLabel("USERTYPE");
 	JLabel newPasswordLabel = new JLabel("PASSWORD");
 	JLabel confirmPasswordLabel = new JLabel("CONFIRM PASS");
+	
 
 	JTextField userTextField = new JTextField();
+	JTextField typeTextField = new JTextField();
 	JPasswordField newPasswordField = new JPasswordField();
 	JPasswordField confirmPasswordField = new JPasswordField();
 	
@@ -46,10 +49,11 @@ public class RegisterFrame extends JFrame implements ActionListener {
 	}
 
 	public void setLocationAndSize() {
-
-		userLabel.setBounds(50, 150, 100, 30);
+		userTypeLabel.setBounds(50, 200, 100, 30);
+		userNameLabel.setBounds(50, 150, 100, 30);
 		confirmPasswordLabel.setBounds(50, 300, 150, 30);
 		newPasswordLabel.setBounds(50, 220, 100, 30);
+		typeTextField.setBounds(150, 200, 150, 30);
 		userTextField.setBounds(150, 150, 150, 30);
 		newPasswordField.setBounds(150, 220, 150, 30);
 		confirmPasswordField.setBounds(150, 300, 150, 30);
@@ -62,7 +66,7 @@ public class RegisterFrame extends JFrame implements ActionListener {
 
 	public void addComponentsToContainer() {
 
-		container.add(userLabel);
+		container.add(userNameLabel);
 		container.add(newPasswordLabel);
 		container.add(confirmPasswordLabel);
 		container.add(userTextField);
@@ -72,6 +76,8 @@ public class RegisterFrame extends JFrame implements ActionListener {
 		container.add(completeButton);
 		container.add(resetButton);
 		container.add(backToLoginButton);
+		container.add(typeTextField);
+		container.add(userTypeLabel);
 
 	}
 
@@ -92,7 +98,11 @@ public class RegisterFrame extends JFrame implements ActionListener {
 			char[] confirmPwdText;
 			String newPass = "";
 			String confirmPass = "";
+			String userType = "";
+			
+			
 			userText = userTextField.getText();
+			userType  = typeTextField.getText();
 			newPwdText = newPasswordField.getPassword();
 			confirmPwdText = confirmPasswordField.getPassword();
 
@@ -113,7 +123,7 @@ public class RegisterFrame extends JFrame implements ActionListener {
 
 				System.out.println(userText + newPass);
 
-				boolean registered =app.completeRegistration(userText, newPass);
+				boolean registered = app.completeRegistration(userText, newPass, userType);
 				JOptionPane.showMessageDialog(this, "Registration Successful. You may now exit this page.");
 			}
 		}
@@ -121,13 +131,13 @@ public class RegisterFrame extends JFrame implements ActionListener {
 		if (e.getSource() == backToLoginButton) {
 			this.setVisible(false);
 		}
-		// Coding Part of RESET button
+	
 		if (e.getSource() == resetButton) {
 			userTextField.setText("");
 			newPasswordField.setText("");
 			confirmPasswordField.setText("");
 		}
-		// Coding Part of showPassword JCheckBox
+		
 		if (e.getSource() == showPassword) {
 			if (showPassword.isSelected()) {
 				newPasswordField.setEchoChar((char) 0);
