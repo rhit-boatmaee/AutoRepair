@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Random;
 
@@ -26,7 +27,7 @@ class AppRunner {
 
 	public AppRunner(DatabaseConnectionService dbService) {
 		this.dbService = dbService;
-		
+
 	}
 
 	public void openManagerFrame() {
@@ -75,7 +76,7 @@ class AppRunner {
 			cs.setString(2, username);
 			cs.setBytes(3, saltPass);
 			cs.setString(4, hashedPass);
-			cs.setString(5,  userType);
+			cs.setString(5, userType);
 
 			cs.execute();
 
@@ -131,6 +132,41 @@ class AppRunner {
 
 	}
 
+	public boolean addRepair(String vehicle, String startDate, String endDate, String discount, String totalCost,
+			String description) {
+		
+		try {
+			Connection c = dbService.getConnection();
+			System.out.println(dbService);
+			System.out.println(c);
+			CallableStatement cs = c.prepareCall(" {? = CALL InsertRepair(?,?,?,?,?,?)}");
+			cs.registerOutParameter(1, Types.INTEGER);
+			cs.setString(2, vehicle);
+			cs.setString(3, startDate);
+			cs.setString(4, endDate);
+			
+			// need to convert discount and totalCost to int
+			cs.setInt(5, 20);
+			cs.setInt(6, 1500);
+			cs.setString(7, description);
+
+			cs.execute();
+
+			int returnCode = cs.getInt(1);
+			if (returnCode == 0) {
+				JOptionPane.showMessageDialog(null, "Add Repair Successful");
+				return true;
+			} else {
+				JOptionPane.showMessageDialog(null, "Add Repair Failed Failed");
+				return false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return true;
+
+	}
+
 	public boolean useApplicationLogins() {
 		return true;
 	}
@@ -162,5 +198,27 @@ class AppRunner {
 		}
 		return getStringFromBytes(hash);
 	}
+
+	public ArrayList<String> getVehicles() {
+
+		ArrayList<String> vehicles = new ArrayList<String>();
+		try {
+
+			PreparedStatement s = dbService.getConnection().prepareStatement("SELECT VIN FROM VEHICLE");
+
+			ResultSet rs = s.executeQuery();
+			while (rs.next()) {
+
+				vehicles.add(rs.getString("VIN"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return vehicles;
+	}
+
+
+	
 
 }
