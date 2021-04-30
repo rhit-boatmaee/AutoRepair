@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
@@ -241,7 +242,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		if (e.getSource() == readRepair) {
 			container.removeAll();
 			container.add(toolBar);
-			System.out.println("WENT THROUGH");
+	
 			JScrollPane myPane = new JScrollPane();
 			
 			ArrayList<MyRepairs> myRepairs = app.getRepairs();
@@ -325,6 +326,8 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 				}
 			});
+			
+		
 			addButton.addActionListener(new ActionListener() {
 
 				@Override
@@ -335,7 +338,12 @@ public class ManagerFrame extends JFrame implements ActionListener {
 					String Year = yearTextField.getText();
 					String Model = modelTextField.getText();
 					String Mileage = mileageTextField.getText();
+					
+					try {
 					app.addVehicle(VIN, Integer.parseInt(Year), Model, Integer.parseInt(Mileage),bodyType);
+					} catch (NumberFormatException e) {
+						JOptionPane.showMessageDialog(null, "fields can't be left empty");
+					}
 
 				}
 			});

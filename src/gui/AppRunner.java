@@ -42,7 +42,12 @@ class AppRunner {
 	}
 
 	protected void openCustomerFrame() {
-
+		CustomerFrame managerFrame = new CustomerFrame(this, null);
+		managerFrame.setTitle("AutoRepair - Customer");
+		managerFrame.setVisible(true);
+		managerFrame.setBounds(10, 10, 400, 600);
+		managerFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		managerFrame.setResizable(false);
 	}
 
 	protected void openEmployeeFrame() {
@@ -59,24 +64,22 @@ class AppRunner {
 
 	}
 
-	public boolean completeRegistration(String username, String password, String userType) {
-
-		System.out.println("Registration completed for " + username);
+	public boolean completeRegistration(String userEmail, String username, String password, String userType) {
 
 		byte[] saltPass = this.getNewSalt();
 		String hashedPass = this.hashPassword(saltPass, password);
 
-		System.out.println("register" + username + " " + password);
 		try {
 			Connection c = dbService.getConnection();
 			System.out.println(dbService);
 			System.out.println(c);
-			CallableStatement cs = c.prepareCall(" {? = CALL Register(?,?,?,?)}");
+			CallableStatement cs = c.prepareCall(" {? = CALL Register(?,?,?,?,?)}");
 			cs.registerOutParameter(1, Types.INTEGER);
-			cs.setString(2, username);
-			cs.setBytes(3, saltPass);
-			cs.setString(4, hashedPass);
-			cs.setString(5, userType);
+			cs.setString(2, userEmail);
+			cs.setString(3, username);
+			cs.setBytes(4, saltPass);
+			cs.setString(5, hashedPass);
+			cs.setString(6, userType);
 
 			cs.execute();
 
@@ -101,7 +104,7 @@ class AppRunner {
 
 		System.out.println("login" + username + " " + password);
 
-		String query = "SELECT PasswordSalt, PasswordHash, UserType FROM [Users] WHERE Username = ? ";
+		String query = "SELECT SaltPass, HashPass, UserType FROM [User] WHERE Username = ? ";
 		byte[] saltPass = null;
 		String hashPass = "";
 
@@ -113,8 +116,8 @@ class AppRunner {
 			s.setString(1, username);
 			ResultSet rs = s.executeQuery();
 			while (rs.next()) {
-				saltPass = rs.getBytes("PasswordSalt");
-				hashPass = rs.getString("PasswordHash");
+				saltPass = rs.getBytes("SaltPass");
+				hashPass = rs.getString("HashPass");
 				type = rs.getString("UserType");
 			}
 			newHashPass = this.hashPassword(saltPass, password);
@@ -175,6 +178,11 @@ class AppRunner {
 	}
 	public boolean addVehicle(String VIN, int year, String model, int mileage, String bodyType) {
 		// TODO Auto-generated method stub
+		
+		if(VIN.length() == 0 || model.length() == 0 ) {
+			JOptionPane.showMessageDialog(null, "fields can't be left empty");
+			return false;
+		}
 		try {
 			Connection c = dbService.getConnection();
 			System.out.println(dbService);
@@ -335,6 +343,24 @@ class AppRunner {
 		}
 
 		return vehicles;
+	}
+	
+	
+	public ArrayList<MyRepairs> customerViewRepairs(String userName) {
+		ArrayList<MyRepairs> myRepairs = new ArrayList<MyRepairs>();
+		try {
+			PreparedStatement s = dbService.getConnection().prepareStatement("SELECT * FROM REPAIR ");
+			s.setString(1, x);
+			ResultSet rs = s.executeQuery();
+			while(rs.next()) {
+				MyRepairs row = new MyRepairs(rs.getInt("ID"),rs.getString("StartDate"),rs.getString("EndDate"),rs.getString("Description"),rs.getInt("Discount"),rs.getInt("TotalCost"),rs.getString("VIN"));
+				myRepairs.add(row);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return myRepairs;
 	}
 	
 	public ArrayList<MyRepairs> getRepairs() {
