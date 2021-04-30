@@ -350,7 +350,6 @@ class AppRunner {
 		ArrayList<MyRepairs> myRepairs = new ArrayList<MyRepairs>();
 		try {
 			PreparedStatement s = dbService.getConnection().prepareStatement("SELECT * FROM REPAIR ");
-			s.setString(1, x);
 			ResultSet rs = s.executeQuery();
 			while(rs.next()) {
 				MyRepairs row = new MyRepairs(rs.getInt("ID"),rs.getString("StartDate"),rs.getString("EndDate"),rs.getString("Description"),rs.getInt("Discount"),rs.getInt("TotalCost"),rs.getString("VIN"));
