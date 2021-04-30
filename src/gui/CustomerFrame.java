@@ -1,10 +1,12 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -15,9 +17,12 @@ import javax.swing.table.DefaultTableModel;
 
 public class CustomerFrame extends JFrame implements ActionListener{
 
+	JButton testButton = new JButton("TEST");
 	JMenuBar toolBar = new JMenuBar();
 	Container container = getContentPane();
 	AppRunner app;
+	
+	
 
 	JMenu repairs = new JMenu("Repairs");
 	JMenuItem viewRepairs = new JMenuItem("View Repairs");
@@ -29,6 +34,7 @@ public class CustomerFrame extends JFrame implements ActionListener{
 		this.username = username;
 		this.app = application;
 		setLayoutManager();
+		addMenuItemsToToolBar();
 		setLocationAndSize();
 		addActionEvent();
 	}
@@ -38,9 +44,11 @@ public class CustomerFrame extends JFrame implements ActionListener{
 		toolBar.add(repairs);
 		toolBar.add(vehicles);
 		
+		vehicles.add(viewRepairs);
+		
 	}
 	private void addActionEvent() {
-	
+		viewRepairs.addActionListener(this);
 		
 	}
 
@@ -49,7 +57,17 @@ public class CustomerFrame extends JFrame implements ActionListener{
 	}
 
 	public void setLocationAndSize() {
+		toolBar.setBackground(Color.RED);
+		toolBar.setBounds(10, 10, 600, 10);
 		this.setJMenuBar(toolBar);
+		
+		
+		System.out.println("toolbar set");
+		container.add(toolBar);
+		testButton.setBounds(50 , 50, 100, 100);
+		container.add(testButton);
+		
+		
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
