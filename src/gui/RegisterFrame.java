@@ -122,7 +122,19 @@ public class RegisterFrame extends JFrame implements ActionListener {
 			} else {
 
 				System.out.println(userText + newPass);
+				/*
+				 * // Create user
+				String sql = "CREATE USER ? @localhost";
+				query.setParameter(1, user.getUserName());
 
+
+				// Set password
+				sql = "SET PASSWORD FOR ? @localhost = PASSWORD(?)";
+				query.setParameter(1, user.getUserName()); 
+				query.setParameter(2, user.getPassword());
+				 * 
+				 * 
+				 */
 				boolean registered = app.completeRegistration(userText, newPass, userType);
 				JOptionPane.showMessageDialog(this, "Registration Successful. You may now exit this page.");
 			}

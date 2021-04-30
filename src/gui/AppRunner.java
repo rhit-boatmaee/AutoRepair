@@ -35,7 +35,7 @@ class AppRunner {
 		ManagerFrame managerFrame = new ManagerFrame(this);
 		managerFrame.setTitle("AutoRepair - Manager");
 		managerFrame.setVisible(true);
-		managerFrame.setBounds(10, 10, 370, 600);
+		managerFrame.setBounds(10, 10, 400, 600);
 		managerFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		managerFrame.setResizable(false);
 
@@ -106,7 +106,8 @@ class AppRunner {
 		String hashPass = "";
 
 		Connection c = dbService.getConnection();
-
+		
+		String newHashPass = null;
 		try {
 			PreparedStatement s = c.prepareStatement(query);
 			s.setString(1, username);
@@ -116,11 +117,14 @@ class AppRunner {
 				hashPass = rs.getString("PasswordHash");
 				type = rs.getString("UserType");
 			}
+			newHashPass = this.hashPassword(saltPass, password);
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return new LoginInfo(false, type);
+		} catch (NullPointerException e) {
+			System.out.println("Login Info is empty");
+			return new LoginInfo(false, type);
 		}
-
-		String newHashPass = this.hashPassword(saltPass, password);
 
 		if (newHashPass.equals(hashPass)) {
 			return new LoginInfo(true, type);
@@ -132,23 +136,26 @@ class AppRunner {
 
 	}
 
-	public boolean addRepair(String vehicle, String startDate, String endDate, String discount, String totalCost,
+	public boolean addRepair(String vehicle, String startDate, String endDate, int discount, int totalCost,
 			String description) {
 		
 		try {
 			Connection c = dbService.getConnection();
 			System.out.println(dbService);
 			System.out.println(c);
-			CallableStatement cs = c.prepareCall(" {? = CALL InsertRepair(?,?,?,?,?,?)}");
+			Random rnd = new Random();
+		    int number = rnd.nextInt(999999);
+			CallableStatement cs = c.prepareCall(" {? = CALL InsertRepair(?,?,?,?,?,?,?)}");
 			cs.registerOutParameter(1, Types.INTEGER);
-			cs.setString(2, vehicle);
+			cs.setInt(2, number);
 			cs.setString(3, startDate);
 			cs.setString(4, endDate);
 			
 			// need to convert discount and totalCost to int
-			cs.setInt(5, 20);
-			cs.setInt(6, 1500);
-			cs.setString(7, description);
+			cs.setString(5, description);
+			cs.setInt(6, discount);
+			cs.setInt(7, totalCost);
+			cs.setString(8, vehicle);
 
 			cs.execute();
 
@@ -216,6 +223,86 @@ class AppRunner {
 		}
 
 		return vehicles;
+	}
+	
+	public ArrayList<MyRepairs> getRepairs() {
+		ArrayList<MyRepairs> myRepairs = new ArrayList<MyRepairs>();
+		try {
+			PreparedStatement s = dbService.getConnection().prepareStatement("SELECT * FROM REPAIR");
+			ResultSet rs = s.executeQuery();
+			while(rs.next()) {
+				MyRepairs row = new MyRepairs(rs.getInt("ID"),rs.getString("StartDate"),rs.getString("EndDate"),rs.getString("Description"),rs.getInt("Discount"),rs.getInt("TotalCost"),rs.getString("VIN"));
+				myRepairs.add(row);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return myRepairs;
+	}
+	
+	public ArrayList<MyVehicles> getAllVehicles() {
+		ArrayList<MyVehicles> myVehiclesList = new ArrayList<MyVehicles>();
+		try {
+			PreparedStatement s = dbService.getConnection().prepareStatement("SELECT * FROM Vehicle");
+			ResultSet rs = s.executeQuery();
+			while(rs.next()) {
+				MyVehicles row = new MyVehicles(rs.getString("VIN"),rs.getInt("Year"),rs.getString("Model"),rs.getInt("Mileage"),rs.getString("BodyType"));
+				myVehiclesList.add(row);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return myVehiclesList;
+	}
+	
+	public ArrayList<MyTasks> getTasks() {
+		ArrayList<MyTasks> myTaskList = new ArrayList<MyTasks>();
+		try {
+			PreparedStatement s = dbService.getConnection().prepareStatement("SELECT * FROM Task");
+			ResultSet rs = s.executeQuery();
+			while(rs.next()) {
+				MyTasks row = new MyTasks(rs.getInt("ID"),rs.getString("Name"),rs.getString("Description"),rs.getInt("Price"));
+				myTaskList.add(row);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return myTaskList;
+	}
+	
+	public ArrayList<MyTools> getTools() {
+		ArrayList<MyTools> myToolsList = new ArrayList<MyTools>();
+		try {
+			PreparedStatement s = dbService.getConnection().prepareStatement("SELECT * FROM Tool");
+			ResultSet rs = s.executeQuery();
+			while(rs.next()) {
+				MyTools row = new MyTools(rs.getString("Size"),rs.getString("Name"),rs.getString("Brand"));
+				myToolsList.add(row);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return myToolsList;
+	}
+	
+	public ArrayList<MyParts> getParts() {
+		ArrayList<MyParts> myPartsList = new ArrayList<MyParts>();
+		try {
+			PreparedStatement s = dbService.getConnection().prepareStatement("SELECT * FROM Part");
+			ResultSet rs = s.executeQuery();
+			while(rs.next()) {
+				MyParts row = new MyParts(rs.getInt("PartNumber"),rs.getString("Name"),rs.getInt("Price"));
+				myPartsList.add(row);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return myPartsList;
 	}
 
 

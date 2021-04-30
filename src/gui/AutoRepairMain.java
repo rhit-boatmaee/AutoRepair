@@ -10,6 +10,7 @@ public class AutoRepairMain {
 		
 		AppRunner application = new AppRunner(db);
 		
+		//NEED TO ENCRYPT THIS!!!
 		db.connect("emilyTestARS", "basicPass!");
 		
 		LoginFrame loginFrame = new LoginFrame(application);

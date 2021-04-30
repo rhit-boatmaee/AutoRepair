@@ -17,27 +17,31 @@ public class LoginFrame extends JFrame implements ActionListener {
 	JButton loginButton = new JButton("LOGIN");
 	JButton resetButton = new JButton("RESET");
 	JCheckBox showPassword = new JCheckBox("Show Password");
-
+	JLabel mainlabel = new JLabel("Auto Repair Shop");
 	JLabel registerLabel = new JLabel("New User? Click the button to register.");
 	JButton registerButton = new JButton("REGISTER");
 	AppRunner app;
 
+
 	public LoginFrame(AppRunner application) {
 		this.app = application;
+		mainlabel.setFont(new Font("Courier", Font.PLAIN, 30));
 		setLayoutManager();
 		setLocationAndSize();
 		addComponentsToContainer();
 		addActionEvent();
 	}
 
+
 	public void setLayoutManager() {
 		container.setLayout(null);
 	}
 
 	public void setLocationAndSize() {
-
-		registerLabel.setBounds(50, 400, 250, 60);
-		registerButton.setBounds(50, 450, 100, 30);
+		
+		mainlabel.setBounds(35, 50, 300, 70);
+		registerLabel.setBounds(70, 400, 250, 60);
+		registerButton.setBounds(125, 450, 100, 30);
 		userLabel.setBounds(50, 150, 100, 30);
 		passwordLabel.setBounds(50, 220, 100, 30);
 		userTextField.setBounds(150, 150, 150, 30);
@@ -49,6 +53,7 @@ public class LoginFrame extends JFrame implements ActionListener {
 	}
 
 	public void addComponentsToContainer() {
+		container.add(mainlabel);
 		container.add(registerButton);
 		container.add(registerLabel);
 		container.add(userLabel);
@@ -89,7 +94,7 @@ public class LoginFrame extends JFrame implements ActionListener {
 			System.out.println(userText + pass);
 			
 			LoginInfo loginData = app.startLogin(userText, pass);
-			
+			System.out.println(loginData.status);
 			if (loginData.status) {
 				JOptionPane.showMessageDialog(this, "Login Successful");
 				if(loginData.type.equals("Manager")) {
