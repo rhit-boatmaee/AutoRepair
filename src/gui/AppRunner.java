@@ -173,6 +173,118 @@ class AppRunner {
 		return true;
 
 	}
+	public boolean addVehicle(String VIN, int year, String model, int mileage, String bodyType) {
+		// TODO Auto-generated method stub
+		try {
+			Connection c = dbService.getConnection();
+			System.out.println(dbService);
+			System.out.println(bodyType);
+			System.out.println(VIN);
+			CallableStatement cs = c.prepareCall(" {? = CALL InsertVehicle(?,?,?,?,?)}");
+			cs.registerOutParameter(1, Types.INTEGER);
+			cs.setString(2, VIN);
+			cs.setInt(3, year);
+			cs.setString(4, model);
+			cs.setInt(5, mileage);
+			cs.setString(6, bodyType);
+			cs.execute();
+
+			int returnCode = cs.getInt(1);
+			if (returnCode == 0) {
+				JOptionPane.showMessageDialog(null, "Add Vehicle Successful");
+				return true;
+			} else {
+				JOptionPane.showMessageDialog(null, "Add Vehicle Failed Failed");
+				System.out.println(returnCode);
+				return false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return true;
+	}
+	
+	public boolean addTool(String Size, String Name, String Brand) {
+		// TODO Auto-generated method stub
+		try {
+			Connection c = dbService.getConnection();
+
+			CallableStatement cs = c.prepareCall(" {? = CALL InsertTool(?,?,?)}");
+			cs.registerOutParameter(1, Types.INTEGER);
+			cs.setString(2, Size);
+			cs.setString(3, Name);
+			cs.setString(4, Brand);
+			cs.execute();
+
+			int returnCode = cs.getInt(1);
+			if (returnCode == 0) {
+				JOptionPane.showMessageDialog(null, "Add Tool Successful");
+				return true;
+			} else {
+				JOptionPane.showMessageDialog(null, "Add Tool Failed Failed");
+				System.out.println(returnCode);
+				return false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return true;
+	}
+	
+	public boolean addTask(int ID, String Name, String Description, int Price) {
+		// TODO Auto-generated method stub
+		try {
+			Connection c = dbService.getConnection();
+
+			CallableStatement cs = c.prepareCall(" {? = CALL InsertTask(?,?,?,?)}");
+			cs.registerOutParameter(1, Types.INTEGER);
+			cs.setInt(2, ID);
+			cs.setString(3, Name);
+			cs.setString(4, Description);
+			cs.setInt(5, Price);
+			cs.execute();
+
+			int returnCode = cs.getInt(1);
+			if (returnCode == 0) {
+				JOptionPane.showMessageDialog(null, "Add Task Successful");
+				return true;
+			} else {
+				JOptionPane.showMessageDialog(null, "Add Task Failed Failed");
+				System.out.println(returnCode);
+				return false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return true;
+	}
+	
+	public boolean addPart(int PartNumber, String Name, int Price) {
+		// TODO Auto-generated method stub
+		try {
+			Connection c = dbService.getConnection();
+
+			CallableStatement cs = c.prepareCall(" {? = CALL InsertPart(?,?,?)}");
+			cs.registerOutParameter(1, Types.INTEGER);
+			cs.setInt(2, PartNumber);
+			cs.setString(3, Name);
+			cs.setInt(4, Price);
+			cs.execute();
+
+			int returnCode = cs.getInt(1);
+			if (returnCode == 0) {
+				JOptionPane.showMessageDialog(null, "Add Task Successful");
+				return true;
+			} else {
+				JOptionPane.showMessageDialog(null, "Add Task Failed Failed");
+				System.out.println(returnCode);
+				return false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return true;
+	}
 
 	public boolean useApplicationLogins() {
 		return true;
