@@ -20,10 +20,12 @@ public class RegisterFrame extends JFrame implements ActionListener {
 	JLabel userTypeLabel = new JLabel("USERTYPE");
 	JLabel newPasswordLabel = new JLabel("PASSWORD");
 	JLabel confirmPasswordLabel = new JLabel("CONFIRM PASS");
-	JLabel userEmailLabel = new JLabel("USER EMAIL");
+	JLabel firstName = new JLabel("FIRST NAME");
+	JLabel lastName = new JLabel("LAST NAME");
 	
 
-	JTextField userEmailField= new JTextField();
+	JTextField userFirstName= new JTextField();
+	JTextField userLastName= new JTextField();
 	JTextField userTextField = new JTextField();
 	JTextField typeTextField = new JTextField();
 	JPasswordField newPasswordField = new JPasswordField();
@@ -55,21 +57,24 @@ public class RegisterFrame extends JFrame implements ActionListener {
 	public void setLocationAndSize() {
 		
 		
-		userEmailLabel.setBounds(50, 50, 100, 30);
-		userEmailField.setBounds(150, 50, 150, 30);
+		firstName.setBounds(50, 50, 100, 30);
+		userFirstName.setBounds(150, 50, 150, 30);
+		
+		lastName.setBounds(50,100,100,30);
+		userLastName.setBounds(150,100,150,30);
 	
-		userNameLabel.setBounds(50, 100, 100, 30);
-		userTextField.setBounds(150, 100, 150, 30);
+		userNameLabel.setBounds(50, 150, 100, 30);
+		userTextField.setBounds(150, 150, 150, 30);
 		
-		userTypeLabel.setBounds(50, 150, 100, 30);
-		typeTextField.setBounds(150, 150, 150, 30);
+		userTypeLabel.setBounds(50, 200, 100, 30);
+		typeTextField.setBounds(150, 200, 150, 30);
 		
-		newPasswordLabel.setBounds(50, 200, 100, 30);
-		newPasswordField.setBounds(150, 200, 150, 30);
-		showPassword.setBounds(150, 250, 150, 30);
+		newPasswordLabel.setBounds(50, 250, 100, 30);
+		newPasswordField.setBounds(150, 250, 150, 30);
+		showPassword.setBounds(150, 300, 150, 30);
 		
-		confirmPasswordLabel.setBounds(50, 300, 150, 30);
-		confirmPasswordField.setBounds(150, 300, 150, 30);
+		confirmPasswordLabel.setBounds(50, 350, 150, 30);
+		confirmPasswordField.setBounds(150, 350, 150, 30);
 		
 		
 	
@@ -77,14 +82,16 @@ public class RegisterFrame extends JFrame implements ActionListener {
 		
 		backToLoginButton.setBounds(50, 500, 150, 30);
 		completeButton.setBounds(200, 500, 100, 30);
-		resetButton.setBounds(200, 350, 100, 30);
+		resetButton.setBounds(200, 400, 100, 30);
 
 	}
 
 	public void addComponentsToContainer() {
 
-		container.add(userEmailLabel);
-		container.add(userEmailField);
+		container.add(firstName);
+		container.add(lastName);
+		container.add(userFirstName);
+		container.add(userLastName);
 		container.add(userNameLabel);
 		container.add(newPasswordLabel);
 		container.add(confirmPasswordLabel);
@@ -112,7 +119,7 @@ public class RegisterFrame extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 
 		if (e.getSource() == completeButton) {
-			String userEmail;
+			String myfirstname,mylastname;
 			String userText;
 			char[] newPwdText;
 			char[] confirmPwdText;
@@ -120,7 +127,8 @@ public class RegisterFrame extends JFrame implements ActionListener {
 			String confirmPass = "";
 			String userType = "";
 			
-			userEmail = userEmailField.getText();
+			myfirstname = userFirstName.getText();
+			mylastname = userLastName.getText();
 			userText = userTextField.getText();
 			userType  = typeTextField.getText();
 			newPwdText = newPasswordField.getPassword();
@@ -137,7 +145,7 @@ public class RegisterFrame extends JFrame implements ActionListener {
 
 			if (!newPass.equals(confirmPass)) {
 				JOptionPane.showMessageDialog(this, "Passwords Don't Match");
-			} else if (newPass.equals("") || userText.equals("") || userEmail.equals("")) {
+			} else if (newPass.equals("") || userText.equals("") || myfirstname.equals("") || mylastname.equals("")) {
 				JOptionPane.showMessageDialog(this, "Please fill out all forms before continuing.");
 			} else {
 
@@ -154,7 +162,7 @@ public class RegisterFrame extends JFrame implements ActionListener {
 				 * 
 				 * 
 				 */
-				boolean registered = app.completeRegistration(userEmail, userText, newPass, userType);
+				boolean registered = app.completeRegistration(myfirstname,mylastname, userText, newPass, userType);
 				JOptionPane.showMessageDialog(this, "Registration Successful. You may now exit this page.");
 			}
 		}

@@ -64,7 +64,7 @@ class AppRunner {
 
 	}
 
-	public boolean completeRegistration(String userEmail, String username, String password, String userType) {
+	public boolean completeRegistration(String firstName, String lastName, String username, String password, String userType) {
 
 		byte[] saltPass = this.getNewSalt();
 		String hashedPass = this.hashPassword(saltPass, password);
@@ -73,13 +73,14 @@ class AppRunner {
 			Connection c = dbService.getConnection();
 			System.out.println(dbService);
 			System.out.println(c);
-			CallableStatement cs = c.prepareCall(" {? = CALL Register(?,?,?,?,?)}");
+			CallableStatement cs = c.prepareCall(" {? = CALL Register(?,?,?,?,?,?)}");
 			cs.registerOutParameter(1, Types.INTEGER);
-			cs.setString(2, userEmail);
-			cs.setString(3, username);
+			cs.setString(2, username);
+			cs.setString(3, hashedPass);
 			cs.setBytes(4, saltPass);
-			cs.setString(5, hashedPass);
-			cs.setString(6, userType);
+			cs.setString(5, userType);
+			cs.setString(6, firstName);
+			cs.setString(7, lastName);
 
 			cs.execute();
 
@@ -104,7 +105,7 @@ class AppRunner {
 
 		System.out.println("login" + username + " " + password);
 
-		String query = "SELECT SaltPass, HashPass, UserType FROM [User] WHERE Username = ? ";
+		String query = "SELECT SaltPass, HashPass, UserType FROM [Registration] WHERE Username = ? ";
 		byte[] saltPass = null;
 		String hashPass = "";
 
