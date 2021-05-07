@@ -24,12 +24,20 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 	JMenuBar toolBar = new JMenuBar();
 
+	JMenu employees = new JMenu("Employees");
 	JMenu repairs = new JMenu("Repairs");
 	JMenu vehicles = new JMenu("Vehicles");
 	JMenu tasks = new JMenu("Tasks");
 	JMenu tools = new JMenu("Tools");
 	JMenu parts = new JMenu("Parts");
 
+	JMenuItem addEmployee = new JMenuItem("Assign Employee");
+//	JMenuItem updateEmployee = new JMenuItem("Update Employee");
+	JMenuItem readAssignments = new JMenuItem("Read Assign");
+
+	JMenuItem deleteEmployee = new JMenuItem("Delete Employee");
+	JMenuItem readEmployee = new JMenuItem("Read Employee");
+	
 	JMenuItem addRepair = new JMenuItem("Add Repair");
 	JMenuItem updateRepair = new JMenuItem("Update Repair");
 	JMenuItem deleteRepair = new JMenuItem("Delete Repair");
@@ -45,12 +53,6 @@ public class ManagerFrame extends JFrame implements ActionListener {
 	JMenuItem deleteTask = new JMenuItem("Delete Task");
 	JMenuItem readTask = new JMenuItem("Read Task");
 
-	JMenuItem addTool = new JMenuItem("Add Tool");
-	JMenuItem updateTool = new JMenuItem("Update Tool");
-	JMenuItem deleteTool = new JMenuItem("Delete Tool");
-	JMenuItem readTool = new JMenuItem("Read Tool");
-
-
 	JMenuItem addPart = new JMenuItem("Add Part");
 	JMenuItem updatePart = new JMenuItem("Update Part");
 	JMenuItem deletePart = new JMenuItem("Delete Part");
@@ -58,9 +60,13 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 	Container container = getContentPane();
 	AppRunner app;
+	
+	String userName = new String();
 
-	public ManagerFrame(AppRunner application) {
+	
+	public ManagerFrame(AppRunner application, String userText) {
 		this.app = application;
+		this.userName = userText;
 		setLayoutManager();
 		setLocationAndSize();
 		addComponentsToContainer();
@@ -78,21 +84,23 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 	public void addMenuItemsToToolBar() {
 
+		toolBar.add(employees);
 		toolBar.add(repairs);
 		toolBar.add(vehicles);
 		toolBar.add(tools);
 		toolBar.add(tasks);
 		toolBar.add(parts);
 
+		employees.add(addEmployee);
+//		employees.add(updateEmployee);
+		employees.add(deleteEmployee);
+		employees.add(readAssignments);
+		employees.add(readEmployee);
+		
 		vehicles.add(addVehicle);
 		vehicles.add(updateVehicle);
 		vehicles.add(deleteVehicle);
 		vehicles.add(readVehicles);
-
-		tools.add(addTool);
-		tools.add(updateTool);
-		tools.add(deleteTool);
-		tools.add(readTool);
 
 		tasks.add(addTask);
 		tasks.add(updateTask);
@@ -118,16 +126,21 @@ public class ManagerFrame extends JFrame implements ActionListener {
 	}
 
 	public void addActionEvent() {
+		addEmployee.addActionListener(this);
+		deleteEmployee.addActionListener(this);
+		readEmployee.addActionListener(this);
+		readAssignments.addActionListener(this);
 		addRepair.addActionListener(this);
 		readRepair.addActionListener(this);
 		readVehicles.addActionListener(this);
 		readTask.addActionListener(this);
-		readTool.addActionListener(this);
 		readPart.addActionListener(this);
 		addVehicle.addActionListener(this);
-		addTool.addActionListener(this);
 		addTask.addActionListener(this);
 		addPart.addActionListener(this);
+		deleteRepair.addActionListener(this);
+		deleteVehicle.addActionListener(this);
+		deletePart.addActionListener(this);
 	}
 
 	@Override
@@ -238,6 +251,54 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		}
 		if (e.getSource() == deleteRepair) {
 			// call stored procedure from database
+			container.removeAll();
+			container.add(toolBar);
+			ArrayList<MyRepairs> allRepairs = app.getRepairs();
+			Integer[] myRepairIDS = new Integer[allRepairs.size()];
+			for(int i = 0; i<allRepairs.size();i++) {
+				myRepairIDS[i] = allRepairs.get(i).getID();
+			}
+			JComboBox<Integer> repairIDS = new JComboBox<Integer>(myRepairIDS);
+			JLabel repairIDSLabel = new JLabel("RepairID");
+			
+			JButton deleteButton = new JButton("DELETE");
+			
+			repairIDSLabel.setBounds(25, 50, 150, 30);
+			repairIDS.setBounds(100, 50, 150, 30);
+			deleteButton.setBounds(100, 450, 100, 100);
+			
+			container.add(repairIDSLabel);
+			container.add(repairIDS);
+			container.add(deleteButton);
+			
+			repairIDS.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+
+				}
+			});
+			
+			
+			deleteButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					int repairID = (Integer) repairIDS.getSelectedItem();
+					
+					try {
+					app.deleteRepair(repairID);
+					} catch (NumberFormatException e) {
+						JOptionPane.showMessageDialog(null, "fields can't be left empty");
+					}
+
+				}
+			});
+			this.setTitle("Delete Repair");
+			this.setVisible(true);
+			this.setBounds(10, 10, 370, 600);
+			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			this.setResizable(false);
+			
 		}
 		if (e.getSource() == readRepair) {
 			container.removeAll();
@@ -376,6 +437,53 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		}
 		if (e.getSource() == deleteVehicle) {
 			// call stored procedure from database
+			container.removeAll();
+			container.add(toolBar);
+			ArrayList<MyVehicles> myVehicles = app.getAllVehicles();
+			String[] allVINS = new String[myVehicles.size()];
+			for(int i = 0; i<myVehicles.size();i++) {
+				allVINS[i] = (myVehicles.get(i).getVin());
+			}
+			JComboBox<String> VINNumbers = new JComboBox<String>(allVINS);
+			JLabel VINLabel = new JLabel("VIN#");
+
+			JButton deleteButton = new JButton("DELETE");
+			
+			VINLabel.setBounds(25, 50, 150, 30);
+			VINNumbers.setBounds(100, 50, 150, 30);
+			deleteButton.setBounds(100, 450, 100, 100);
+			
+			container.add(VINLabel);
+			container.add(VINNumbers);
+			container.add(deleteButton);
+			
+			VINNumbers.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+
+				}
+			});
+			
+			
+			deleteButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					String vinNumber = (String) VINNumbers.getSelectedItem();
+					
+					try {
+					app.deleteVehicle(vinNumber);
+					} catch (NumberFormatException e) {
+						JOptionPane.showMessageDialog(null, "fields can't be left empty");
+					}
+
+				}
+			});
+			this.setTitle("Delete Vehicle");
+			this.setVisible(true);
+			this.setBounds(10, 10, 370, 600);
+			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			this.setResizable(false);
 		}
 		if (e.getSource() == readVehicles) {
 			container.removeAll();
@@ -410,102 +518,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 			this.setVisible(true);
 		}
 
-		if (e.getSource() == addTool) {
-			// call stored procedure from database
-			container.removeAll();
-			container.add(toolBar);
-
-			
-			JTextField sizeTextField = new JTextField();
-			JLabel sizeLabel = new JLabel("Size");
-
-			JTextField nameTextField = new JTextField();
-			JLabel namelabel = new JLabel("Name");
-
-			JTextField brandTextField = new JTextField();
-			JLabel brandLabel = new JLabel("Brand");
-
-
-			JButton addButton = new JButton("ADD");
-
-			sizeLabel.setBounds(25, 50, 150, 30);
-			sizeTextField.setBounds(100, 50, 150, 30);
-
-			namelabel.setBounds(25, 100, 150, 30);
-			nameTextField.setBounds(100, 100, 150, 30);
-
-			brandLabel.setBounds(25, 150, 150, 30);
-			brandTextField.setBounds(100, 150, 150, 30);
-
-			addButton.setBounds(100, 200, 150, 30);
-
-			addButton.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					String Size = sizeTextField.getText();
-					String Name = nameTextField.getText();
-					String Brand = brandTextField.getText();
-					
-					app.addTool(Size, Name, Brand);
-
-				}
-			});
-
-			container.add(sizeLabel);
-			container.add(sizeTextField);
-
-			container.add(namelabel);
-			container.add(nameTextField);
-
-			container.add(brandLabel);
-			container.add(brandTextField);
-			
-			container.add(addButton);
-
-			this.setTitle("Add Tool");
-			this.setVisible(true);
-			this.setBounds(10, 10, 370, 600);
-			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			this.setResizable(false);
-		}
-		if (e.getSource() == updateTool) {
-			// call stored procedure from database
-		}
-		if (e.getSource() == deleteTool) {
-			// call stored procedure from database
-		}
-		if (e.getSource() == readTool) {
-			container.removeAll();
-			container.add(toolBar);
-			JScrollPane myPane = new JScrollPane();
-			
-			ArrayList<MyTools> myTools = app.getTools();
-			JTable myTable = new JTable();
-			DefaultTableModel myModel = new DefaultTableModel();
-			String[] myColumns = {"Size","Name","Brand"};
-			myTable.setModel(myModel);
-			myModel.setColumnIdentifiers(myColumns);
-			myPane.setViewportView(myTable);
-			Object[] myRow = new Object[3];
-			for(int i = 0; i<myTools.size();i++) {
-				myRow[0] = myTools.get(i).getSize();
-				myRow[1] = myTools.get(i).getName();
-				myRow[2] = myTools.get(i).getBrand();
-				myModel.addRow(myRow);
-			}
-			myTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-			myTable.getColumnModel().getColumn(2).setPreferredWidth(150);
-			myPane.setBounds(30, 30, 300, 300);
-			container.add(myPane);
-			
-			this.setTitle("Read Tools");
-			this.setBounds(10, 10, 680, 600);
-			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			this.setResizable(false);
-			this.setVisible(true);		
-		}
-
+		
 		if (e.getSource() == addTask) {
 			// call stored procedure from database
 			container.removeAll();
@@ -670,6 +683,55 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		}
 		if (e.getSource() == deletePart) {
 			// call stored procedure from database
+			container.removeAll();
+			container.add(toolBar);
+			ArrayList<MyParts> myParts = app.getParts();
+			Integer[] allPartNumbers = new Integer[myParts.size()];
+			for(int i = 0; i<myParts.size();i++) {
+				allPartNumbers[i] = (myParts.get(i).getPartNumber());
+			}
+			JComboBox<Integer> partNumbers = new JComboBox<Integer>(allPartNumbers);
+			JLabel partNumberLabel = new JLabel("PartNumber");
+
+			JButton deleteButton = new JButton("DELETE");
+			
+			partNumberLabel.setBounds(25, 50, 150, 30);
+			partNumbers.setBounds(100, 50, 150, 30);
+			deleteButton.setBounds(100, 450, 100, 100);
+			
+			container.add(partNumberLabel);
+			container.add(partNumbers);
+
+			container.add(deleteButton);
+			partNumbers.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+
+				}
+			});
+			
+			
+			deleteButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					int partNumber = (int) partNumbers.getSelectedItem();
+					
+					try {
+					app.deletePart(partNumber);
+					} catch (NumberFormatException e) {
+						JOptionPane.showMessageDialog(null, "fields can't be left empty");
+					}
+
+				}
+			});
+			
+
+			this.setTitle("Delete Part");
+			this.setVisible(true);
+			this.setBounds(10, 10, 370, 600);
+			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			this.setResizable(false);
 		}
 		if (e.getSource() == readPart) {
 			container.removeAll();
@@ -703,5 +765,212 @@ public class ManagerFrame extends JFrame implements ActionListener {
 			this.setResizable(false);
 			this.setVisible(true);
 		}
+		if(e.getSource() == addEmployee) {
+			container.removeAll();
+			container.add(toolBar);
+			//ManagerName
+			//TaskID
+			//EmployeeName
+			ArrayList<MyEmployee> myEmployees = app.getEmployees();
+			String[] employeeUsernames = new String[myEmployees.size()];
+			for(int i = 0; i<myEmployees.size();i++) {
+				employeeUsernames[i] = (myEmployees.get(i).getUsername());
+			}
+			
+			ArrayList<MyTasks> myTasks = app.getTasks();
+			Integer[] myTasksID = new Integer[myTasks.size()];
+			for(int i = 0; i<myTasks.size();i++) {
+				myTasksID[i] = (myTasks.get(i).getID());
+			}
+			//PUT IN MANAGER NAME
+			JLabel managerLabel = new JLabel("Manager Username");
+			JLabel actualManagerLabel = new JLabel(this.userName);
+			
+			JComboBox<String> allUsernames = new JComboBox<String>(employeeUsernames);
+			JLabel usernameLabel = new JLabel("Employee Username");
+			
+			JComboBox<Integer> allTasks = new JComboBox<Integer>(myTasksID);
+			JLabel tasksLabel = new JLabel("TasksID");
+			
+			JButton deleteButton = new JButton("ASSIGN");
+			
+			managerLabel.setBounds(25, 50, 150, 30);
+			actualManagerLabel.setBounds(150, 50, 150, 30);
+			
+			usernameLabel.setBounds(25, 100, 150, 30);
+			allUsernames.setBounds(150, 100, 150, 30);
+			
+			tasksLabel.setBounds(25, 150, 150, 30);
+			allTasks.setBounds(150, 150, 150, 30);
+			
+			deleteButton.setBounds(100, 450, 100, 100);
+			
+			container.add(usernameLabel);
+			container.add(allUsernames);
+			container.add(managerLabel);
+			container.add(actualManagerLabel);
+			container.add(usernameLabel);
+			container.add(tasksLabel);
+			container.add(allTasks);
+			container.add(deleteButton);
+			
+			allUsernames.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+
+				}
+			});
+			
+			allTasks.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+
+				}
+			});
+			
+			
+			
+			
+			deleteButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					String employeeUsername = (String) allUsernames.getSelectedItem();
+					int theTaskNumber = (int) allTasks.getSelectedItem();
+					
+					
+					try {
+					app.assign(actualManagerLabel.getText(),employeeUsername,theTaskNumber);
+					} catch (NumberFormatException e) {
+						JOptionPane.showMessageDialog(null, "fields can't be left empty");
+					}
+
+				}
+			});
+			this.setTitle("Delete Employees");
+			this.setBounds(10, 10, 680, 600);
+			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			this.setResizable(false);
+			this.setVisible(true);
+			
+		}
+		
+		
+		if(e.getSource() == readEmployee) {
+			container.removeAll();
+			container.add(toolBar);
+			JScrollPane myPane = new JScrollPane();
+			
+			ArrayList<MyEmployee> myEmployees = app.getEmployees();
+			JTable myTable = new JTable();
+			DefaultTableModel myModel = new DefaultTableModel();
+			String[] myColumns = {"Username"};
+			myTable.setModel(myModel);
+			myModel.setColumnIdentifiers(myColumns);
+			myPane.setViewportView(myTable);
+			Object[] myRow = new Object[7];
+			for(int i = 0; i<myEmployees.size();i++) {
+				myRow[0] = myEmployees.get(i).getUsername();
+				myModel.addRow(myRow);
+			}
+			myTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+			myTable.getColumnModel().getColumn(0).setPreferredWidth(100);
+			myPane.setBounds(30, 30, 300, 300);
+			container.add(myPane);
+			
+			this.setTitle("Read Employees");
+			this.setBounds(10, 10, 680, 600);
+			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			this.setResizable(false);
+			this.setVisible(true);
+		}
+		
+		if(e.getSource() == readAssignments) {
+			System.out.println("HOLAAAA");
+			container.removeAll();
+			container.add(toolBar);
+			JScrollPane myPane = new JScrollPane();
+			
+			ArrayList<MyAssignments> myEmployees = app.getAssignments();
+			JTable myTable = new JTable();
+			DefaultTableModel myModel = new DefaultTableModel();
+			String[] myColumns = {"ManagerUserName","EmployeeUserName","TaskID"};
+			myTable.setModel(myModel);
+			myModel.setColumnIdentifiers(myColumns);
+			myPane.setViewportView(myTable);
+			Object[] myRow = new Object[7];
+			for(int i = 0; i<myEmployees.size();i++) {
+				myRow[0] = myEmployees.get(i).ManagerUserName;
+				myRow[1] = myEmployees.get(i).EmployeeUsername;
+				myRow[2] = myEmployees.get(i).TaskID;
+				myModel.addRow(myRow);
+			}
+			myTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+			myTable.getColumnModel().getColumn(0).setPreferredWidth(100);
+			myPane.setBounds(30, 30, 300, 300);
+			container.add(myPane);
+			
+			this.setTitle("Read Employees");
+			this.setBounds(10, 10, 680, 600);
+			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			this.setResizable(false);
+			this.setVisible(true);
+		}
+		
+		if(e.getSource() == deleteEmployee) {
+			container.removeAll();
+			container.add(toolBar);
+			
+			ArrayList<MyEmployee> myEmployees = app.getEmployees();
+			String[] employeeUsernames = new String[myEmployees.size()];
+			for(int i = 0; i<myEmployees.size();i++) {
+				employeeUsernames[i] = (myEmployees.get(i).getUsername());
+			}
+			JComboBox<String> allUsernames = new JComboBox<String>(employeeUsernames);
+			JLabel usernameLabel = new JLabel("Username");
+
+			JButton deleteButton = new JButton("DELETE");
+			
+			usernameLabel.setBounds(25, 50, 150, 30);
+			allUsernames.setBounds(100, 50, 150, 30);
+			deleteButton.setBounds(100, 450, 100, 100);
+			
+			container.add(usernameLabel);
+			container.add(allUsernames);
+			container.add(deleteButton);
+			
+			allUsernames.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+
+				}
+			});
+			
+			
+			deleteButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					String employeeUsername = (String) allUsernames.getSelectedItem();
+					
+					try {
+					app.deleteEmployee(employeeUsername);
+					} catch (NumberFormatException e) {
+						JOptionPane.showMessageDialog(null, "fields can't be left empty");
+					}
+
+				}
+			});
+			this.setTitle("Delete Employees");
+			this.setBounds(10, 10, 680, 600);
+			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			this.setResizable(false);
+			this.setVisible(true);
+			
+		}
+		
+		
 	}
+	
 }

@@ -24,15 +24,13 @@ class AppRunner {
 	private static final Base64.Encoder enc = Base64.getEncoder();
 	private static final Base64.Decoder dec = Base64.getDecoder();
 	public DatabaseConnectionService dbService = null;
-
 	public AppRunner(DatabaseConnectionService dbService) {
 		this.dbService = dbService;
 
 	}
 
-	public void openManagerFrame() {
-
-		ManagerFrame managerFrame = new ManagerFrame(this);
+	public void openManagerFrame(String userText) {
+		ManagerFrame managerFrame = new ManagerFrame(this,userText);
 		managerFrame.setTitle("AutoRepair - Manager");
 		managerFrame.setVisible(true);
 		managerFrame.setBounds(10, 10, 400, 600);
@@ -213,33 +211,6 @@ class AppRunner {
 		return true;
 	}
 	
-	public boolean addTool(String Size, String Name, String Brand) {
-		// TODO Auto-generated method stub
-		try {
-			Connection c = dbService.getConnection();
-
-			CallableStatement cs = c.prepareCall(" {? = CALL InsertTool(?,?,?)}");
-			cs.registerOutParameter(1, Types.INTEGER);
-			cs.setString(2, Size);
-			cs.setString(3, Name);
-			cs.setString(4, Brand);
-			cs.execute();
-
-			int returnCode = cs.getInt(1);
-			if (returnCode == 0) {
-				JOptionPane.showMessageDialog(null, "Add Tool Successful");
-				return true;
-			} else {
-				JOptionPane.showMessageDialog(null, "Add Tool Failed Failed");
-				System.out.println(returnCode);
-				return false;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return true;
-	}
-	
 	public boolean addTask(int ID, String Name, String Description, int Price) {
 		// TODO Auto-generated method stub
 		try {
@@ -411,22 +382,6 @@ class AppRunner {
 		return myTaskList;
 	}
 	
-	public ArrayList<MyTools> getTools() {
-		ArrayList<MyTools> myToolsList = new ArrayList<MyTools>();
-		try {
-			PreparedStatement s = dbService.getConnection().prepareStatement("SELECT * FROM Tool");
-			ResultSet rs = s.executeQuery();
-			while(rs.next()) {
-				MyTools row = new MyTools(rs.getString("Size"),rs.getString("Name"),rs.getString("Brand"));
-				myToolsList.add(row);
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return myToolsList;
-	}
-	
 	public ArrayList<MyParts> getParts() {
 		ArrayList<MyParts> myPartsList = new ArrayList<MyParts>();
 		try {
@@ -441,6 +396,194 @@ class AppRunner {
 			e.printStackTrace();
 		}
 		return myPartsList;
+	}
+
+	public ArrayList<MyEmployee> getEmployees() {
+		// TODO Auto-generated method stub
+		ArrayList<MyEmployee> myEmployeesList = new ArrayList<MyEmployee>();
+		try {
+			PreparedStatement s = dbService.getConnection().prepareStatement("SELECT * FROM Employee");
+			ResultSet rs = s.executeQuery();
+			while(rs.next()) {
+				MyEmployee row = new MyEmployee(rs.getString("Username"));
+				myEmployeesList.add(row);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return myEmployeesList;
+	}
+
+	public boolean deleteRepair(int repairID) {
+		// TODO Auto-generated method stub
+		try {
+			Connection c = dbService.getConnection();
+
+			CallableStatement cs = c.prepareCall(" {? = CALL DeleteRepair(?)}");
+			cs.registerOutParameter(1, Types.INTEGER);
+			cs.setInt(2, repairID);
+			cs.execute();
+
+			int returnCode = cs.getInt(1);
+			if (returnCode == 0) {
+				JOptionPane.showMessageDialog(null, "Delete Repair Successful");
+				return true;
+			} else {
+				JOptionPane.showMessageDialog(null, "Delete Repair Failed Successfully");
+				System.out.println(returnCode);
+				return false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return true;
+	}
+
+	public boolean deleteVehicle(String vinNumber) {
+		// TODO Auto-generated method stub
+		try {
+			Connection c = dbService.getConnection();
+
+			CallableStatement cs = c.prepareCall(" {? = CALL DeleteVehicle(?)}");
+			cs.registerOutParameter(1, Types.INTEGER);
+			cs.setString(2, vinNumber);
+			cs.execute();
+
+			int returnCode = cs.getInt(1);
+			if (returnCode == 0) {
+				JOptionPane.showMessageDialog(null, "Delete Vehicle Successful");
+				return true;
+			} else {
+				JOptionPane.showMessageDialog(null, "Delete Vehicle Failed Successfully");
+				System.out.println(returnCode);
+				return false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return true;
+	}
+
+	public boolean deletePart(int partNumber) {
+		// TODO Auto-generated method stub
+		try {
+			Connection c = dbService.getConnection();
+
+			CallableStatement cs = c.prepareCall(" {? = CALL DeletePart(?)}");
+			cs.registerOutParameter(1, Types.INTEGER);
+			cs.setInt(2, partNumber);
+			cs.execute();
+
+			int returnCode = cs.getInt(1);
+			if (returnCode == 0) {
+				JOptionPane.showMessageDialog(null, "Delete Part Successful");
+				return true;
+			} else {
+				JOptionPane.showMessageDialog(null, "Delete Part Failed Successfully");
+				System.out.println(returnCode);
+				return false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return true;
+	}
+
+	public boolean deleteEmployee(String employeeUsername) {
+		// TODO Auto-generated method stub
+		try {
+			Connection c = dbService.getConnection();
+
+			CallableStatement cs = c.prepareCall(" {? = CALL DeleteEmployee(?)}");
+			cs.registerOutParameter(1, Types.INTEGER);
+			cs.setString(2, employeeUsername);
+			cs.execute();
+
+			int returnCode = cs.getInt(1);
+			if (returnCode == 0) {
+				JOptionPane.showMessageDialog(null, "Delete Employee Successful");
+				return true;
+			} else {
+				JOptionPane.showMessageDialog(null, "Delete Employee Failed Successfully");
+				System.out.println(returnCode);
+				return false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return true;
+	}
+
+	public boolean assign(String text, String employeeUsername, int theTaskNumber) {
+		// TODO Auto-generated method stub
+		try {
+			Connection c = dbService.getConnection();
+
+			CallableStatement cs = c.prepareCall(" {? = CALL AssignTask(?,?,?)}");
+			cs.registerOutParameter(1, Types.INTEGER);
+			cs.setString(2, text);
+			cs.setInt(3, theTaskNumber);
+			cs.setString(4, employeeUsername);
+			
+			cs.execute();
+
+			int returnCode = cs.getInt(1);
+			if (returnCode == 0) {
+				JOptionPane.showMessageDialog(null, "Assign Task Successful");
+				return true;
+			} else {
+				JOptionPane.showMessageDialog(null, "Assign Task Failed Successfully");
+				System.out.println(returnCode);
+				return false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return true;
+	}
+
+	public boolean addManager(String userText, String firstName, String lastName) {
+		// TODO Auto-generated method stub
+		try {
+			Connection c = dbService.getConnection();
+
+			CallableStatement cs = c.prepareCall(" {? = CALL InsertManager(?,?,?)}");
+			cs.registerOutParameter(1, Types.INTEGER);
+			cs.setString(2, userText);
+			cs.setString(3, firstName);
+			cs.setString(4, lastName);
+			
+			cs.execute();
+
+			int returnCode = cs.getInt(1);
+			if (returnCode != 0) {
+				JOptionPane.showMessageDialog(null, "Added Manager Failed");
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return true;
+		
+	}
+
+	public ArrayList<MyAssignments> getAssignments() {
+		// TODO Auto-generated method stub
+		ArrayList<MyAssignments> myRepairs = new ArrayList<MyAssignments>();
+		try {
+			Connection c = dbService.getConnection();
+			CallableStatement cs = c.prepareCall(" {CALL ReadAssign}");
+			ResultSet rs = cs.executeQuery();
+			while(rs.next()) {
+				MyAssignments row = new MyAssignments(rs.getString("ManagerUserName"),rs.getString("EmployeeUserName"),rs.getInt("TaskID"));
+				myRepairs.add(row);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return myRepairs;
 	}
 
 

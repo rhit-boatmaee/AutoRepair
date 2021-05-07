@@ -3,6 +3,7 @@ package gui;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import java.awt.*;
@@ -91,14 +92,15 @@ public class LoginFrame extends JFrame implements ActionListener {
 				pass += pwdText[i];
 			}
 
-//			System.out.println(userText + pass);
+			System.out.println(userText + pass);
 			
 			LoginInfo loginData = app.startLogin(userText, pass);
 			System.out.println(loginData.status);
 			if (loginData.status) {
 				JOptionPane.showMessageDialog(this, "Login Successful");
 				if(loginData.type.equals("Manager")) {
-					app.openManagerFrame();
+					//GET FIRST NAME AND LAST NAME
+					app.openManagerFrame(userText);
 					this.setVisible(false);
 					
 				} else if(loginData.type.equals("Employee")) {
