@@ -105,7 +105,7 @@ public class LoginFrame extends JFrame implements ActionListener {
 					
 				} else if(loginData.type.equals("Employee")) {
 					
-					app.openEmployeeFrame();
+					app.openEmployeeFrame(userText);
 					this.setVisible(false);
 					
 				} else if(loginData.type.equals("Customer")) {

@@ -24,13 +24,14 @@ class AppRunner {
 	private static final Base64.Encoder enc = Base64.getEncoder();
 	private static final Base64.Decoder dec = Base64.getDecoder();
 	public DatabaseConnectionService dbService = null;
+
 	public AppRunner(DatabaseConnectionService dbService) {
 		this.dbService = dbService;
 
 	}
 
 	public void openManagerFrame(String userText) {
-		ManagerFrame managerFrame = new ManagerFrame(this,userText);
+		ManagerFrame managerFrame = new ManagerFrame(this, userText);
 		managerFrame.setTitle("AutoRepair - Manager");
 		managerFrame.setVisible(true);
 		managerFrame.setBounds(10, 10, 400, 600);
@@ -48,8 +49,13 @@ class AppRunner {
 		managerFrame.setResizable(false);
 	}
 
-	protected void openEmployeeFrame() {
-
+	protected void openEmployeeFrame(String userText) {
+		EmployeeFrame managerFrame = new EmployeeFrame(this, userText);
+		managerFrame.setTitle("AutoRepair - Employee");
+		managerFrame.setVisible(true);
+		managerFrame.setBounds(10, 10, 400, 600);
+		managerFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		managerFrame.setResizable(false);
 	}
 
 	public void startRegistration() {
@@ -62,7 +68,8 @@ class AppRunner {
 
 	}
 
-	public boolean completeRegistration(String firstName, String lastName, String username, String password, String userType) {
+	public boolean completeRegistration(String firstName, String lastName, String username, String password,
+			String userType) {
 
 		byte[] saltPass = this.getNewSalt();
 		String hashedPass = this.hashPassword(saltPass, password);
@@ -105,54 +112,50 @@ class AppRunner {
 		String newHashPass = "";
 //		System.out.println("login" + username + " " + password);
 		try {
-		Connection c = dbService.getConnection();
-		CallableStatement cs = c.prepareCall(" {? = CALL LoginChecker(?)}");
-		cs.registerOutParameter(1, Types.INTEGER);
-		cs.setString(2, username);
-		ResultSet rs = cs.executeQuery();
-		while (rs.next()) {
-			saltPass = rs.getBytes("SaltPass");
-			hashPass = rs.getString("HashPass");
-			type = rs.getString("UserType");
+			Connection c = dbService.getConnection();
+			CallableStatement cs = c.prepareCall(" {? = CALL LoginChecker(?)}");
+			cs.registerOutParameter(1, Types.INTEGER);
+			cs.setString(2, username);
+			ResultSet rs = cs.executeQuery();
+			while (rs.next()) {
+				saltPass = rs.getBytes("SaltPass");
+				hashPass = rs.getString("HashPass");
+				type = rs.getString("UserType");
+			}
+			newHashPass = this.hashPassword(saltPass, password);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return new LoginInfo(false, type);
+		} catch (NullPointerException e) {
+			System.out.println("Login Info is empty");
+			return new LoginInfo(false, type);
 		}
-		newHashPass = this.hashPassword(saltPass, password);
-	} catch (SQLException e) {
-		e.printStackTrace();
+
+		if (newHashPass.equals(hashPass)) {
+			return new LoginInfo(true, type);
+		}
+
+		System.out.println(newHashPass + " " + hashPass);
+		JOptionPane.showMessageDialog(null, "Login Failed");
 		return new LoginInfo(false, type);
-	} catch (NullPointerException e) {
-		System.out.println("Login Info is empty");
-		return new LoginInfo(false, type);
-	}
-
-	if (newHashPass.equals(hashPass)) {
-		return new LoginInfo(true, type);
-	}
-
-	System.out.println(newHashPass + " " + hashPass);
-	JOptionPane.showMessageDialog(null, "Login Failed");
-	return new LoginInfo(false, type);
-		
-		
-		
-
 
 	}
 
 	public boolean addRepair(String vehicle, String startDate, String endDate, int discount, int totalCost,
 			String description) {
-		
+
 		try {
 			Connection c = dbService.getConnection();
 			System.out.println(dbService);
 			System.out.println(c);
 			Random rnd = new Random();
-		    int number = rnd.nextInt(999999);
+			int number = rnd.nextInt(999999);
 			CallableStatement cs = c.prepareCall(" {? = CALL InsertRepair(?,?,?,?,?,?,?)}");
 			cs.registerOutParameter(1, Types.INTEGER);
 			cs.setInt(2, number);
 			cs.setString(3, startDate);
 			cs.setString(4, endDate);
-			
+
 			// need to convert discount and totalCost to int
 			cs.setString(5, description);
 			cs.setInt(6, discount);
@@ -175,10 +178,11 @@ class AppRunner {
 		return true;
 
 	}
+
 	public boolean addVehicle(String VIN, int year, String model, int mileage, String bodyType) {
 		// TODO Auto-generated method stub
-		
-		if(VIN.length() == 0 || model.length() == 0 ) {
+
+		if (VIN.length() == 0 || model.length() == 0) {
 			JOptionPane.showMessageDialog(null, "fields can't be left empty");
 			return false;
 		}
@@ -210,7 +214,7 @@ class AppRunner {
 		}
 		return true;
 	}
-	
+
 	public boolean addTask(int ID, String Name, String Description, int Price) {
 		// TODO Auto-generated method stub
 		try {
@@ -238,7 +242,7 @@ class AppRunner {
 		}
 		return true;
 	}
-	
+
 	public boolean addPart(int PartNumber, String Name, int Price) {
 		// TODO Auto-generated method stub
 		try {
@@ -316,15 +320,16 @@ class AppRunner {
 
 		return vehicles;
 	}
-	
-	
+
 	public ArrayList<MyRepairs> customerViewRepairs(String userName) {
 		ArrayList<MyRepairs> myRepairs = new ArrayList<MyRepairs>();
 		try {
 			PreparedStatement s = dbService.getConnection().prepareStatement("SELECT * FROM REPAIR ");
 			ResultSet rs = s.executeQuery();
-			while(rs.next()) {
-				MyRepairs row = new MyRepairs(rs.getInt("ID"),rs.getString("StartDate"),rs.getString("EndDate"),rs.getString("Description"),rs.getInt("Discount"),rs.getInt("TotalCost"),rs.getString("VIN"));
+			while (rs.next()) {
+				MyRepairs row = new MyRepairs(rs.getInt("ID"), rs.getString("StartDate"), rs.getString("EndDate"),
+						rs.getString("Description"), rs.getInt("Discount"), rs.getInt("TotalCost"),
+						rs.getString("VIN"));
 				myRepairs.add(row);
 			}
 		} catch (SQLException e) {
@@ -333,14 +338,16 @@ class AppRunner {
 		}
 		return myRepairs;
 	}
-	
+
 	public ArrayList<MyRepairs> getRepairs() {
 		ArrayList<MyRepairs> myRepairs = new ArrayList<MyRepairs>();
 		try {
 			PreparedStatement s = dbService.getConnection().prepareStatement("SELECT * FROM REPAIR");
 			ResultSet rs = s.executeQuery();
-			while(rs.next()) {
-				MyRepairs row = new MyRepairs(rs.getInt("ID"),rs.getString("StartDate"),rs.getString("EndDate"),rs.getString("Description"),rs.getInt("Discount"),rs.getInt("TotalCost"),rs.getString("VIN"));
+			while (rs.next()) {
+				MyRepairs row = new MyRepairs(rs.getInt("ID"), rs.getString("StartDate"), rs.getString("EndDate"),
+						rs.getString("Description"), rs.getInt("Discount"), rs.getInt("TotalCost"),
+						rs.getString("VIN"));
 				myRepairs.add(row);
 			}
 		} catch (SQLException e) {
@@ -349,14 +356,15 @@ class AppRunner {
 		}
 		return myRepairs;
 	}
-	
+
 	public ArrayList<MyVehicles> getAllVehicles() {
 		ArrayList<MyVehicles> myVehiclesList = new ArrayList<MyVehicles>();
 		try {
 			PreparedStatement s = dbService.getConnection().prepareStatement("SELECT * FROM Vehicle");
 			ResultSet rs = s.executeQuery();
-			while(rs.next()) {
-				MyVehicles row = new MyVehicles(rs.getString("VIN"),rs.getInt("Year"),rs.getString("Model"),rs.getInt("Mileage"),rs.getString("BodyType"));
+			while (rs.next()) {
+				MyVehicles row = new MyVehicles(rs.getString("VIN"), rs.getInt("Year"), rs.getString("Model"),
+						rs.getInt("Mileage"), rs.getString("BodyType"));
 				myVehiclesList.add(row);
 			}
 		} catch (SQLException e) {
@@ -365,14 +373,15 @@ class AppRunner {
 		}
 		return myVehiclesList;
 	}
-	
+
 	public ArrayList<MyTasks> getTasks() {
 		ArrayList<MyTasks> myTaskList = new ArrayList<MyTasks>();
 		try {
 			PreparedStatement s = dbService.getConnection().prepareStatement("SELECT * FROM Task");
 			ResultSet rs = s.executeQuery();
-			while(rs.next()) {
-				MyTasks row = new MyTasks(rs.getInt("ID"),rs.getString("Name"),rs.getString("Description"),rs.getInt("Price"));
+			while (rs.next()) {
+				MyTasks row = new MyTasks(rs.getInt("ID"), rs.getString("Name"), rs.getString("Description"),
+						rs.getInt("Price"));
 				myTaskList.add(row);
 			}
 		} catch (SQLException e) {
@@ -381,14 +390,14 @@ class AppRunner {
 		}
 		return myTaskList;
 	}
-	
+
 	public ArrayList<MyParts> getParts() {
 		ArrayList<MyParts> myPartsList = new ArrayList<MyParts>();
 		try {
 			PreparedStatement s = dbService.getConnection().prepareStatement("SELECT * FROM Part");
 			ResultSet rs = s.executeQuery();
-			while(rs.next()) {
-				MyParts row = new MyParts(rs.getInt("PartNumber"),rs.getString("Name"),rs.getInt("Price"));
+			while (rs.next()) {
+				MyParts row = new MyParts(rs.getInt("PartNumber"), rs.getString("Name"), rs.getInt("Price"));
 				myPartsList.add(row);
 			}
 		} catch (SQLException e) {
@@ -404,7 +413,7 @@ class AppRunner {
 		try {
 			PreparedStatement s = dbService.getConnection().prepareStatement("SELECT * FROM Employee");
 			ResultSet rs = s.executeQuery();
-			while(rs.next()) {
+			while (rs.next()) {
 				MyEmployee row = new MyEmployee(rs.getString("Username"));
 				myEmployeesList.add(row);
 			}
@@ -525,7 +534,7 @@ class AppRunner {
 			cs.setString(2, text);
 			cs.setInt(3, theTaskNumber);
 			cs.setString(4, employeeUsername);
-			
+
 			cs.execute();
 
 			int returnCode = cs.getInt(1);
@@ -553,7 +562,7 @@ class AppRunner {
 			cs.setString(2, userText);
 			cs.setString(3, firstName);
 			cs.setString(4, lastName);
-			
+
 			cs.execute();
 
 			int returnCode = cs.getInt(1);
@@ -565,7 +574,7 @@ class AppRunner {
 			e.printStackTrace();
 		}
 		return true;
-		
+
 	}
 
 	public ArrayList<MyAssignments> getAssignments() {
@@ -575,8 +584,9 @@ class AppRunner {
 			Connection c = dbService.getConnection();
 			CallableStatement cs = c.prepareCall(" {CALL ReadAssign}");
 			ResultSet rs = cs.executeQuery();
-			while(rs.next()) {
-				MyAssignments row = new MyAssignments(rs.getString("ManagerUserName"),rs.getString("EmployeeUserName"),rs.getInt("TaskID"));
+			while (rs.next()) {
+				MyAssignments row = new MyAssignments(rs.getString("ManagerUserName"), rs.getString("EmployeeUserName"),
+						rs.getInt("TaskID"));
 				myRepairs.add(row);
 			}
 		} catch (SQLException e) {
@@ -586,7 +596,43 @@ class AppRunner {
 		return myRepairs;
 	}
 
+	public ArrayList<MyTasks> getAllEmployeeTasks(String username) {
+		ArrayList<MyTasks> myTaskList = new ArrayList<MyTasks>();
+		try {
+			PreparedStatement s = dbService.getConnection().prepareStatement(
+					"SELECT * FROM Task JOIN Assign ON Assign.TaskID = Task.ID WHERE EmployeeUserName = ?");
+			s.setString(1, username);
+			ResultSet rs = s.executeQuery();
+			while (rs.next()) {
+				MyTasks row = new MyTasks(rs.getInt("ID"), rs.getString("Name"), rs.getString("Description"),
+						rs.getInt("Price"));
+				myTaskList.add(row);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return myTaskList;
 
-	
+	}
+
+	public ArrayList<EmployeeTaskAssignments> getRepairTaskForEmployee(String username) {
+		ArrayList<EmployeeTaskAssignments> myRepairs = new ArrayList<EmployeeTaskAssignments>();
+		try {
+			PreparedStatement s = dbService.getConnection().prepareStatement(
+					"SELECT [RepairID], Has.TaskID AS TaskID, [Name], [Description], [Completion] FROM Task JOIN Has ON Has.TaskID = Task.ID  Join Assign ON EmployeeUserName = ? Where Assign.TaskID = Has.TaskID");
+			s.setString(1, username);
+			ResultSet rs = s.executeQuery();
+			while (rs.next()) {
+				EmployeeTaskAssignments row = new EmployeeTaskAssignments(rs.getInt("RepairID"), rs.getInt("TaskID"), rs.getString("Name"), rs.getString("Description"),rs.getInt("Completion"), username);
+				myRepairs.add(row);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return myRepairs;
+
+	}
 
 }
