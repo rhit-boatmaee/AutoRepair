@@ -102,41 +102,41 @@ class AppRunner {
 	public LoginInfo startLogin(String username, String password) {
 
 		String type = "not yet implemented";
-
-		System.out.println("login" + username + " " + password);
-
-		String query = "SELECT SaltPass, HashPass, UserType FROM [Registration] WHERE Username = ? ";
 		byte[] saltPass = null;
 		String hashPass = "";
-
-		Connection c = dbService.getConnection();
-		
-		String newHashPass = null;
+		String newHashPass = "";
+//		System.out.println("login" + username + " " + password);
 		try {
-			PreparedStatement s = c.prepareStatement(query);
-			s.setString(1, username);
-			ResultSet rs = s.executeQuery();
-			while (rs.next()) {
-				saltPass = rs.getBytes("SaltPass");
-				hashPass = rs.getString("HashPass");
-				type = rs.getString("UserType");
-			}
-			newHashPass = this.hashPassword(saltPass, password);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return new LoginInfo(false, type);
-		} catch (NullPointerException e) {
-			System.out.println("Login Info is empty");
-			return new LoginInfo(false, type);
+		Connection c = dbService.getConnection();
+		CallableStatement cs = c.prepareCall(" {? = CALL LoginChecker(?)}");
+		cs.registerOutParameter(1, Types.INTEGER);
+		cs.setString(2, username);
+		ResultSet rs = cs.executeQuery();
+		while (rs.next()) {
+			saltPass = rs.getBytes("SaltPass");
+			hashPass = rs.getString("HashPass");
+			type = rs.getString("UserType");
 		}
-
-		if (newHashPass.equals(hashPass)) {
-			return new LoginInfo(true, type);
-		}
-
-		System.out.println(newHashPass + " " + hashPass);
-		JOptionPane.showMessageDialog(null, "Login Failed");
+		newHashPass = this.hashPassword(saltPass, password);
+	} catch (SQLException e) {
+		e.printStackTrace();
 		return new LoginInfo(false, type);
+	} catch (NullPointerException e) {
+		System.out.println("Login Info is empty");
+		return new LoginInfo(false, type);
+	}
+
+	if (newHashPass.equals(hashPass)) {
+		return new LoginInfo(true, type);
+	}
+
+	System.out.println(newHashPass + " " + hashPass);
+	JOptionPane.showMessageDialog(null, "Login Failed");
+	return new LoginInfo(false, type);
+		
+		
+		
+
 
 	}
 

@@ -91,7 +91,7 @@ public class LoginFrame extends JFrame implements ActionListener {
 				pass += pwdText[i];
 			}
 
-			System.out.println(userText + pass);
+//			System.out.println(userText + pass);
 			
 			LoginInfo loginData = app.startLogin(userText, pass);
 			System.out.println(loginData.status);
