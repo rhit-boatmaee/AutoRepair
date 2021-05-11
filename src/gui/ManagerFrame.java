@@ -157,12 +157,12 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		if (e.getSource() == updateRepair) {
 			this.updateRepair();
 		}
-//		if (e.getSource() == deleteRepair) {
-//			
-//		}
-//		if(e.getSource() == readRepair) {
-//			
-//		}
+		if (e.getSource() == deleteRepair) {
+			this.deleteRepair();
+		}
+		if(e.getSource() == readRepair) {
+			this.readAllRepairs();
+		}
 //		//VEHICLES
 //		if (e.getSource() == addVehicle) {
 //			
@@ -639,6 +639,9 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		this.setVisible(true);
 	}
 	
+	public void addVehicle() {
+		
+	}
 	
 	
 	public static boolean validDate(String date) {
