@@ -8,7 +8,8 @@ public class MyRepairs {
 	int Discount;
 	int TotalCost;
 	String VIN;
-	public MyRepairs(int ID,String startDate,String endDate,String Description, int Discount, int TotalCost, String VIN) {
+	int Completion;
+	public MyRepairs(int ID,String startDate,String endDate,String Description, int Discount, int TotalCost, String VIN, int Completion) {
 		this.ID = ID;
 		this.startDate = startDate;
 		this.endDate = endDate;
@@ -16,6 +17,7 @@ public class MyRepairs {
 		this.Discount = Discount;
 		this.TotalCost = TotalCost;
 		this.VIN = VIN;
+		this.Completion = Completion;
 	}
 	public int getID() {
 		return this.ID;
@@ -43,6 +45,9 @@ public class MyRepairs {
 	
 	public String getVIN() {
 		return this.VIN;
+	}
+	public int getCompletion() {
+		return this.Completion;
 	}
 	
 }

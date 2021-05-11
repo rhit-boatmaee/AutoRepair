@@ -78,7 +78,7 @@ public class CustomerFrame extends JFrame implements ActionListener{
 	
 			JScrollPane myPane = new JScrollPane();
 			
-			ArrayList<MyRepairs> myRepairs = app.customerViewRepairs(username);
+			ArrayList<MyRepairs> myRepairs = app.getRepairs();
 			JTable myTable = new JTable();
 			DefaultTableModel myModel = new DefaultTableModel();
 			String[] myColumns = {"ID","StartDate","EndDate","Description","Discount","TotalCost","VIN"};

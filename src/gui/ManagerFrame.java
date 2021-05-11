@@ -555,8 +555,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 					String Name = nameTextField.getText();
 					String Description = descriptionTextField.getText();
 					String Price = priceTextField.getText();
-					int id = new Random().nextInt(999999);
-					app.addTask(id,Name, Description, Integer.parseInt(Price));
+					app.addTask(Name, Description, Integer.parseInt(Price));
 
 				}
 			});
