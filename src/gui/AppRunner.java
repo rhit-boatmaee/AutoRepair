@@ -34,7 +34,7 @@ class AppRunner {
 		ManagerFrame managerFrame = new ManagerFrame(this, userText);
 		managerFrame.setTitle("AutoRepair - Manager");
 		managerFrame.setVisible(true);
-		managerFrame.setBounds(10, 10, 400, 600);
+		managerFrame.setBounds(10, 10, 800, 1200);
 		managerFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		managerFrame.setResizable(false);
 
