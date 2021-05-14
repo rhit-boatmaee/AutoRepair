@@ -202,6 +202,7 @@ public class EmployeeFrame extends JFrame implements ActionListener {
 				try {
 
 					Integer taskID = (Integer) taskChooser.getSelectedItem();
+					System.out.println(taskID);
 					app.completeTask(taskID);
 
 				} catch (NumberFormatException e) {

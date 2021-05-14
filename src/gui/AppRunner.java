@@ -202,6 +202,21 @@ class AppRunner {
 		return true;
 	}
 
+	public boolean completeTaskNew(int ID) {
+		try {
+			Connection c = dbService.getConnection();
+			CallableStatement cs = c.prepareCall(" {CALL CompleteTask(?)}");
+
+			System.out.println("task completed!" );
+			cs.setInt(1, ID);
+			cs.execute();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return true;
+	}
+
 	public boolean completeTask(int ID) {
 		try {
 			Connection c = dbService.getConnection();
@@ -210,15 +225,13 @@ class AppRunner {
 			cs.setInt(2, ID);
 			cs.execute();
 
+			System.out.println(cs.getInt(1));
 			int returnCode = cs.getInt(1);
 			if (returnCode == 0) {
-				
-				
 				JOptionPane.showMessageDialog(null, "Complete Task Successful");
 				return true;
 			} else {
-				JOptionPane.showMessageDialog(null, "Complete Task Failed Successfully");
-				System.out.println(returnCode);
+				JOptionPane.showMessageDialog(null, "Complete Task Failed ");
 				return false;
 			}
 		} catch (SQLException e) {
