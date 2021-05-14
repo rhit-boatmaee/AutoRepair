@@ -30,7 +30,7 @@ class AppRunner {
 
 	}
 
-	public void openManagerFrame(String userText) { //800x800
+	public void openManagerFrame(String userText) { // 800x800
 		ManagerFrame managerFrame = new ManagerFrame(this, userText);
 		managerFrame.setTitle("AutoRepairDatabase - Manager");
 		managerFrame.setVisible(true);
@@ -173,7 +173,7 @@ class AppRunner {
 		return getStringFromBytes(hash);
 	}
 
-	//ADDS/INSERTS
+	// ADDS/INSERTS
 	public boolean assign(String text, String employeeUsername, int theTaskNumber) {
 		// TODO Auto-generated method stub
 		try {
@@ -224,8 +224,8 @@ class AppRunner {
 		}
 		return true;
 	}
-	
-	public boolean addCustomer(String username, String firstName, String lastName, int NumberOfVisits) { 
+
+	public boolean addCustomer(String username, String firstName, String lastName, int NumberOfVisits) {
 		try {
 			Connection c = dbService.getConnection();
 			System.out.println(dbService);
@@ -253,7 +253,7 @@ class AppRunner {
 		}
 		return true;
 	}
-	
+
 	public boolean addEmployee(String username, String firstName, String lastName) {
 		try {
 			Connection c = dbService.getConnection();
@@ -280,7 +280,7 @@ class AppRunner {
 		}
 		return true;
 	}
-	
+
 	public boolean addFor(int PartNumber, int TaskID) {
 		try {
 			Connection c = dbService.getConnection();
@@ -306,7 +306,7 @@ class AppRunner {
 		}
 		return true;
 	}
-	
+
 	public boolean addGets(String VIN, int ID) {
 		try {
 			Connection c = dbService.getConnection();
@@ -332,8 +332,8 @@ class AppRunner {
 		}
 		return true;
 	}
-	
-	public boolean addHas(int RepairID, String VehicleVIN,int TaskID) {
+
+	public boolean addHas(int RepairID, String VehicleVIN, int TaskID) {
 		try {
 			Connection c = dbService.getConnection();
 			System.out.println(dbService);
@@ -359,7 +359,7 @@ class AppRunner {
 		}
 		return true;
 	}
-	
+
 	public boolean addInsurance(String ClaimNumber, String PolicyNumber, int deductible) {
 		try {
 			Connection c = dbService.getConnection();
@@ -386,8 +386,8 @@ class AppRunner {
 		}
 		return true;
 	}
-	
-	public boolean addOrder(String ManagerUserName,int PartNumber) {
+
+	public boolean addOrder(String ManagerUserName, int PartNumber) {
 		try {
 			Connection c = dbService.getConnection();
 			System.out.println(dbService);
@@ -412,8 +412,8 @@ class AppRunner {
 		}
 		return true;
 	}
-	
-	public boolean addPaidBy(String VehicleVIN, int RepairID, String CustomerUserName,String Receipt) {
+
+	public boolean addPaidBy(String VehicleVIN, int RepairID, String CustomerUserName, String Receipt) {
 		try {
 			Connection c = dbService.getConnection();
 			System.out.println(dbService);
@@ -440,8 +440,8 @@ class AppRunner {
 		}
 		return true;
 	}
-	
-	public boolean addPaidFor(String VehicleVIN, int RepairID, String InsuranceClaimNumber,String Receipt) {
+
+	public boolean addPaidFor(String VehicleVIN, int RepairID, String InsuranceClaimNumber, String Receipt) {
 		try {
 			Connection c = dbService.getConnection();
 			System.out.println(dbService);
@@ -468,9 +468,8 @@ class AppRunner {
 		}
 		return true;
 	}
-	
-	public boolean addRepair(String startDate, String endDate, int discount, int totalCost,
-			String description) {
+
+	public boolean addRepair(String startDate, String endDate, int discount, int totalCost, String description) {
 
 		try {
 			Connection c = dbService.getConnection();
@@ -484,7 +483,7 @@ class AppRunner {
 			cs.setInt(5, discount);
 			cs.setInt(6, totalCost);
 			cs.execute();
-			
+
 			int returnCode = cs.getInt(1);
 			System.out.println("Repair Code: " + returnCode);
 			if (returnCode == 0) {
@@ -592,8 +591,8 @@ class AppRunner {
 		return true;
 	}
 
-	//Reads
-	
+	// Reads
+
 	public ArrayList<String> getVehicles() {
 		ArrayList<String> vehicles = new ArrayList<String>();
 		try {
@@ -619,8 +618,8 @@ class AppRunner {
 			CallableStatement cs = c.prepareCall(" {CALL ReadRepair}");
 			ResultSet rs = cs.executeQuery();
 			while (rs.next()) {
-				MyRepairs row = new MyRepairs(rs.getInt("ID"),rs.getString("StartDate"),rs.getString("EndDate"),
-						rs.getString("Description"),rs.getInt("Discount"),rs.getInt("TotalCost"),
+				MyRepairs row = new MyRepairs(rs.getInt("ID"), rs.getString("StartDate"), rs.getString("EndDate"),
+						rs.getString("Description"), rs.getInt("Discount"), rs.getInt("TotalCost"),
 						rs.getInt("Completion"));
 				myRepairs.add(row);
 			}
@@ -638,7 +637,8 @@ class AppRunner {
 			CallableStatement cs = c.prepareCall(" {CALL ReadVehicle}");
 			ResultSet rs = cs.executeQuery();
 			while (rs.next()) {
-				MyVehicles row = new MyVehicles(rs.getString("VIN"),rs.getInt("Year"),rs.getString("Model"),rs.getInt("Mileage"),rs.getString("BodyType"));
+				MyVehicles row = new MyVehicles(rs.getString("VIN"), rs.getInt("Year"), rs.getString("Model"),
+						rs.getInt("Mileage"), rs.getString("BodyType"));
 				myVehiclesList.add(row);
 			}
 		} catch (SQLException e) {
@@ -656,7 +656,7 @@ class AppRunner {
 			ResultSet rs = cs.executeQuery();
 			while (rs.next()) {
 				MyTasks row = new MyTasks(rs.getInt("ID"), rs.getString("Name"), rs.getString("Description"),
-						rs.getInt("Price"),rs.getInt("Completion"));
+						rs.getInt("Price"), rs.getInt("Completion"));
 				myTaskList.add(row);
 			}
 		} catch (SQLException e) {
@@ -674,7 +674,8 @@ class AppRunner {
 			CallableStatement cs = c.prepareCall(" {CALL ReadInsurance}");
 			ResultSet rs = cs.executeQuery();
 			while (rs.next()) {
-				MyInsurance row = new MyInsurance(rs.getString("ClaimNumber"),rs.getString("PolicyNumber"),rs.getInt("Deductible"));
+				MyInsurance row = new MyInsurance(rs.getString("ClaimNumber"), rs.getString("PolicyNumber"),
+						rs.getInt("Deductible"));
 				myInsurance.add(row);
 			}
 		} catch (SQLException e) {
@@ -683,7 +684,7 @@ class AppRunner {
 		}
 		return myInsurance;
 	}
-	
+
 	public ArrayList<MyOrder> getOrders() {
 		// TODO Auto-generated method stub
 		ArrayList<MyOrder> myOrders = new ArrayList<MyOrder>();
@@ -692,7 +693,7 @@ class AppRunner {
 			CallableStatement cs = c.prepareCall(" {CALL ReadOrders}");
 			ResultSet rs = cs.executeQuery();
 			while (rs.next()) {
-				MyOrder row = new MyOrder(rs.getString("ManagerUserName"),rs.getInt("PartNumber"));
+				MyOrder row = new MyOrder(rs.getString("ManagerUserName"), rs.getInt("PartNumber"));
 				myOrders.add(row);
 			}
 		} catch (SQLException e) {
@@ -701,15 +702,15 @@ class AppRunner {
 		}
 		return myOrders;
 	}
-	
-	public ArrayList<MyGets> getGets(){
+
+	public ArrayList<MyGets> getGets() {
 		ArrayList<MyGets> myOrders = new ArrayList<MyGets>();
 		try {
 			Connection c = dbService.getConnection();
 			CallableStatement cs = c.prepareCall(" {CALL ReadGets}");
 			ResultSet rs = cs.executeQuery();
 			while (rs.next()) {
-				MyGets row = new MyGets(rs.getString("VIN"),rs.getInt("RepairID"));
+				MyGets row = new MyGets(rs.getString("VIN"), rs.getInt("RepairID"));
 				myOrders.add(row);
 			}
 		} catch (SQLException e) {
@@ -718,7 +719,7 @@ class AppRunner {
 		}
 		return myOrders;
 	}
-	
+
 	public ArrayList<MyPaidFor> getPaidFor() {
 		// TODO Auto-generated method stub
 		ArrayList<MyPaidFor> myPaidfor = new ArrayList<MyPaidFor>();
@@ -727,7 +728,8 @@ class AppRunner {
 			CallableStatement cs = c.prepareCall("{CALL ReadPaidFor}");
 			ResultSet rs = cs.executeQuery();
 			while (rs.next()) {
-				MyPaidFor row = new MyPaidFor(rs.getString("VehicleVIN"),rs.getInt("RepairID"),rs.getString("InsuranceClaimNumber"),rs.getString("Receipt"));
+				MyPaidFor row = new MyPaidFor(rs.getString("VehicleVIN"), rs.getInt("RepairID"),
+						rs.getString("InsuranceClaimNumber"), rs.getString("Receipt"));
 				myPaidfor.add(row);
 			}
 		} catch (SQLException e) {
@@ -736,15 +738,16 @@ class AppRunner {
 		}
 		return myPaidfor;
 	}
-	
-	public ArrayList<MyPaidBy> getFinalPaidBy(){
+
+	public ArrayList<MyPaidBy> getFinalPaidBy() {
 		ArrayList<MyPaidBy> myPaidBys = new ArrayList<MyPaidBy>();
 		try {
 			Connection c = dbService.getConnection();
 			CallableStatement cs = c.prepareCall("{CALL ReadFinalPaidBy}");
 			ResultSet rs = cs.executeQuery();
 			while (rs.next()) {
-				MyPaidBy row = new MyPaidBy(rs.getString("VehicleVIN"),rs.getInt("RepairID"),rs.getString("CustomerUserName"),rs.getString("Receipt"));
+				MyPaidBy row = new MyPaidBy(rs.getString("VehicleVIN"), rs.getInt("RepairID"),
+						rs.getString("CustomerUserName"), rs.getString("Receipt"));
 				myPaidBys.add(row);
 			}
 		} catch (SQLException e) {
@@ -753,7 +756,7 @@ class AppRunner {
 		}
 		return myPaidBys;
 	}
-	
+
 	public ArrayList<MyPaidBy> getPaidBy(String username) {
 		// TODO Auto-generated method stub
 		ArrayList<MyPaidBy> myOrders = new ArrayList<MyPaidBy>();
@@ -761,15 +764,19 @@ class AppRunner {
 			Connection c = dbService.getConnection();
 			CallableStatement cs = c.prepareCall(" { CALL ReadPaidBy(?)}");
 			cs.setString(1, username);
-			
+
 			ResultSet rs = cs.executeQuery();
-			
-				while (rs.next()) {
-					MyPaidBy row = new MyPaidBy(rs.getString("VehicleVIN"),rs.getInt("RepairID"),rs.getString("CustomerUserName"),rs.getString("Receipt"));
-					myOrders.add(row);
-				}
-		
-			
+
+			if (!rs.next()) {
+				return null;
+			}
+
+			while (rs.next()) {
+				MyPaidBy row = new MyPaidBy(rs.getString("VehicleVIN"), rs.getInt("RepairID"),
+						rs.getString("CustomerUserName"), rs.getString("Receipt"));
+				myOrders.add(row);
+			}
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -784,7 +791,7 @@ class AppRunner {
 			CallableStatement cs = c.prepareCall(" {CALL ReadFor}");
 			ResultSet rs = cs.executeQuery();
 			while (rs.next()) {
-				MyFor row = new MyFor(rs.getInt("PartNumber"),rs.getInt("TaskID"));
+				MyFor row = new MyFor(rs.getInt("PartNumber"), rs.getInt("TaskID"));
 				myFor.add(row);
 			}
 		} catch (SQLException e) {
@@ -793,7 +800,7 @@ class AppRunner {
 		}
 		return myFor;
 	}
-	
+
 	public ArrayList<MyHas> getAllHas() {
 		// TODO Auto-generated method stub
 		ArrayList<MyHas> myHas = new ArrayList<MyHas>();
@@ -802,7 +809,7 @@ class AppRunner {
 			CallableStatement cs = c.prepareCall(" {CALL ReadHas}");
 			ResultSet rs = cs.executeQuery();
 			while (rs.next()) {
-				MyHas row = new MyHas(rs.getString("VehicleVIN"),rs.getInt("RepairID"),rs.getInt("TaskID"));
+				MyHas row = new MyHas(rs.getString("VehicleVIN"), rs.getInt("RepairID"), rs.getInt("TaskID"));
 				myHas.add(row);
 			}
 		} catch (SQLException e) {
@@ -812,8 +819,6 @@ class AppRunner {
 		return myHas;
 	}
 
-
-	
 	public ArrayList<MyManager> getManagers() {
 		// TODO Auto-generated method stub
 		ArrayList<MyManager> myManagers = new ArrayList<MyManager>();
@@ -831,7 +836,7 @@ class AppRunner {
 		}
 		return myManagers;
 	}
-	
+
 	public ArrayList<MyParts> getParts() {
 		ArrayList<MyParts> myPartsList = new ArrayList<MyParts>();
 		try {
@@ -875,7 +880,7 @@ class AppRunner {
 			CallableStatement cs = c.prepareCall(" {CALL ReadCustomer}");
 			ResultSet rs = cs.executeQuery();
 			while (rs.next()) {
-				MyCustomer row = new MyCustomer(rs.getString("Username"),rs.getInt("NumberOfVisits"));
+				MyCustomer row = new MyCustomer(rs.getString("Username"), rs.getInt("NumberOfVisits"));
 				myCustomerList.add(row);
 			}
 		} catch (SQLException e) {
@@ -914,7 +919,7 @@ class AppRunner {
 			ResultSet rs = cs.executeQuery();
 			while (rs.next()) {
 				MyTasks row = new MyTasks(rs.getInt("ID"), rs.getString("Name"), rs.getString("Description"),
-						rs.getInt("Price"),rs.getInt("Completion"));
+						rs.getInt("Price"), rs.getInt("Completion"));
 				myTaskList.add(row);
 			}
 		} catch (SQLException e) {
@@ -934,7 +939,8 @@ class AppRunner {
 			cs.setString(2, username);
 			ResultSet rs = cs.executeQuery();
 			while (rs.next()) {
-				EmployeeTaskAssignments row = new EmployeeTaskAssignments(rs.getInt("RepairID"), rs.getInt("TaskID"), rs.getString("Name"), rs.getString("Description"),rs.getInt("Completion"), username);
+				EmployeeTaskAssignments row = new EmployeeTaskAssignments(rs.getInt("RepairID"), rs.getInt("TaskID"),
+						rs.getString("Name"), rs.getString("Description"), rs.getInt("Completion"), username);
 				myRepairs.add(row);
 			}
 		} catch (SQLException e) {
@@ -945,8 +951,8 @@ class AppRunner {
 
 	}
 
-	//Deletes
-	
+	// Deletes
+
 	public boolean deleteAssign(String ManagerUserName, int TaskID, String EmployeeUserName) {
 		// TODO Auto-generated method stub
 		try {
@@ -973,7 +979,7 @@ class AppRunner {
 		}
 		return true;
 	}
-	
+
 	public boolean deleteCustomer(String UserName) {
 		// TODO Auto-generated method stub
 		try {
@@ -998,7 +1004,7 @@ class AppRunner {
 		}
 		return true;
 	}
-	
+
 	public boolean deleteFor(int PartNumber, int TaskID) {
 		// TODO Auto-generated method stub
 		try {
@@ -1008,7 +1014,7 @@ class AppRunner {
 			cs.registerOutParameter(1, Types.INTEGER);
 			cs.setInt(2, PartNumber);
 			cs.setInt(3, TaskID);
-			
+
 			cs.execute();
 
 			int returnCode = cs.getInt(1);
@@ -1025,7 +1031,7 @@ class AppRunner {
 		}
 		return true;
 	}
-	
+
 	public boolean deleteGets(String VIN, int repairID) {
 		// TODO Auto-generated method stub
 		try {
@@ -1033,7 +1039,7 @@ class AppRunner {
 
 			CallableStatement cs = c.prepareCall(" {? = CALL DeleteGets(?,?)}");
 			cs.registerOutParameter(1, Types.INTEGER);
-			cs.setString(2,VIN);
+			cs.setString(2, VIN);
 			cs.setInt(3, repairID);
 			cs.execute();
 
@@ -1051,8 +1057,8 @@ class AppRunner {
 		}
 		return true;
 	}
-	
-	public boolean deleteHas(String VIN,int repairID,int taskID) {
+
+	public boolean deleteHas(String VIN, int repairID, int taskID) {
 		// TODO Auto-generated method stub
 		try {
 			Connection c = dbService.getConnection();
@@ -1078,7 +1084,7 @@ class AppRunner {
 		}
 		return true;
 	}
-	
+
 	public boolean deleteInsurance(String ClaimNumber) {
 		// TODO Auto-generated method stub
 		try {
@@ -1103,7 +1109,7 @@ class AppRunner {
 		}
 		return true;
 	}
-	
+
 	public boolean deleteOrders(String ManagerUserName, int PartNumber) {
 		// TODO Auto-generated method stub
 		try {
@@ -1129,7 +1135,7 @@ class AppRunner {
 		}
 		return true;
 	}
-	
+
 	public boolean deletePaidFor(String VehicleVIN, int RepairID, String InsuranceClaimNumber) {
 		// TODO Auto-generated method stub
 		try {
@@ -1156,7 +1162,7 @@ class AppRunner {
 		}
 		return true;
 	}
-	
+
 	public boolean deletePaidBy(String VehicleVIN, int RepairID, String CustomerUserName) {
 		// TODO Auto-generated method stub
 		try {
@@ -1164,7 +1170,7 @@ class AppRunner {
 
 			CallableStatement cs = c.prepareCall(" {? = CALL DeletePaidBy(?,?,?)}");
 			cs.registerOutParameter(1, Types.INTEGER);
-			cs.setString(2,VehicleVIN);
+			cs.setString(2, VehicleVIN);
 			cs.setInt(3, RepairID);
 			cs.setString(4, CustomerUserName);
 			cs.execute();
@@ -1183,7 +1189,7 @@ class AppRunner {
 		}
 		return true;
 	}
-	
+
 	public boolean deleteTask(int ID) {
 		// TODO Auto-generated method stub
 		try {
@@ -1208,7 +1214,7 @@ class AppRunner {
 		}
 		return true;
 	}
-	
+
 	public boolean deleteRepair(int repairID) {
 		// TODO Auto-generated method stub
 		try {
@@ -1308,39 +1314,39 @@ class AppRunner {
 		return true;
 	}
 
-	//Updates
+	// Updates
 	public boolean updateAssign(String BeforeManagerUserName, String BeforeEmployeeUserName, int BeforeTaskID,
 			String AfterManagerUserName, String AfterEmployeeUserName, int AfterTaskID) {
-			// TODO Auto-generated method stub
-			try {
-				Connection c = dbService.getConnection();
+		// TODO Auto-generated method stub
+		try {
+			Connection c = dbService.getConnection();
 
-				CallableStatement cs = c.prepareCall(" {? = CALL UpdateAssign(?,?,?,?,?,?)}");
-				cs.registerOutParameter(1, Types.INTEGER);
-				cs.setString(2, BeforeManagerUserName);
-				cs.setString(3, BeforeEmployeeUserName);
-				cs.setInt(4, BeforeTaskID);
-				cs.setString(5, AfterManagerUserName);
-				cs.setString(6, AfterEmployeeUserName);
-				cs.setInt(7, AfterTaskID);
-				cs.execute();
+			CallableStatement cs = c.prepareCall(" {? = CALL UpdateAssign(?,?,?,?,?,?)}");
+			cs.registerOutParameter(1, Types.INTEGER);
+			cs.setString(2, BeforeManagerUserName);
+			cs.setString(3, BeforeEmployeeUserName);
+			cs.setInt(4, BeforeTaskID);
+			cs.setString(5, AfterManagerUserName);
+			cs.setString(6, AfterEmployeeUserName);
+			cs.setInt(7, AfterTaskID);
+			cs.execute();
 
-				int returnCode = cs.getInt(1);
-				if (returnCode == 0) {
-					JOptionPane.showMessageDialog(null, "Update Assign Successful");
-					return true;
-				} else {
-					JOptionPane.showMessageDialog(null, "Update Assign Failed Successfully");
-					System.out.println(returnCode);
-					return false;
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
+			int returnCode = cs.getInt(1);
+			if (returnCode == 0) {
+				JOptionPane.showMessageDialog(null, "Update Assign Successful");
+				return true;
+			} else {
+				JOptionPane.showMessageDialog(null, "Update Assign Failed Successfully");
+				System.out.println(returnCode);
+				return false;
 			}
-			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return true;
 	}
-	
-	public boolean updateCustomer(String Username,String FirstName, String LastName, int NumberOfVists) {
+
+	public boolean updateCustomer(String Username, String FirstName, String LastName, int NumberOfVists) {
 		// TODO Auto-generated method stub
 		try {
 			Connection c = dbService.getConnection();
@@ -1367,8 +1373,8 @@ class AppRunner {
 		}
 		return true;
 	}
-	
-	public boolean updateEmployee(String Username,String FirstName, String LastName) {
+
+	public boolean updateEmployee(String Username, String FirstName, String LastName) {
 		// TODO Auto-generated method stub
 		try {
 			Connection c = dbService.getConnection();
@@ -1394,8 +1400,8 @@ class AppRunner {
 		}
 		return true;
 	}
-	
-	public boolean UpdateFor(int BeforePartNumber,int BeforeTaskId, int AfterPartNumber, int AfterTaskID) {
+
+	public boolean UpdateFor(int BeforePartNumber, int BeforeTaskId, int AfterPartNumber, int AfterTaskID) {
 		// TODO Auto-generated method stub
 		try {
 			Connection c = dbService.getConnection();
@@ -1422,7 +1428,7 @@ class AppRunner {
 		}
 		return true;
 	}
-	
+
 	public boolean UpdateGets(String BeforeVIN, int BeforeRepairID, String AfterVIN, int AfterRepairID) {
 		// TODO Auto-generated method stub
 		try {
@@ -1449,7 +1455,7 @@ class AppRunner {
 		}
 		return true;
 	}
-	
+
 	public boolean updateHas(int BeforeRepairID, String BeforeVehicleVIN, int BeforeTaskID, int AfterRepairID,
 			String afterVehicleVIN, int AfterTaskID) {
 		// TODO Auto-generated method stub
@@ -1480,7 +1486,7 @@ class AppRunner {
 		}
 		return true;
 	}
-	
+
 	public boolean updateInsurance(String ClaimNumber, String PolicyNumber, int deductible) {
 		// TODO Auto-generated method stub
 		try {
@@ -1507,8 +1513,8 @@ class AppRunner {
 		}
 		return true;
 	}
-	
-	public boolean updateManager(String Username,String FirstName, String LastName) {
+
+	public boolean updateManager(String Username, String FirstName, String LastName) {
 		// TODO Auto-generated method stub
 		try {
 			Connection c = dbService.getConnection();
@@ -1534,8 +1540,9 @@ class AppRunner {
 		}
 		return true;
 	}
-	
-	public boolean updateOrders(String BeforeManagerUsername, int BeforePartNumber, String afterManagerUserNamer, int AfterPartNumber) {
+
+	public boolean updateOrders(String BeforeManagerUsername, int BeforePartNumber, String afterManagerUserNamer,
+			int AfterPartNumber) {
 		// TODO Auto-generated method stub
 		try {
 			Connection c = dbService.getConnection();
@@ -1562,7 +1569,7 @@ class AppRunner {
 		}
 		return true;
 	}
-	
+
 	public boolean updatePaidBy(String BeforeVehicleVIN, int BeforeRepairID, String beforeCustomerUserName,
 			String AfterReceipt) {
 		// TODO Auto-generated method stub
@@ -1591,7 +1598,7 @@ class AppRunner {
 		}
 		return true;
 	}
-	
+
 	public boolean updatePaidFor(String BeforeVehicleVIN, int BeforeRepairID, String beforeInsuranceClaimNumber,
 			String AfterReceipt) {
 		// TODO Auto-generated method stub
@@ -1620,7 +1627,7 @@ class AppRunner {
 		}
 		return true;
 	}
-	
+
 	public boolean updatePart(int PartNumber, String Name, int Price) {
 		// TODO Auto-generated method stub
 		try {
@@ -1647,14 +1654,13 @@ class AppRunner {
 		}
 		return true;
 	}
-	
+
 	public boolean updateRepair(int ID, String StartDate, String EndDate, String Description, int Discount,
 			int TotalCost, int Completion) {
-		
-		
+
 		try {
 			Connection c = dbService.getConnection();
-			
+
 			CallableStatement cs = c.prepareCall(" {? = CALL UpdateRepair(?,?,?,?,?,?,?)}");
 			cs.registerOutParameter(1, Types.INTEGER);
 			cs.setInt(2, ID);
@@ -1680,7 +1686,7 @@ class AppRunner {
 		}
 		return true;
 	}
-	
+
 	public boolean updateTask(int ID, String Name, String Description, int Price, int Completion) {
 		// TODO Auto-generated method stub
 		try {
@@ -1708,7 +1714,7 @@ class AppRunner {
 		}
 		return true;
 	}
-	
+
 	public boolean updateVehicle(String VIN, int Year, String Model, int Mileage, String bodyType) {
 		// TODO Auto-generated method stub
 		try {
@@ -1738,57 +1744,49 @@ class AppRunner {
 		return true;
 	}
 
-	public ArrayList<MyPaidBy> getPaidByVehicleInfo(String username) {
-		// TODO Auto-generated method stub
-		
+	public ArrayList<MyVehicles> getPaidByVehicleInfo(String username) {
+
 		ArrayList<MyPaidBy> repairs = this.getPaidBy(username);
-		
-		
+
 		ArrayList<String> vehicles = new ArrayList<>();
-		
-		for(int i = 0; i < repairs.size(); i++) {
+
+		if (repairs == null) {
+			return null;
+		}
+		for (int i = 0; i < repairs.size(); i++) {
 			String vin = repairs.get(i).getVehicleVIN();
-			if(!vehicles.contains(vin)) {
+			if (!vehicles.contains(vin)) {
 				vehicles.add(vin);
 			}
 		}
-		
-		for(String vehicle : vehicles) {
-			this.getVehicleByVIN(vehicle);
+		ArrayList<MyVehicles> cars = new ArrayList<>();
+
+		for (String vehicle : vehicles) {
+			cars.add(this.getVehicleByVIN(vehicle));
 		}
-		return null;
+		return cars;
 	}
 
-	private ArrayList<String> getVehicleByVIN(String vehicle) {
-		// TODO Auto-generated method stub
-		ArrayList<String> vehicles = new ArrayList<String>();
+	private MyVehicles getVehicleByVIN(String vehicle) {
+
+		MyVehicles car = null;
 		try {
-			
-			PreparedStatement s = dbService.getConnection().prepareStatement("SELECT * FROM VEHICLE WHERE VIN =" + vehicle);
+
+			PreparedStatement s = dbService.getConnection()
+					.prepareStatement("SELECT * FROM VEHICLE WHERE VIN =" + vehicle);
 
 			ResultSet rs = s.executeQuery();
-			while (rs.next()) {
 
-				vehicles.add(rs.getString("VIN"));
+			while (rs.next()) {
+				// String VIN, int Year,String Model, int Mileage, String BodyType
+				car = new MyVehicles(rs.getString("VIN"), rs.getInt("Year"), rs.getString("Model"),
+						rs.getInt("Mileage"), rs.getString("BodyType"));
+
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		return vehicles;
+		return car;
 	}
-	}
-
-	
-
-	
-
-	
-	
-
-	
-
-	
-	
-	
-
+}
