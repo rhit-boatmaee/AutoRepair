@@ -30,11 +30,11 @@ class AppRunner {
 
 	}
 
-	public void openManagerFrame(String userText) {
+	public void openManagerFrame(String userText) { //800x800
 		ManagerFrame managerFrame = new ManagerFrame(this, userText);
-		managerFrame.setTitle("AutoRepair - Manager");
+		managerFrame.setTitle("AutoRepairDatabase - Manager");
 		managerFrame.setVisible(true);
-		managerFrame.setBounds(10, 10, 800, 1200);
+		managerFrame.setBounds(10, 10, 800, 800);
 		managerFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		managerFrame.setResizable(false);
 
@@ -225,7 +225,7 @@ class AppRunner {
 		return true;
 	}
 	
-	public boolean addCustomer(String username, String firstName, String lastName, int NumberOfVisits) {
+	public boolean addCustomer(String username, String firstName, String lastName, int NumberOfVisits) { 
 		try {
 			Connection c = dbService.getConnection();
 			System.out.println(dbService);
@@ -235,6 +235,7 @@ class AppRunner {
 			cs.setString(2, username);
 			cs.setString(3, firstName);
 			cs.setString(4, lastName);
+			System.out.println(NumberOfVisits);
 			cs.setInt(5, NumberOfVisits);
 			cs.execute();
 
@@ -268,10 +269,10 @@ class AppRunner {
 			int returnCode = cs.getInt(1);
 			System.out.println("Employee Insert Code: " + returnCode);
 			if (returnCode == 0) {
-				JOptionPane.showMessageDialog(null, "Add Repair Successful");
+				JOptionPane.showMessageDialog(null, "Add Employee Successful");
 				return true;
 			} else {
-				JOptionPane.showMessageDialog(null, "Add Repair Failed Successfully");
+				JOptionPane.showMessageDialog(null, "Add Employee Failed");
 				return false;
 			}
 		} catch (SQLException e) {
@@ -469,7 +470,7 @@ class AppRunner {
 	}
 	
 	public boolean addRepair(String startDate, String endDate, int discount, int totalCost,
-			String description) {
+			String description, String vin) {
 
 		try {
 			Connection c = dbService.getConnection();
@@ -482,6 +483,7 @@ class AppRunner {
 			cs.setString(4, description);
 			cs.setInt(5, discount);
 			cs.setInt(6, totalCost);
+			cs.setString(7, vin);
 			cs.execute();
 			
 			int returnCode = cs.getInt(1);
@@ -490,7 +492,7 @@ class AppRunner {
 				JOptionPane.showMessageDialog(null, "Add Repair Successful");
 				return true;
 			} else {
-				JOptionPane.showMessageDialog(null, "Add Repair Failed Failed");
+				JOptionPane.showMessageDialog(null, "Add Repair Failed");
 				return false;
 			}
 		} catch (SQLException e) {
@@ -540,7 +542,7 @@ class AppRunner {
 		try {
 			Connection c = dbService.getConnection();
 
-			CallableStatement cs = c.prepareCall(" {? = CALL InsertTask(?,?,?,?)}");
+			CallableStatement cs = c.prepareCall(" {? = CALL InsertTask(?,?,?)}");
 			cs.registerOutParameter(1, Types.INTEGER);
 			cs.setString(2, Name);
 			cs.setString(3, Description);
@@ -578,10 +580,10 @@ class AppRunner {
 			int returnCode = cs.getInt(1);
 			System.out.println("Part Insert Return Code: " + returnCode);
 			if (returnCode == 0) {
-				JOptionPane.showMessageDialog(null, "Add Task Successful");
+				JOptionPane.showMessageDialog(null, "Add Part Successful");
 				return true;
 			} else {
-				JOptionPane.showMessageDialog(null, "Add Task Failed Failed");
+				JOptionPane.showMessageDialog(null, "Add Part Failed");
 				System.out.println(returnCode);
 				return false;
 			}
@@ -836,7 +838,7 @@ class AppRunner {
 			CallableStatement cs = c.prepareCall(" {CALL ReadCustomer}");
 			ResultSet rs = cs.executeQuery();
 			while (rs.next()) {
-				MyCustomer row = new MyCustomer(rs.getString("Username"),rs.getInt("NumberOfVists"));
+				MyCustomer row = new MyCustomer(rs.getString("Username"),rs.getInt("NumberOfVisits"));
 				myCustomerList.add(row);
 			}
 		} catch (SQLException e) {
@@ -1246,7 +1248,6 @@ class AppRunner {
 	}
 
 	public boolean deleteEmployee(String employeeUsername) {
-		// TODO Auto-generated method stub
 		try {
 			Connection c = dbService.getConnection();
 
@@ -1620,7 +1621,7 @@ class AppRunner {
 	
 	public boolean updateRepair(int ID, String StartDate, String EndDate, String Description, int Discount,
 			int TotalCost, int Completion) {
-		// TODO Auto-generated method stub
+		
 		
 		try {
 			Connection c = dbService.getConnection();
