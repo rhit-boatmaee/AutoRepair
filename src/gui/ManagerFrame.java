@@ -2162,7 +2162,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		this.setTitle("Update Insurance");
 		this.setVisible(true);
-		this.setBounds(10, 10, 370, 700);
+		this.setBounds(10, 10, 800,800);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 	}
