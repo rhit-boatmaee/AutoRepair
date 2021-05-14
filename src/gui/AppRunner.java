@@ -737,19 +737,23 @@ class AppRunner {
 		return myPaidfor;
 	}
 	
-	public ArrayList<MyPaidBy> getPaidBy() {
+	public ArrayList<MyPaidBy> getPaidBy(String username) {
 		// TODO Auto-generated method stub
 		ArrayList<MyPaidBy> myOrders = new ArrayList<MyPaidBy>();
 		try {
 			Connection c = dbService.getConnection();
-			CallableStatement cs = c.prepareCall(" {CALL ReadPaidBy}");
+			CallableStatement cs = c.prepareCall(" { CALL ReadPaidBy(?)}");
+			cs.setString(1, username);
+			
 			ResultSet rs = cs.executeQuery();
-			while (rs.next()) {
-				MyPaidBy row = new MyPaidBy(rs.getString("VehicleVIN"),rs.getInt("RepairID"),rs.getString("CustomerUserName"),rs.getString("Receipt"));
-				myOrders.add(row);
-			}
+			
+				while (rs.next()) {
+					MyPaidBy row = new MyPaidBy(rs.getString("VehicleVIN"),rs.getInt("RepairID"),rs.getString("CustomerUserName"),rs.getString("Receipt"));
+					myOrders.add(row);
+				}
+		
+			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return myOrders;
@@ -1723,6 +1727,47 @@ class AppRunner {
 			e.printStackTrace();
 		}
 		return true;
+	}
+
+	public ArrayList<MyPaidBy> getPaidByVehicleInfo(String username) {
+		// TODO Auto-generated method stub
+		
+		ArrayList<MyPaidBy> repairs = this.getPaidBy(username);
+		
+		
+		ArrayList<String> vehicles = new ArrayList<>();
+		
+		for(int i = 0; i < repairs.size(); i++) {
+			String vin = repairs.get(i).getVehicleVIN();
+			if(!vehicles.contains(vin)) {
+				vehicles.add(vin);
+			}
+		}
+		
+		for(String vehicle : vehicles) {
+			this.getVehicleByVIN(vehicle);
+		}
+		return null;
+	}
+
+	private void getVehicleByVIN(String vehicle) {
+		// TODO Auto-generated method stub
+		ArrayList<String> vehicles = new ArrayList<String>();
+		try {
+			
+			PreparedStatement s = dbService.getConnection().prepareStatement("SELECT * FROM VEHICLE WHERE VIN =" + vehicle);
+
+			ResultSet rs = s.executeQuery();
+			while (rs.next()) {
+
+				vehicles.add(rs.getString("VIN"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return vehicles;
+	}
 	}
 
 	
