@@ -2132,7 +2132,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
+			
 				try {
 					String ClaimNumber = (String) claimNumberChooser.getSelectedItem();
 					String PolicyNumber = (policyNumberChooser.getText());
