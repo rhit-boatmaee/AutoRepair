@@ -470,20 +470,19 @@ class AppRunner {
 	}
 	
 	public boolean addRepair(String startDate, String endDate, int discount, int totalCost,
-			String description, String vin) {
+			String description) {
 
 		try {
 			Connection c = dbService.getConnection();
 			System.out.println(dbService);
 			System.out.println(c);
-			CallableStatement cs = c.prepareCall(" {? = CALL InsertRepair(?,?,?,?,?,?)}");
+			CallableStatement cs = c.prepareCall(" {? = CALL InsertRepair(?,?,?,?,?)}");
 			cs.registerOutParameter(1, Types.INTEGER);
 			cs.setString(2, startDate);
 			cs.setString(3, endDate);
 			cs.setString(4, description);
 			cs.setInt(5, discount);
 			cs.setInt(6, totalCost);
-			cs.setString(7, vin);
 			cs.execute();
 			
 			int returnCode = cs.getInt(1);
@@ -1692,7 +1691,6 @@ class AppRunner {
 			cs.setString(4, Model);
 			cs.setInt(5, Mileage);
 			cs.setString(6, bodyType);
-			cs.setString(7, bodyType);
 			cs.execute();
 
 			int returnCode = cs.getInt(1);

@@ -317,7 +317,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		// ASSIGN
 		if (e.getSource() == addAssign) {
-
+			
 		}
 		if (e.getSource() == updateAssign) {
 
@@ -383,55 +383,55 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		}
 		// theFor
 		if (e.getSource() == addfor) {
-
+			this.addFor();
 		}
 		if (e.getSource() == updatefor) {
-
+			this.updateFor();
 		}
 		if (e.getSource() == deletefor) {
-
+			this.deleteFor();
 		}
 		if (e.getSource() == readfor) {
-
+			this.readAllFor();
 		}
 		// theHas
 		if (e.getSource() == addHas) {
-
+			this.addHas();
 		}
 		if (e.getSource() == updateHas) {
-
+			this.updateHas();
 		}
 		if (e.getSource() == deleteHas) {
-
+			this.deleteHas();
 		}
 		if (e.getSource() == readHas) {
-
+			this.readAllHas();
 		}
 		// thePaidBy
 		if (e.getSource() == addPaidBy) {
-
+			this.addPaidBy();
 		}
 		if (e.getSource() == updatePaidBy) {
-
+			this.updatePaidBy();
 		}
 		if (e.getSource() == deletePaidBy) {
-
+			this.deletePaidBy();
 		}
 		if (e.getSource() == readPaidBy) {
-
+			this.readPaidBy();
 		}
 		// thePaidFor
 		if (e.getSource() == addPaidFor) {
-
+			this.addPaidFor();
 		}
 		if (e.getSource() == updatePaidFor) {
-
+			this.updatePaidFor();
 		}
 		if (e.getSource() == deletePaidFor) {
-
+			this.deletePaidFor();
 		}
 		if (e.getSource() == readPaidFor) {
-
+			this.readPaidFor();
 		}
 		// REPAIRS
 		if (e.getSource() == addRepair) {
@@ -523,11 +523,11 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		JLabel updatedescriptionLabel = new JLabel("Description");
 		JTextField updatedescriptionBox = new JTextField();
 
-		JLabel updatecostLabel = new JLabel("Cost");
-		JTextField updatecostField = new JTextField();
-
 		JLabel updatediscountLabel = new JLabel("Discount");
 		JTextField updatediscountField = new JTextField();
+		
+		JLabel updatecostLabel = new JLabel("Cost");
+		JTextField updatecostField = new JTextField();
 
 		JLabel completionLabel = new JLabel("Completion");
 		JComboBox<Integer> updateCompletionChooser = new JComboBox<Integer>(completion);
@@ -538,19 +538,22 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		IDChooser.setBounds(100, 50, 150, 30);
 
 		updatestartDateLabel.setBounds(25, 100, 150, 30);
-		updateendDateChooser.setBounds(100, 100, 150, 30);
+		updatestartDateChooser.setBounds(100, 100, 150, 30);
+		
+		updateendDateLabel.setBounds(25, 150, 150, 30);
+		updateendDateChooser.setBounds(100, 150, 150, 30);
 
-		updatedescriptionLabel.setBounds(25, 150, 150, 30);
-		updatedescriptionBox.setBounds(100, 150, 150, 30);
+		updatedescriptionLabel.setBounds(25, 200, 150, 30);
+		updatedescriptionBox.setBounds(100, 200, 150, 30);
 
-		updatecostLabel.setBounds(25, 250, 200, 30);
-		updatecostField.setBounds(100, 250, 200, 30);
+		updatecostLabel.setBounds(25, 250, 150, 30);
+		updatecostField.setBounds(100, 250, 150, 30);
 
 		updatediscountLabel.setBounds(25, 300, 150, 30);
 		updatediscountField.setBounds(100, 300, 150, 30);
 
-		completionLabel.setBounds(25, 400, 150, 30);
-		updateCompletionChooser.setBounds(100, 400, 150, 30);
+		completionLabel.setBounds(25, 350, 150, 30);
+		updateCompletionChooser.setBounds(100, 350, 150, 30);
 
 		addButton.setBounds(100, 450, 100, 100);
 
@@ -561,20 +564,24 @@ public class ManagerFrame extends JFrame implements ActionListener {
 				// TODO Auto-generated method stub
 				try {
 					int ID = (Integer) IDChooser.getSelectedItem();
-
-					String startDate = ""; // updatestartdate...
-
+					String startDate = updatestartDateChooser.getText();
 					String endDate = updateendDateChooser.getText();
 					String discount = updatediscountField.getText();
 					String totalCost = updatecostField.getText();
 					String description = updatedescriptionBox.getText();
 					int completion = (Integer) updateCompletionChooser.getSelectedItem();
-
+					System.out.println("ID: " + ID);
+					System.out.println("startDate" + startDate);
+					System.out.println("endDate" + endDate);
+					System.out.println("discount" + discount);
+					System.out.println("totalCost" + totalCost);
+					System.out.println("description" + description);
+					System.out.println("Completion" + completion);
 					app.updateRepair(ID, startDate, endDate, description, Integer.parseInt(discount),
 							Integer.parseInt(totalCost), completion);
 
 				} catch (NumberFormatException e) {
-					JOptionPane.showMessageDialog(null, "Fields are incorrect");
+					JOptionPane.showMessageDialog(null, "The Fields are incorrect");
 				}
 			}
 		});
@@ -593,6 +600,9 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		container.add(updatedescriptionLabel);
 		container.add(updatedescriptionBox);
+		
+		container.add(updatediscountLabel);
+		container.add(updatediscountField);
 
 		container.add(updatecostField);
 		container.add(updatecostLabel);
@@ -611,11 +621,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		// StartDate,EndDate, description, Discount, Total Cost, VIN
 		container.removeAll();
 		container.add(toolBar);
-		ArrayList<MyVehicles> myVehicles = app.getAllVehicles();
-		String[] vehicles = new String[myVehicles.size()];
-		for (int i = 0; i < myVehicles.size(); i++) {
-			vehicles[i] = myVehicles.get(i).getVin();
-		}
+
 
 		// Set up
 		JLabel startDateLabel = new JLabel("StartDate");
@@ -625,7 +631,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		JTextField endDateChooser = new JTextField();
 
 		JLabel descriptionLabel = new JLabel("Description");
-		JTextField descriptionBox = new JTextField(5);
+		JTextArea descriptionBox = new JTextArea();
 
 		JLabel costLabel = new JLabel("Cost");
 		JTextField costField = new JTextField();
@@ -634,15 +640,6 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		JTextField discountField = new JTextField();
 
 		JButton addButton = new JButton("ADD");
-
-		ArrayList<String> cars = app.getVehicles();
-		String[] carArray = new String[cars.size()];
-		for (int i = 0; i < cars.size(); i++) {
-			carArray[i] = cars.get(i);
-		}
-
-		JLabel carLabel = new JLabel("Vehicle");
-		JComboBox<String> carDropDownBox = new JComboBox<String>(carArray);
 
 		// BOUNDS
 		startDateLabel.setBounds(25, 50, 150, 30);
@@ -654,14 +651,11 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		descriptionLabel.setBounds(25, 150, 150, 30);
 		descriptionBox.setBounds(100, 150, 150, 60);
 
-		costLabel.setBounds(25, 250, 200, 30);
-		costField.setBounds(100, 250, 200, 30);
+		costLabel.setBounds(25, 250, 150, 30);
+		costField.setBounds(100, 250, 150, 30);
 
-		discountLabel.setBounds(25, 300, 150, 30);
-		discountField.setBounds(100, 300, 150, 30);
-
-		carLabel.setBounds(25, 350, 150, 30);
-		carDropDownBox.setBounds(100, 350, 150, 30);
+		discountLabel.setBounds(25, 300, 100, 30);
+		discountField.setBounds(100, 300, 100, 30);
 
 		addButton.setBounds(100, 400, 100, 100);
 
@@ -677,7 +671,6 @@ public class ManagerFrame extends JFrame implements ActionListener {
 					String discount = discountField.getText();
 					String totalCost = costField.getText();
 					String description = descriptionBox.getText();
-					String vin = (String) carDropDownBox.getSelectedItem();
 
 					if (ManagerFrame.compareDate(startDate, endDate)) {
 						// reject
@@ -694,7 +687,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 					}
 
 					app.addRepair(startDate, endDate, Integer.parseInt(discount), Integer.parseInt(totalCost),
-							description, vin);
+							description);
 
 				} catch (NumberFormatException e) {
 					JOptionPane.showMessageDialog(null, "Please check your inputted information.");
@@ -716,8 +709,6 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.add(discountField);
 		container.add(discountLabel);
 
-		container.add(carDropDownBox);
-		container.add(carLabel);
 		container.add(addButton);
 
 		this.setTitle("Add Repair");
@@ -775,7 +766,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		this.setTitle("Delete Repair");
 		this.setVisible(true);
-		this.setBounds(10, 10, 370, 600);
+		this.setBounds(10, 10, 800, 600);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 
@@ -831,7 +822,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		JTextField yearChooser = new JTextField();
 
 		JLabel modelLabel = new JLabel("Model");
-		JTextField ModelChooser = new JTextField(5);
+		JTextField ModelChooser = new JTextField();
 
 		JLabel mileageLabel = new JLabel("Mileage");
 		JTextField mileageChooser = new JTextField();
@@ -851,8 +842,8 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		modelLabel.setBounds(25, 150, 150, 30);
 		ModelChooser.setBounds(100, 150, 150, 60);
 
-		mileageLabel.setBounds(25, 250, 200, 30);
-		mileageChooser.setBounds(100, 250, 200, 30);
+		mileageLabel.setBounds(25, 250, 150, 30);
+		mileageChooser.setBounds(100, 250, 150, 30);
 
 		bodyTypeLabel.setBounds(25, 300, 150, 30);
 		bodyTypeChooser.setBounds(100, 300, 150, 30);
@@ -923,7 +914,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		JTextField yearChooser = new JTextField();
 
 		JLabel modelLabel = new JLabel("Model");
-		JTextField ModelChooser = new JTextField(5);
+		JTextField ModelChooser = new JTextField();
 
 		JLabel mileageLabel = new JLabel("Mileage");
 		JTextField mileageChooser = new JTextField();
@@ -942,8 +933,8 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		modelLabel.setBounds(25, 150, 150, 30);
 		ModelChooser.setBounds(100, 150, 150, 60);
 
-		mileageLabel.setBounds(25, 250, 200, 30);
-		mileageChooser.setBounds(100, 250, 200, 30);
+		mileageLabel.setBounds(25, 250, 150, 30);
+		mileageChooser.setBounds(100, 250, 150, 30);
 
 		bodyTypeLabel.setBounds(25, 300, 150, 30);
 		bodyTypeChooser.setBounds(100, 300, 150, 30);
@@ -1047,7 +1038,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		this.setTitle("Delete Vehicle");
 		this.setVisible(true);
-		this.setBounds(10, 10, 370, 600);
+		this.setBounds(10, 10, 800, 600);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 	}
@@ -1097,7 +1088,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		JTextField nameChooser = new JTextField();
 
 		JLabel descriptionLabel = new JLabel("Description");
-		JTextField descriptionChooser = new JTextField();
+		JTextArea descriptionChooser = new JTextArea();
 
 		JLabel priceLabel = new JLabel("Price");
 		JTextField priceChooser = new JTextField();
@@ -1109,10 +1100,10 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		nameChooser.setBounds(100, 50, 150, 30);
 
 		descriptionLabel.setBounds(25, 100, 150, 30);
-		descriptionChooser.setBounds(100, 100, 150, 30);
+		descriptionChooser.setBounds(100, 100, 200, 60);
 
 		priceLabel.setBounds(25, 150, 150, 30);
-		priceChooser.setBounds(100, 150, 150, 60);
+		priceChooser.setBounds(100, 150, 150, 30);
 
 		addButton.setBounds(100, 400, 100, 100);
 
@@ -1171,7 +1162,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		JTextField nameChooser = new JTextField();
 
 		JLabel descriptionLabel = new JLabel("Description");
-		JTextField descriptionChooser = new JTextField(5);
+		JTextArea descriptionChooser =new JTextArea();  
 
 		JLabel priceLabel = new JLabel("Price");
 		JTextField priceChooser = new JTextField();
@@ -1185,13 +1176,16 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		IDChooser.setBounds(100, 50, 150, 30);
 
 		nameLabel.setBounds(25, 100, 150, 30);
-		descriptionChooser.setBounds(100, 100, 150, 30);
+		nameChooser.setBounds(100, 100, 150, 30);
+		
+		descriptionLabel.setBounds(25, 150, 150, 30);
+		descriptionChooser.setBounds(100, 150, 200, 50);
 
-		priceLabel.setBounds(25, 150, 150, 30);
-		priceChooser.setBounds(100, 150, 150, 60);
+		priceLabel.setBounds(25, 250, 150, 30);
+		priceChooser.setBounds(100, 250, 150, 30);
 
-		completionLabel.setBounds(25, 250, 200, 30);
-		completionChooser.setBounds(100, 250, 200, 30);
+		completionLabel.setBounds(25, 300, 200, 30);
+		completionChooser.setBounds(100, 300, 200, 30);
 
 		addButton.setBounds(100, 450, 100, 100);
 
@@ -1213,8 +1207,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 					String Name = (nameChooser.getText());
 					String Description = descriptionChooser.getText();
 					int Price = Integer.parseInt(priceChooser.getText());
-					int Completion = Integer.parseInt(completionChooser.getText());
-
+					int Completion = Integer.parseInt(completionChooser.getText());					
 					if (Name.length() != 0 && Price > 0 && (Completion == 0 || Completion == 1)) {
 						app.updateTask(ID, Name, Description, Price, Completion);
 					} else {
@@ -1364,7 +1357,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		nameLabelChooser.setBounds(100, 100, 150, 30);
 
 		priceLabel.setBounds(25, 150, 150, 30);
-		priceChooser.setBounds(100, 150, 150, 60);
+		priceChooser.setBounds(100, 150, 150, 30);
 
 		addButton.setBounds(100, 400, 100, 100);
 
@@ -1423,7 +1416,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		JTextField nameChooser = new JTextField();
 
 		JLabel priceLabel = new JLabel("Price");
-		JTextField priceChooser = new JTextField(5);
+		JTextField priceChooser = new JTextField();
 
 		JButton addButton = new JButton("UPDATE");
 
@@ -1434,7 +1427,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		nameChooser.setBounds(100, 100, 150, 30);
 
 		priceLabel.setBounds(25, 150, 150, 30);
-		priceChooser.setBounds(100, 150, 150, 60);
+		priceChooser.setBounds(100, 150, 150, 30);
 
 		addButton.setBounds(100, 450, 100, 100);
 
@@ -1455,7 +1448,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 					Integer PartNumber = (Integer) (partNumberChooser.getSelectedItem());
 					int Price = Integer.parseInt(priceChooser.getText());
 					String Name = nameChooser.getText();
-
+					System.out.println("Price: " + Price);
 					if (Price >= 0 && Name.length() != 0) {
 						app.updatePart(PartNumber, Name, Price);
 					} else {
@@ -1597,7 +1590,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		firstnameChooser.setBounds(100, 100, 150, 30);
 
 		lastnameLabel.setBounds(25, 150, 150, 30);
-		lastnameChooser.setBounds(100, 150, 150, 60);
+		lastnameChooser.setBounds(100, 150, 150, 30);
 
 		addButton.setBounds(100, 400, 100, 100);
 
@@ -1667,7 +1660,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		firstNameChooser.setBounds(100, 100, 150, 30);
 
 		lastnameLabel.setBounds(25, 150, 150, 30);
-		lastNameChooser.setBounds(100, 150, 150, 60);
+		lastNameChooser.setBounds(100, 150, 150, 30);
 
 		addButton.setBounds(100, 450, 100, 100);
 
@@ -1815,16 +1808,16 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		// BOUNDS
 		usernameLabel.setBounds(25, 50, 150, 30);
-		usernameChooser.setBounds(100, 50, 150, 30);
+		usernameChooser.setBounds(150, 50, 150, 30);
 
 		firstnameLabel.setBounds(25, 100, 150, 30);
-		firstnameChooser.setBounds(100, 100, 150, 30);
+		firstnameChooser.setBounds(150, 100, 150, 30);
 
 		lastnameLabel.setBounds(25, 150, 150, 30);
-		lastnameChooser.setBounds(100, 150, 150, 30);
+		lastnameChooser.setBounds(150, 150, 150, 30);
 
 		numberVisitsLabel.setBounds(25, 200, 150, 30);
-		numberVisitsChooser.setBounds(100, 230, 150, 30);
+		numberVisitsChooser.setBounds(150, 200, 150, 30);
 
 		addButton.setBounds(100, 400, 100, 100);
 
@@ -1896,16 +1889,16 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		JButton addButton = new JButton("UPDATE");
 
 		userNameLabel.setBounds(25, 50, 150, 30);
-		userNameChooser.setBounds(100, 50, 150, 30);
+		userNameChooser.setBounds(150, 50, 150, 30);
 
 		firstnameLabel.setBounds(25, 100, 150, 30);
-		firstNameChooser.setBounds(100, 100, 150, 30);
+		firstNameChooser.setBounds(150, 100, 150, 30);
 
 		lastnameLabel.setBounds(25, 150, 150, 30);
-		lastNameChooser.setBounds(100, 150, 150, 30);
+		lastNameChooser.setBounds(150, 150, 150, 30);
 
 		numberVisitsLabel.setBounds(25, 200, 150, 30);
-		numberVisitsChooser.setBounds(100, 200, 150, 30);
+		numberVisitsChooser.setBounds(150, 200, 150, 30);
 
 		addButton.setBounds(100, 450, 100, 100);
 
@@ -2034,10 +2027,10 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.add(toolBar);
 
 		// Set up
-		JLabel claimNumberLabel = new JLabel("ClaimNumber");
+		JLabel claimNumberLabel = new JLabel("ClaimNumber(12)");
 		JTextField claimNumberChooser = new JTextField();
 
-		JLabel policyNumberLabel = new JLabel("PolicyNumber");
+		JLabel policyNumberLabel = new JLabel("PolicyNumber(11)");
 		JTextField policyNumberChooser = new JTextField();
 
 		JLabel deductibleLabel = new JLabel("Deductible");
@@ -2047,13 +2040,13 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		// BOUNDS
 		claimNumberLabel.setBounds(25, 50, 150, 30);
-		claimNumberChooser.setBounds(100, 50, 150, 30);
+		claimNumberChooser.setBounds(150, 50, 150, 30);
 
 		policyNumberLabel.setBounds(25, 100, 150, 30);
-		policyNumberChooser.setBounds(100, 100, 150, 30);
+		policyNumberChooser.setBounds(150, 100, 150, 30);
 
 		deductibleLabel.setBounds(25, 150, 150, 30);
-		deductibleChooser.setBounds(100, 150, 150, 60);
+		deductibleChooser.setBounds(150, 150, 150, 60);
 
 		addButton.setBounds(100, 400, 100, 100);
 
@@ -2117,13 +2110,13 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		JButton addButton = new JButton("UPDATE");
 
 		claimNumberLabel.setBounds(25, 50, 150, 30);
-		claimNumberChooser.setBounds(100, 50, 150, 30);
+		claimNumberChooser.setBounds(150, 50, 150, 30);
 
 		policyNumberLabel.setBounds(25, 100, 150, 30);
-		policyNumberChooser.setBounds(100, 100, 150, 30);
+		policyNumberChooser.setBounds(150, 100, 150, 30);
 
 		deductibleLabel.setBounds(25, 150, 150, 30);
-		deductibleChooser.setBounds(100, 150, 150, 60);
+		deductibleChooser.setBounds(150, 150, 150, 60);
 
 		addButton.setBounds(100, 450, 100, 100);
 
@@ -2183,7 +2176,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		JButton deleteButton = new JButton("DELETE");
 
 		userNameLabel.setBounds(25, 50, 150, 30);
-		userNameChooser.setBounds(100, 50, 150, 30);
+		userNameChooser.setBounds(150, 50, 150, 30);
 
 		deleteButton.setBounds(100, 350, 150, 30);
 
@@ -2218,7 +2211,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		this.setTitle("Delete Insurance");
 		this.setVisible(true);
-		this.setBounds(10, 10, 370, 600);
+		this.setBounds(10, 10, 800, 600);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 	}
@@ -2584,7 +2577,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.removeAll();
 		container.add(toolBar);
 
-		JLabel currentManagerlabel = new JLabel("Personal ManagerUsername");
+		JLabel currentManagerlabel = new JLabel("Your Username");
 		JLabel currentManagerText = new JLabel(this.userName);
 
 		JLabel managerFirstNameLabel = new JLabel("Manager FirstName");
@@ -2596,13 +2589,13 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		JButton addButton = new JButton("UPDATE");
 
 		currentManagerlabel.setBounds(25, 50, 150, 30);
-		currentManagerText.setBounds(100, 50, 150, 30);
+		currentManagerText.setBounds(175, 50, 150, 30);
 
 		managerFirstNameLabel.setBounds(25, 100, 150, 30);
-		managerFirstNameChooser.setBounds(100, 100, 150, 30);
+		managerFirstNameChooser.setBounds(175, 100, 150, 30);
 
 		managerLastNameLabel.setBounds(25, 150, 150, 30);
-		managerLastNameChooser.setBounds(100, 150, 150, 60);
+		managerLastNameChooser.setBounds(175, 150, 150, 30);
 
 		addButton.setBounds(100, 450, 100, 100);
 
@@ -2638,7 +2631,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		this.setTitle("Update Order");
 		this.setVisible(true);
-		this.setBounds(10, 10, 370, 700);
+		this.setBounds(10, 10, 800, 700);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 
@@ -2722,7 +2715,6 @@ public class ManagerFrame extends JFrame implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-
 			}
 
 		});
@@ -2757,7 +2749,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		this.setTitle("Add For");
 		this.setVisible(true);
-		this.setBounds(10, 10, 370, 600);
+		this.setBounds(10, 10, 800, 600);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 	}
@@ -2794,13 +2786,13 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		JButton addButton = new JButton("UPDATE");
 
 		beforePartNumberLabel.setBounds(25, 50, 150, 30);
-		beforePartNumberChooser.setBounds(100, 50, 150, 30);
+		beforePartNumberChooser.setBounds(200, 50, 150, 30);
 
 		afterPartNumberLabel.setBounds(25, 100, 150, 30);
-		afterPartNumberChooser.setBounds(100, 100, 150, 60);
+		afterPartNumberChooser.setBounds(200, 100, 150, 30);
 
 		afterTaskLabel.setBounds(25, 150, 150, 30);
-		afterTaskChooser.setBounds(100, 150, 150, 60);
+		afterTaskChooser.setBounds(200, 150, 150, 30);
 
 		addButton.setBounds(100, 450, 100, 100);
 
@@ -2867,7 +2859,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		this.setTitle("Update For");
 		this.setVisible(true);
-		this.setBounds(10, 10, 370, 700);
+		this.setBounds(10, 10, 800, 700);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 	}
@@ -2894,10 +2886,10 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		JButton deleteButton = new JButton("DELETE");
 
 		partNumberLabel.setBounds(25, 50, 150, 30);
-		partNumberChooser.setBounds(100, 50, 150, 30);
+		partNumberChooser.setBounds(130, 50, 150, 30);
 
-		taskNumberLabel.setBounds(25, 50, 150, 30);
-		taskNumberChooser.setBounds(100, 50, 150, 30);
+		taskNumberLabel.setBounds(25, 100, 150, 30);
+		taskNumberChooser.setBounds(130, 100, 150, 30);
 
 		deleteButton.setBounds(100, 350, 150, 30);
 
@@ -2945,7 +2937,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		this.setTitle("Delete For");
 		this.setVisible(true);
-		this.setBounds(10, 10, 370, 600);
+		this.setBounds(10, 10, 800, 600);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 	}
@@ -3091,7 +3083,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		this.setTitle("Add Has");
 		this.setVisible(true);
-		this.setBounds(10, 10, 370, 600);
+		this.setBounds(10, 10, 800, 600);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 	}
@@ -3286,7 +3278,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		this.setTitle("Delete Has");
 		this.setVisible(true);
-		this.setBounds(10, 10, 370, 600);
+		this.setBounds(10, 10, 800, 600);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 	}
@@ -3364,16 +3356,16 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		// BOUNDS
 		vinLabel.setBounds(25, 50, 150, 30);
-		vinChooser.setBounds(100, 50, 150, 30);
+		vinChooser.setBounds(200, 50, 150, 30);
 
 		repairIdLabel.setBounds(25, 100, 150, 30);
-		repairIdChooser.setBounds(100, 100, 150, 30);
+		repairIdChooser.setBounds(200, 100, 150, 30);
 
 		customerLabel.setBounds(25, 150, 150, 30);
-		customerChooser.setBounds(100, 150, 150, 30);
+		customerChooser.setBounds(200, 150, 150, 30);
 
 		receiptLabel.setBounds(25, 200, 150, 30);
-		receiptChooser.setBounds(100, 200, 150, 30);
+		receiptChooser.setBounds(200, 200, 150, 30);
 
 		addButton.setBounds(100, 400, 100, 100);
 
@@ -3443,7 +3435,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		this.setTitle("Add PaidBy");
 		this.setVisible(true);
-		this.setBounds(10, 10, 370, 600);
+		this.setBounds(10, 10, 800, 600);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 	}
@@ -3493,19 +3485,19 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		JButton addButton = new JButton("UPDATE");
 
 		beforePartNumberLabel.setBounds(25, 50, 150, 30);
-		beforePartNumberChooser.setBounds(100, 50, 150, 30);
+		beforePartNumberChooser.setBounds(150, 50, 150, 30);
 
 		afterVehicleVIN.setBounds(25, 100, 150, 30);
-		afterVehicleVinchooser.setBounds(100, 100, 150, 60);
+		afterVehicleVinchooser.setBounds(150, 100, 150, 30);
 
 		afterRepairLabel.setBounds(25, 150, 150, 30);
-		afterRepairChooser.setBounds(100, 150, 150, 60);
+		afterRepairChooser.setBounds(150, 150, 150, 30);
 
 		afterTaskLabel.setBounds(25, 200, 150, 30);
-		afterCustomerChooser.setBounds(100, 200, 150, 60);
+		afterCustomerChooser.setBounds(150, 200, 150, 30);
 
 		afterReceiptLabel.setBounds(25, 250, 150, 30);
-		afterReceiptChooser.setBounds(100, 250, 150, 60);
+		afterReceiptChooser.setBounds(150, 250, 150, 30);
 
 		addButton.setBounds(100, 450, 100, 100);
 
@@ -3652,7 +3644,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		this.setTitle("Delete PaidBy");
 		this.setVisible(true);
-		this.setBounds(10, 10, 370, 600);
+		this.setBounds(10, 10, 800, 600);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 	}
@@ -3721,7 +3713,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		JLabel repairIdLabel = new JLabel("RepairID");
 		JComboBox<Integer> repairIdChooser = new JComboBox<Integer>(repairIds);
 
-		JLabel customerLabel = new JLabel("InsuranceClaimNumber");
+		JLabel customerLabel = new JLabel("ClaimNum");
 		JComboBox<String> customerChooser = new JComboBox<String>(claimNumbers);
 
 		JLabel receiptLabel = new JLabel("Receipt");
@@ -3811,7 +3803,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		this.setTitle("Add PaidFor");
 		this.setVisible(true);
-		this.setBounds(10, 10, 370, 600);
+		this.setBounds(10, 10, 800, 600);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 	}
@@ -3861,19 +3853,19 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		JButton addButton = new JButton("UPDATE");
 
 		beforePartNumberLabel.setBounds(25, 50, 150, 30);
-		beforePartNumberChooser.setBounds(100, 50, 150, 30);
+		beforePartNumberChooser.setBounds(150, 50, 150, 30);
 
 		afterVehicleVIN.setBounds(25, 100, 150, 30);
-		afterVehicleVinchooser.setBounds(100, 100, 150, 60);
+		afterVehicleVinchooser.setBounds(150, 100, 150, 30);
 
 		afterRepairLabel.setBounds(25, 150, 150, 30);
-		afterRepairChooser.setBounds(100, 150, 150, 60);
+		afterRepairChooser.setBounds(150, 150, 150, 30);
 
 		afterTaskLabel.setBounds(25, 200, 150, 30);
-		afterCustomerChooser.setBounds(100, 200, 150, 60);
+		afterCustomerChooser.setBounds(150, 200, 150, 30);
 
 		afterReceiptLabel.setBounds(25, 250, 150, 30);
-		afterReceiptChooser.setBounds(100, 250, 150, 60);
+		afterReceiptChooser.setBounds(100, 250, 150, 30);
 
 		addButton.setBounds(100, 450, 100, 100);
 
