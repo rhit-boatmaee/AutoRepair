@@ -737,6 +737,23 @@ class AppRunner {
 		return myPaidfor;
 	}
 	
+	public ArrayList<MyPaidBy> getFinalPaidBy(){
+		ArrayList<MyPaidBy> myPaidBys = new ArrayList<MyPaidBy>();
+		try {
+			Connection c = dbService.getConnection();
+			CallableStatement cs = c.prepareCall("{CALL ReadFinalPaidBy}");
+			ResultSet rs = cs.executeQuery();
+			while (rs.next()) {
+				MyPaidBy row = new MyPaidBy(rs.getString("VehicleVIN"),rs.getInt("RepairID"),rs.getString("CustomerUserName"),rs.getString("Receipt"));
+				myPaidBys.add(row);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return myPaidBys;
+	}
+	
 	public ArrayList<MyPaidBy> getPaidBy(String username) {
 		// TODO Auto-generated method stub
 		ArrayList<MyPaidBy> myOrders = new ArrayList<MyPaidBy>();
@@ -1546,22 +1563,18 @@ class AppRunner {
 		return true;
 	}
 	
-	public boolean updatePaidBy(String BeforeVehicleVIN, int BeforeRepairID, String beforeCustomerUserName, String BeforeReceipt,
-			String AfterVehicleVIN, int AfterRepairID, String AfterCustomerUserName, String AfterReceipt) {
+	public boolean updatePaidBy(String BeforeVehicleVIN, int BeforeRepairID, String beforeCustomerUserName,
+			String AfterReceipt) {
 		// TODO Auto-generated method stub
 		try {
 			Connection c = dbService.getConnection();
 
-			CallableStatement cs = c.prepareCall(" {? = CALL UpdatePaidBy(?,?,?,?,?,?,?,?)}");
+			CallableStatement cs = c.prepareCall(" {? = CALL UpdatePaidBy(?,?,?,?)}");
 			cs.registerOutParameter(1, Types.INTEGER);
 			cs.setString(2, BeforeVehicleVIN);
 			cs.setInt(3, BeforeRepairID);
 			cs.setString(4, beforeCustomerUserName);
-			cs.setString(5, BeforeReceipt);
-			cs.setString(6, AfterVehicleVIN);
-			cs.setInt(7, AfterRepairID);
-			cs.setString(8, AfterCustomerUserName);
-			cs.setString(9, AfterReceipt);
+			cs.setString(5, AfterReceipt);
 			cs.execute();
 
 			int returnCode = cs.getInt(1);
@@ -1579,22 +1592,18 @@ class AppRunner {
 		return true;
 	}
 	
-	public boolean updatePaidFor(String BeforeVehicleVIN, int BeforeRepairID, String beforeInsuranceClaimNumber, String BeforeReceipt,
-			String AfterVehicleVIN, int AfterRepairID, String afterInsuranceClaimNumber, String AfterReceipt) {
+	public boolean updatePaidFor(String BeforeVehicleVIN, int BeforeRepairID, String beforeInsuranceClaimNumber,
+			String AfterReceipt) {
 		// TODO Auto-generated method stub
 		try {
 			Connection c = dbService.getConnection();
 
-			CallableStatement cs = c.prepareCall(" {? = CALL UpdatePaidFor(?,?,?,?,?,?,?,?)}");
+			CallableStatement cs = c.prepareCall(" {? = CALL UpdatePaidFor(?,?,?,?)}");
 			cs.registerOutParameter(1, Types.INTEGER);
 			cs.setString(2, BeforeVehicleVIN);
 			cs.setInt(3, BeforeRepairID);
 			cs.setString(4, beforeInsuranceClaimNumber);
-			cs.setString(5, BeforeReceipt);
-			cs.setString(6, AfterVehicleVIN);
-			cs.setInt(7, AfterRepairID);
-			cs.setString(8, afterInsuranceClaimNumber);
-			cs.setString(9, AfterReceipt);
+			cs.setString(5, AfterReceipt);
 			cs.execute();
 
 			int returnCode = cs.getInt(1);
@@ -1750,7 +1759,7 @@ class AppRunner {
 		return null;
 	}
 
-	private void getVehicleByVIN(String vehicle) {
+	private ArrayList<String> getVehicleByVIN(String vehicle) {
 		// TODO Auto-generated method stub
 		ArrayList<String> vehicles = new ArrayList<String>();
 		try {
@@ -1782,4 +1791,4 @@ class AppRunner {
 	
 	
 	
-}
+

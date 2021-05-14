@@ -3457,41 +3457,19 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.removeAll();
 		container.add(toolBar);
 
-		ArrayList<MyPaidBy> myPaidBy = app.getPaidBy();
-		ArrayList<MyVehicles> myVehicles = app.getAllVehicles();
-		ArrayList<MyRepairs> myRepairs = app.getRepairs();
-		ArrayList<MyCustomer> myCustomers = app.getCustomers();
+		ArrayList<MyPaidBy> myPaidBy = app.getFinalPaidBy();
 
 		MyPaidBy[] beforePaidBy = new MyPaidBy[myPaidBy.size()];
-		String[] afterVehicle = new String[myVehicles.size()];
-		Integer[] afterRepair = new Integer[myRepairs.size()];
-		String[] afterCustomerUserName = new String[myCustomers.size()];
 
 		for (int i = 0; i < myPaidBy.size(); i++) {
 			beforePaidBy[i] = myPaidBy.get(i);
 		}
-		for (int i = 0; i < myVehicles.size(); i++) {
-			afterVehicle[i] = myVehicles.get(i).getVin();
-		}
-		for (int i = 0; i < myRepairs.size(); i++) {
-			afterRepair[i] = myRepairs.get(i).getID();
-		}
-		for (int i = 0; i < myCustomers.size(); i++) {
-			afterCustomerUserName[i] = myCustomers.get(i).getusername();
-		}
+		
 
 		JLabel beforePartNumberLabel = new JLabel("BeforePaidBy");
 		JComboBox<MyPaidBy> beforePartNumberChooser = new JComboBox<MyPaidBy>(beforePaidBy);
 
-		JLabel afterVehicleVIN = new JLabel("AftterVehicleVIN");
-		JComboBox<String> afterVehicleVinchooser = new JComboBox<String>(afterVehicle);
-
-		JLabel afterRepairLabel = new JLabel("AfterRepairID");
-		JComboBox<Integer> afterRepairChooser = new JComboBox<Integer>(afterRepair);
-
-		JLabel afterTaskLabel = new JLabel("AfterCustomerUserName");
-		JComboBox<String> afterCustomerChooser = new JComboBox<String>(afterCustomerUserName);
-
+		
 		JLabel afterReceiptLabel = new JLabel("AfterReceipt");
 		JTextField afterReceiptChooser = new JTextField();
 
@@ -3500,14 +3478,6 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		beforePartNumberLabel.setBounds(25, 50, 150, 30);
 		beforePartNumberChooser.setBounds(150, 50, 150, 30);
 
-		afterVehicleVIN.setBounds(25, 100, 150, 30);
-		afterVehicleVinchooser.setBounds(150, 100, 150, 30);
-
-		afterRepairLabel.setBounds(25, 150, 150, 30);
-		afterRepairChooser.setBounds(150, 150, 150, 30);
-
-		afterTaskLabel.setBounds(25, 200, 150, 30);
-		afterCustomerChooser.setBounds(150, 200, 150, 30);
 
 		afterReceiptLabel.setBounds(25, 250, 150, 30);
 		afterReceiptChooser.setBounds(150, 250, 150, 30);
@@ -3523,32 +3493,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 			}
 		});
 
-		afterVehicleVinchooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-		});
-
-		afterCustomerChooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-		});
-		afterRepairChooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-		});
-
+		
 		addButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -3558,17 +3503,13 @@ public class ManagerFrame extends JFrame implements ActionListener {
 					String BeforeVehicleVIN = ((MyPaidBy) beforePartNumberChooser.getSelectedItem()).getVehicleVIN();
 					Integer BeforeRepairID = ((MyPaidBy) beforePartNumberChooser.getSelectedItem()).getRepairID();
 					String BeforeCustomer = ((MyPaidBy) beforePartNumberChooser.getSelectedItem()).getCustomerName();
-					String BeforeReceipt = ((MyPaidBy) beforePartNumberChooser.getSelectedItem()).getReceipt();
-					String AfterVehicleVIN = (String) afterVehicleVinchooser.getSelectedItem();
-					Integer AfterRepairID = (Integer) afterRepairChooser.getSelectedItem();
-					String AfterCustomer = (String) afterCustomerChooser.getSelectedItem();
+					
 					String AfterReceipt = (String) afterReceiptChooser.getText();
-					if (BeforeRepairID != null && AfterRepairID != null && BeforeVehicleVIN.length() != 0
-							&& BeforeCustomer.length() != 0 && AfterVehicleVIN.length() != 0
-							&& AfterCustomer.length() != 0 && AfterReceipt.length() != 0
-							&& BeforeVehicleVIN.length() != 0 && AfterVehicleVIN.length() != 0) {
-						app.updatePaidBy(BeforeVehicleVIN, BeforeRepairID, BeforeCustomer, BeforeReceipt,
-								AfterVehicleVIN, AfterRepairID, AfterCustomer, AfterReceipt);
+					if (BeforeRepairID != null && BeforeVehicleVIN.length() != 0
+							&& BeforeCustomer.length() != 0
+							&& BeforeVehicleVIN.length() != 0) {
+						app.updatePaidBy(BeforeVehicleVIN, BeforeRepairID, BeforeCustomer,
+								AfterReceipt);
 					} else {
 						JOptionPane.showMessageDialog(null, "The Fields are incorrect");
 					}
@@ -3581,15 +3522,6 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.add(beforePartNumberLabel);
 		container.add(beforePartNumberChooser);
 
-		container.add(afterVehicleVIN);
-		container.add(afterVehicleVinchooser);
-
-		container.add(afterRepairChooser);
-		container.add(afterRepairLabel);
-
-		container.add(afterTaskLabel);
-		container.add(afterCustomerChooser);
-
 		container.add(afterReceiptLabel);
 		container.add(afterReceiptChooser);
 
@@ -3597,7 +3529,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		this.setTitle("Update MyPaidBy");
 		this.setVisible(true);
-		this.setBounds(10, 10, 370, 700);
+		this.setBounds(10, 10, 800, 700);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 	}
@@ -3606,7 +3538,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.removeAll();
 		container.add(toolBar);
 
-		ArrayList<MyPaidBy> myPaidBy = app.getPaidBy();
+		ArrayList<MyPaidBy> myPaidBy = app.getFinalPaidBy();
 		MyPaidBy[] myListPaidBy = new MyPaidBy[myPaidBy.size()];
 		for (int i = 0; i < myPaidBy.size(); i++) {
 			myListPaidBy[i] = myPaidBy.get(i);
@@ -3667,14 +3599,14 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.add(toolBar);
 		JScrollPane myPane = new JScrollPane();
 
-		ArrayList<MyPaidBy> myPaidBy = app.getPaidBy();
+		ArrayList<MyPaidBy> myPaidBy = app.getFinalPaidBy();
 		JTable myTable = new JTable();
 		DefaultTableModel myModel = new DefaultTableModel();
 		String[] myColumns = { "VehicleVIN", "RepairID", "CustomerUserName", "Receipt" };
 		myTable.setModel(myModel);
 		myModel.setColumnIdentifiers(myColumns);
 		myPane.setViewportView(myTable);
-		Object[] myRow = new Object[3];
+		Object[] myRow = new Object[4];
 		for (int i = 0; i < myPaidBy.size(); i++) {
 			myRow[0] = myPaidBy.get(i).getVehicleVIN();
 			myRow[1] = myPaidBy.get(i).getRepairID();
@@ -3829,39 +3761,17 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.add(toolBar);
 
 		ArrayList<MyPaidFor> myPaidBy = app.getPaidFor();
-		ArrayList<MyVehicles> myVehicles = app.getAllVehicles();
-		ArrayList<MyRepairs> myRepairs = app.getRepairs();
-		ArrayList<MyInsurance> myInsurance = app.getInsurance();
 
 		String[] beforePaidBy = new String[myPaidBy.size()];
-		String[] afterVehicle = new String[myVehicles.size()];
-		Integer[] afterRepair = new Integer[myRepairs.size()];
-		String[] afterInsuranceClaimNumber = new String[myInsurance.size()];
 
 		for (int i = 0; i < myPaidBy.size(); i++) {
-			beforePaidBy[i] = myPaidBy.get(i).VehicleVIN + "/" + myPaidBy.get(i).RepairID+"/"+myPaidBy.get(i).InsuranceClaimNumber;
+			beforePaidBy[i] = myPaidBy.get(i).VehicleVIN + "/" + myPaidBy.get(i).RepairID+"/"+myPaidBy.get(i).InsuranceClaimNumber
+					+ "/" + myPaidBy.get(i).getReceipt();
 		}
-		for (int i = 0; i < myVehicles.size(); i++) {
-			afterVehicle[i] = myVehicles.get(i).getVin();
-		}
-		for (int i = 0; i < myRepairs.size(); i++) {
-			afterRepair[i] = myRepairs.get(i).getID();
-		}
-		for (int i = 0; i < myInsurance.size(); i++) {
-			afterInsuranceClaimNumber[i] = myInsurance.get(i).getClaimNumber();
-		}
+		
 
 		JLabel beforePartNumberLabel = new JLabel("BeforePaidFor");
 		JComboBox<String> beforePartNumberChooser = new JComboBox<String>(beforePaidBy);
-
-		JLabel afterVehicleVIN = new JLabel("AftterVehicleVIN");
-		JComboBox<String> afterVehicleVinchooser = new JComboBox<String>(afterVehicle);
-
-		JLabel afterRepairLabel = new JLabel("AfterRepairID");
-		JComboBox<Integer> afterRepairChooser = new JComboBox<Integer>(afterRepair);
-
-		JLabel afterTaskLabel = new JLabel("AfterInsuranceCN");
-		JComboBox<String> afterCustomerChooser = new JComboBox<String>(afterInsuranceClaimNumber);
 
 		JLabel afterReceiptLabel = new JLabel("AfterReceipt");
 		JTextField afterReceiptChooser = new JTextField();
@@ -3869,49 +3779,14 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		JButton addButton = new JButton("UPDATE");
 
 		beforePartNumberLabel.setBounds(25, 50, 150, 30);
-		beforePartNumberChooser.setBounds(150, 50, 150, 30);
+		beforePartNumberChooser.setBounds(150, 50, 250, 30);
 
-		afterVehicleVIN.setBounds(25, 100, 150, 30);
-		afterVehicleVinchooser.setBounds(150, 100, 150, 30);
-
-		afterRepairLabel.setBounds(25, 150, 150, 30);
-		afterRepairChooser.setBounds(150, 150, 150, 30);
-
-		afterTaskLabel.setBounds(25, 200, 150, 30);
-		afterCustomerChooser.setBounds(150, 200, 150, 30);
-
-		afterReceiptLabel.setBounds(25, 250, 150, 30);
-		afterReceiptChooser.setBounds(100, 250, 150, 30);
+		afterReceiptLabel.setBounds(25, 100, 150, 30);
+		afterReceiptChooser.setBounds(100, 100, 150, 30);
 
 		addButton.setBounds(100, 450, 100, 100);
 
 		beforePartNumberChooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-		});
-
-		afterVehicleVinchooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-		});
-
-		afterCustomerChooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-		});
-		afterRepairChooser.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -3926,21 +3801,18 @@ public class ManagerFrame extends JFrame implements ActionListener {
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				try {
-					String BeforeVehicleVIN = (beforePartNumberChooser.getSelectedItem())
-					Integer BeforeRepairID = ((MyPaidFor) beforePartNumberChooser.getSelectedItem()).getRepairID();
-					String BeforeInsuranceClaimNumber = ((MyPaidFor) beforePartNumberChooser.getSelectedItem())
-							.getInsuranceClaimNumber();
-					String BeforeReceipt = ((MyPaidFor) beforePartNumberChooser.getSelectedItem()).getReceipt();
-					String AfterVehicleVIN = (String) afterVehicleVinchooser.getSelectedItem();
-					Integer AfterRepairID = (Integer) afterRepairChooser.getSelectedItem();
-					String AfterInsuranceClaimNumber = (String) afterCustomerChooser.getSelectedItem();
+					String mySelectedItem = ((String)beforePartNumberChooser.getSelectedItem());
+					
+					String[] myWords = mySelectedItem.split("/");
+					String BeforeVehicleVIN = myWords[0];
+					Integer BeforeRepairID = Integer.parseInt(myWords[1]);
+					String BeforeInsuranceClaimNumber = myWords[2];
+					String BeforeReceipt = myWords[3];
+					
 					String AfterReceipt = (String) afterReceiptChooser.getText();
-					if (BeforeRepairID != null && AfterRepairID != null && BeforeVehicleVIN.length() != 0
-							&& BeforeInsuranceClaimNumber.length() != 0 && AfterVehicleVIN.length() != 0
-							&& AfterInsuranceClaimNumber.length() != 0 && AfterReceipt.length() != 0
-							&& BeforeVehicleVIN.length() != 0 && AfterVehicleVIN.length() != 0) {
-						app.updatePaidFor(BeforeVehicleVIN, BeforeRepairID, BeforeInsuranceClaimNumber, BeforeReceipt,
-								AfterVehicleVIN, AfterRepairID, AfterInsuranceClaimNumber, AfterReceipt);
+					if (BeforeRepairID != null) {
+						app.updatePaidFor(BeforeVehicleVIN, BeforeRepairID, BeforeInsuranceClaimNumber,
+								AfterReceipt);
 					} else {
 						JOptionPane.showMessageDialog(null, "The Fields are incorrect");
 					}
@@ -3953,15 +3825,6 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.add(beforePartNumberLabel);
 		container.add(beforePartNumberChooser);
 
-		container.add(afterVehicleVIN);
-		container.add(afterVehicleVinchooser);
-
-		container.add(afterRepairChooser);
-		container.add(afterRepairLabel);
-
-		container.add(afterTaskLabel);
-		container.add(afterCustomerChooser);
-
 		container.add(afterReceiptLabel);
 		container.add(afterReceiptChooser);
 
@@ -3969,7 +3832,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		this.setTitle("Update MyPaidFor");
 		this.setVisible(true);
-		this.setBounds(10, 10, 370, 700);
+		this.setBounds(10, 10, 800, 1200);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 	}
@@ -3979,13 +3842,13 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.add(toolBar);
 
 		ArrayList<MyPaidFor> myPaidFor = app.getPaidFor();
-		MyPaidFor[] myListPaidFor = new MyPaidFor[myPaidFor.size()];
+		String[] myListPaidFor = new String[myPaidFor.size()];
 		for (int i = 0; i < myPaidFor.size(); i++) {
-			myListPaidFor[i] = myPaidFor.get(i);
+			myListPaidFor[i] = myPaidFor.get(i).VehicleVIN + "/" + myPaidFor.get(i).RepairID+"/"+myPaidFor.get(i).InsuranceClaimNumber;
 		}
 		// Set up
 		JLabel myPaidByLabel = new JLabel("PaidFor");
-		JComboBox<MyPaidFor> paidByChooser = new JComboBox<MyPaidFor>(myListPaidFor);
+		JComboBox<String> paidByChooser = new JComboBox<String>(myListPaidFor);
 		JButton deleteButton = new JButton("DELETE");
 
 		myPaidByLabel.setBounds(25, 50, 150, 30);
@@ -3993,27 +3856,18 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		deleteButton.setBounds(100, 350, 150, 30);
 
-		paidByChooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-		});
-
 		deleteButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				String VIN = ((MyPaidFor) paidByChooser.getSelectedItem()).getVehicleVIN();
-				Integer RepairID = ((MyPaidFor) paidByChooser.getSelectedItem()).getRepairID();
-				String InsuranceClaimNumber = ((MyPaidFor) paidByChooser.getSelectedItem()).getInsuranceClaimNumber();
-				String Receipt = ((MyPaidFor) paidByChooser.getSelectedItem()).getReceipt();
-				if (VIN.length() != 0 && RepairID != null && InsuranceClaimNumber.length() != 0
-						&& Receipt.length() != 0) {
+				String SelectedItem = (String)paidByChooser.getSelectedItem();
+				String[] myWords = SelectedItem.split("/");
+				String VIN = myWords[0];
+				Integer RepairID = Integer.parseInt(myWords[1]);
+				String InsuranceClaimNumber = myWords[2];
+				
+				if (VIN.length() != 0 && RepairID != null && InsuranceClaimNumber.length() != 0) {
 					app.deletePaidFor(VIN, RepairID, InsuranceClaimNumber);
 				} else {
 					JOptionPane.showMessageDialog(null, "Fields are incorrect");
@@ -4028,7 +3882,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		this.setTitle("Delete PaidFor");
 		this.setVisible(true);
-		this.setBounds(10, 10, 370, 600);
+		this.setBounds(10, 10, 800, 600);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 	}
