@@ -702,6 +702,23 @@ class AppRunner {
 		return myOrders;
 	}
 	
+	public ArrayList<MyGets> getGets(){
+		ArrayList<MyGets> myOrders = new ArrayList<MyGets>();
+		try {
+			Connection c = dbService.getConnection();
+			CallableStatement cs = c.prepareCall(" {CALL ReadGets}");
+			ResultSet rs = cs.executeQuery();
+			while (rs.next()) {
+				MyGets row = new MyGets(rs.getString("VIN"),rs.getInt("RepairID"));
+				myOrders.add(row);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return myOrders;
+	}
+	
 	public ArrayList<MyPaidFor> getPaidFor() {
 		// TODO Auto-generated method stub
 		ArrayList<MyPaidFor> myPaidfor = new ArrayList<MyPaidFor>();

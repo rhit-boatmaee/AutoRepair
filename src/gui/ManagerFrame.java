@@ -295,7 +295,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		addPaidFor.addActionListener(this);
 		updatePaidFor.addActionListener(this);
-		deleteVehicle.addActionListener(this);
+		readPaidFor.addActionListener(this);
 		deletePaidFor.addActionListener(this);
 
 		addTask.addActionListener(this);
@@ -340,6 +340,19 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		}
 		if (e.getSource() == deleteEmployee) {
 			this.deleteEmployee();
+		}
+		//GETS
+		if(e.getSource() == addGets) {
+			this.addGets();
+		}
+		if(e.getSource() == updateGets) {
+			this.updateGets();
+		}
+		if(e.getSource() == deleteGets) {
+			this.deleteGets();
+		}
+		if(e.getSource() == readGets) {
+			this.readGets();
 		}
 
 		// CUSTOMER
@@ -840,7 +853,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		yearChooser.setBounds(100, 100, 150, 30);
 
 		modelLabel.setBounds(25, 150, 150, 30);
-		ModelChooser.setBounds(100, 150, 150, 60);
+		ModelChooser.setBounds(100, 150, 150, 30);
 
 		mileageLabel.setBounds(25, 250, 150, 30);
 		mileageChooser.setBounds(100, 250, 150, 30);
@@ -931,7 +944,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		yearChooser.setBounds(100, 100, 150, 30);
 
 		modelLabel.setBounds(25, 150, 150, 30);
-		ModelChooser.setBounds(100, 150, 150, 60);
+		ModelChooser.setBounds(100, 150, 150, 30);
 
 		mileageLabel.setBounds(25, 250, 150, 30);
 		mileageChooser.setBounds(100, 250, 150, 30);
@@ -1102,8 +1115,8 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		descriptionLabel.setBounds(25, 100, 150, 30);
 		descriptionChooser.setBounds(100, 100, 200, 60);
 
-		priceLabel.setBounds(25, 150, 150, 30);
-		priceChooser.setBounds(100, 150, 150, 30);
+		priceLabel.setBounds(25, 200, 150, 30);
+		priceChooser.setBounds(100, 200, 150, 30);
 
 		addButton.setBounds(100, 400, 100, 100);
 
@@ -3774,9 +3787,12 @@ public class ManagerFrame extends JFrame implements ActionListener {
 					String VIN = (String) vinChooser.getSelectedItem();
 					Integer RepairID = (Integer) repairIdChooser.getSelectedItem();
 					String InsuranceClaimNumber = (String) customerChooser.getSelectedItem();
-					String Receipt = receiptChooser.getText();
-
-					if (VIN.length() != 0 && RepairID != null && InsuranceClaimNumber != null
+					String Receipt = (String)receiptChooser.getText();
+					System.out.println(VIN);
+					System.out.println(RepairID);
+					System.out.println(InsuranceClaimNumber);
+					System.out.println(Receipt);
+					if (VIN.length() != 0 && RepairID != null && InsuranceClaimNumber.length() != 0
 							&& Receipt.length() != 0) {
 						app.addPaidFor(VIN, RepairID, InsuranceClaimNumber, Receipt);
 					} else {
@@ -3817,13 +3833,13 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		ArrayList<MyRepairs> myRepairs = app.getRepairs();
 		ArrayList<MyInsurance> myInsurance = app.getInsurance();
 
-		MyPaidFor[] beforePaidBy = new MyPaidFor[myPaidBy.size()];
+		String[] beforePaidBy = new String[myPaidBy.size()];
 		String[] afterVehicle = new String[myVehicles.size()];
 		Integer[] afterRepair = new Integer[myRepairs.size()];
 		String[] afterInsuranceClaimNumber = new String[myInsurance.size()];
 
 		for (int i = 0; i < myPaidBy.size(); i++) {
-			beforePaidBy[i] = myPaidBy.get(i);
+			beforePaidBy[i] = myPaidBy.get(i).VehicleVIN + "/" + myPaidBy.get(i).RepairID+"/"+myPaidBy.get(i).InsuranceClaimNumber;
 		}
 		for (int i = 0; i < myVehicles.size(); i++) {
 			afterVehicle[i] = myVehicles.get(i).getVin();
@@ -3836,7 +3852,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		}
 
 		JLabel beforePartNumberLabel = new JLabel("BeforePaidFor");
-		JComboBox<MyPaidFor> beforePartNumberChooser = new JComboBox<MyPaidFor>(beforePaidBy);
+		JComboBox<String> beforePartNumberChooser = new JComboBox<String>(beforePaidBy);
 
 		JLabel afterVehicleVIN = new JLabel("AftterVehicleVIN");
 		JComboBox<String> afterVehicleVinchooser = new JComboBox<String>(afterVehicle);
@@ -3910,7 +3926,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				try {
-					String BeforeVehicleVIN = ((MyPaidFor) beforePartNumberChooser.getSelectedItem()).getVehicleVIN();
+					String BeforeVehicleVIN = (beforePartNumberChooser.getSelectedItem())
 					Integer BeforeRepairID = ((MyPaidFor) beforePartNumberChooser.getSelectedItem()).getRepairID();
 					String BeforeInsuranceClaimNumber = ((MyPaidFor) beforePartNumberChooser.getSelectedItem())
 							.getInsuranceClaimNumber();
@@ -4029,7 +4045,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		myTable.setModel(myModel);
 		myModel.setColumnIdentifiers(myColumns);
 		myPane.setViewportView(myTable);
-		Object[] myRow = new Object[3];
+		Object[] myRow = new Object[4];
 		for (int i = 0; i < myPaidBy.size(); i++) {
 			myRow[0] = myPaidBy.get(i).getVehicleVIN();
 			myRow[1] = myPaidBy.get(i).getRepairID();
@@ -4050,6 +4066,302 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 		this.setVisible(true);
+	}
+	
+	private void readGets() {
+		// TODO Auto-generated method stub
+		container.removeAll();
+		container.add(toolBar);
+		JScrollPane myPane = new JScrollPane();
+
+		ArrayList<MyGets> myPaidBy = app.getGets();
+		JTable myTable = new JTable();
+		DefaultTableModel myModel = new DefaultTableModel();
+		String[] myColumns = { "VIN", "RepairID"};
+		myTable.setModel(myModel);
+		myModel.setColumnIdentifiers(myColumns);
+		myPane.setViewportView(myTable);
+		Object[] myRow = new Object[2];
+		for (int i = 0; i < myPaidBy.size(); i++) {
+			myRow[0] = myPaidBy.get(i).VIN;
+			myRow[1] = myPaidBy.get(i).RepairID;
+			myModel.addRow(myRow);
+		}
+		myTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
+		for (int i = 0; i < myRow.length; i++) {
+			myTable.getColumnModel().getColumn(i).setPreferredWidth(100);
+		}
+		myPane.setBounds(30, 30, 200, 300);
+		container.add(myPane);
+
+		this.setTitle("Read Gets");
+		this.setBounds(10, 10, 800, 600);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setResizable(false);
+		this.setVisible(true);
+	}
+
+	private void deleteGets() {
+		// TODO Auto-generated method stub
+		container.removeAll();
+		container.add(toolBar);
+
+		ArrayList<MyGets> myPaidFor = app.getGets();
+		MyGets[] myListPaidFor = new MyGets[myPaidFor.size()];
+		for (int i = 0; i < myPaidFor.size(); i++) {
+			myListPaidFor[i] = myPaidFor.get(i);
+		}
+		// Set up
+		JLabel myPaidByLabel = new JLabel("MyGets");
+		JComboBox<MyGets> paidByChooser = new JComboBox<MyGets>(myListPaidFor);
+		JButton deleteButton = new JButton("DELETE");
+
+		myPaidByLabel.setBounds(25, 50, 150, 30);
+		paidByChooser.setBounds(100, 50, 150, 30);
+
+		deleteButton.setBounds(100, 350, 150, 30);
+
+		paidByChooser.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+		});
+
+		deleteButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				String VIN = ((MyGets) paidByChooser.getSelectedItem()).VIN;
+				Integer RepairID = ((MyGets) paidByChooser.getSelectedItem()).RepairID;
+				
+				if (VIN.length() != 0 && RepairID != null) {
+					app.deleteGets(VIN, RepairID);
+				} else {
+					JOptionPane.showMessageDialog(null, "Fields are incorrect");
+				}
+
+			}
+
+		});
+		container.add(myPaidByLabel);
+		container.add(paidByChooser);
+		container.add(deleteButton);
+
+		this.setTitle("Delete Gets");
+		this.setVisible(true);
+		this.setBounds(10, 10, 370, 600);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setResizable(false);
+	}
+
+	private void updateGets() {
+		// TODO Auto-generated method stub
+		container.removeAll();
+		container.add(toolBar);
+
+		ArrayList<MyGets> myGets = app.getGets();
+		ArrayList<MyVehicles> myVehicles = app.getAllVehicles();
+		ArrayList<MyRepairs> myRepairs = app.getRepairs();
+		
+		MyGets[] beforeGets = new MyGets[myGets.size()];
+		String[] afterVehicle = new String[myVehicles.size()];
+		Integer[] afterRepair = new Integer[myRepairs.size()];
+		for (int i = 0; i < myGets.size(); i++) {
+			beforeGets[i] = myGets.get(i);
+		}
+		for (int i = 0; i < myVehicles.size(); i++) {
+			afterVehicle[i] = myVehicles.get(i).getVin();
+		}
+		for (int i = 0; i < myRepairs.size(); i++) {
+			afterRepair[i] = myRepairs.get(i).getID();
+		}
+		
+		JLabel beforePartNumberLabel = new JLabel("BeforeGets");
+		JComboBox<MyGets> beforePartNumberChooser = new JComboBox<MyGets>(beforeGets);
+
+		JLabel afterVehicleVIN = new JLabel("AfterVehicleVIN");
+		JComboBox<String> afterVehicleVinchooser = new JComboBox<String>(afterVehicle);
+
+		JLabel afterRepairLabel = new JLabel("AfterRepairID");
+		JComboBox<Integer> afterRepairChooser = new JComboBox<Integer>(afterRepair);
+
+		JButton addButton = new JButton("UPDATE");
+
+		beforePartNumberLabel.setBounds(25, 50, 150, 30);
+		beforePartNumberChooser.setBounds(150, 50, 150, 30);
+
+		afterVehicleVIN.setBounds(25, 100, 150, 30);
+		afterVehicleVinchooser.setBounds(150, 100, 150, 30);
+
+		afterRepairLabel.setBounds(25, 150, 150, 30);
+		afterRepairChooser.setBounds(150, 150, 150, 30);
+
+		addButton.setBounds(100, 450, 100, 100);
+
+		beforePartNumberChooser.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+
+		afterVehicleVinchooser.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+
+		afterRepairChooser.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+
+		addButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				try {
+					String BeforeVehicleVIN = ((MyGets) beforePartNumberChooser.getSelectedItem()).VIN;
+					Integer BeforeRepairID = ((MyGets) beforePartNumberChooser.getSelectedItem()).RepairID;
+					
+					String AfterVehicleVIN = (String) afterVehicleVinchooser.getSelectedItem();
+					Integer AfterRepairID = (Integer) afterRepairChooser.getSelectedItem();
+					
+					if (BeforeRepairID != null && AfterRepairID != null && BeforeVehicleVIN.length() != 0
+						&& AfterVehicleVIN.length() != 0 && BeforeVehicleVIN.length() != 0 && AfterVehicleVIN.length()
+						!= 0) {
+						app.UpdateGets(BeforeVehicleVIN, BeforeRepairID, AfterVehicleVIN, AfterRepairID);
+					} else {
+						JOptionPane.showMessageDialog(null, "The Fields are incorrect");
+					}
+				} catch (NumberFormatException e) {
+					JOptionPane.showMessageDialog(null, "Fields are incorrect");
+				}
+			}
+		});
+
+		container.add(beforePartNumberLabel);
+		container.add(beforePartNumberChooser);
+
+		container.add(afterVehicleVIN);
+		container.add(afterVehicleVinchooser);
+
+		container.add(afterRepairChooser);
+		container.add(afterRepairLabel);
+
+
+		container.add(addButton);
+
+		this.setTitle("Update MyPaidFor");
+		this.setVisible(true);
+		this.setBounds(10, 10, 800, 700);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setResizable(false);
+	}
+
+	private void addGets() {
+		// TODO Auto-generated method stub
+		container.removeAll();
+		container.add(toolBar);
+
+		ArrayList<MyVehicles> myVehicles = app.getAllVehicles();
+		ArrayList<MyRepairs> myRepairs = app.getRepairs();
+
+		String[] myVins = new String[myVehicles.size()];
+		Integer[] repairIds = new Integer[myRepairs.size()];
+		
+		for (int i = 0; i < myVehicles.size(); i++) {
+			myVins[i] = myVehicles.get(i).getVin();
+		}
+		for (int i = 0; i < myRepairs.size(); i++) {
+			repairIds[i] = myRepairs.get(i).getID();
+		}
+
+		// Set up
+		JLabel vinLabel = new JLabel("VehicleVIN");
+		JComboBox<String> vinChooser = new JComboBox<String>(myVins);
+
+		JLabel repairIdLabel = new JLabel("RepairID");
+		JComboBox<Integer> repairIdChooser = new JComboBox<Integer>(repairIds);
+		
+		JButton addButton = new JButton("ADD");
+
+		// BOUNDS
+		vinLabel.setBounds(25, 50, 150, 30);
+		vinChooser.setBounds(100, 50, 150, 30);
+
+		repairIdLabel.setBounds(25, 100, 150, 30);
+		repairIdChooser.setBounds(100, 100, 150, 30);
+
+		addButton.setBounds(100, 400, 100, 100);
+
+		vinChooser.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+		});
+		repairIdChooser.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+		});
+
+		addButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				try {
+					String VIN = (String) vinChooser.getSelectedItem();
+					Integer RepairID = (Integer) repairIdChooser.getSelectedItem();
+
+					if (VIN.length() != 0 && RepairID != null) {
+						app.addGets(VIN, RepairID);
+					} else {
+						JOptionPane.showMessageDialog(null, "The Fields are incorrect");
+					}
+				} catch (NumberFormatException e) {
+					JOptionPane.showMessageDialog(null, "Fields are incorrect");
+				}
+			}
+		});
+		container.add(vinLabel);
+		container.add(vinChooser);
+
+		container.add(repairIdLabel);
+		container.add(repairIdChooser);
+
+		container.add(addButton);
+
+		this.setTitle("Add Gets");
+		this.setVisible(true);
+		this.setBounds(10, 10, 800, 600);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setResizable(false);
 	}
 
 	public static boolean validDate(String date) {
