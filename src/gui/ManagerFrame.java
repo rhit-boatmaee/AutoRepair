@@ -2127,14 +2127,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		addButton.setBounds(100, 450, 100, 100);
 
-		claimNumberChooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-		});
+	
 		addButton.addActionListener(new ActionListener() {
 
 			@Override
