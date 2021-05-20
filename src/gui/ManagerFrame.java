@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -48,12 +49,12 @@ public class ManagerFrame extends JFrame implements ActionListener {
 	JMenuItem deleteAssign = new JMenuItem("Delete Task to Employee");
 	JMenuItem readAssign = new JMenuItem("View All Tasks assigned to Employees");
 
-	JMenuItem addEmployee = new JMenuItem("Add Employee");
+//	JMenuItem addEmployee = new JMenuItem("Add Employee");
 	JMenuItem deleteEmployee = new JMenuItem("Delete Employee");
 	JMenuItem readEmployee = new JMenuItem("View All Employees");
 	JMenuItem updateEmployee = new JMenuItem("Update Employee");
 
-	JMenuItem addCustomer = new JMenuItem("Add Customer");
+//	JMenuItem addCustomer = new JMenuItem("Add Customer");
 	JMenuItem deleteCustomer = new JMenuItem("Delete Customer");
 	JMenuItem readCustomer = new JMenuItem("Read All Customer");
 	JMenuItem updateCustomer = new JMenuItem("Update Customer");
@@ -116,9 +117,10 @@ public class ManagerFrame extends JFrame implements ActionListener {
 	JMenuItem updateSettings = new JMenuItem("Update Your Info");
 	JMenuItem readMangerInfo = new JMenuItem("Read All Mangers");
 
+	
 	Container container = getContentPane();
 	AppRunner app;
-
+	
 	String userName = new String();
 
 	public ManagerFrame(AppRunner application, String userText) {
@@ -133,6 +135,8 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 	public void setLayoutManager() {
 		container.setLayout(null);
+		container.setBounds(0, 0, 100, 100);
+		container.setBackground(Color.YELLOW);
 	}
 
 	public void setLocationAndSize() {
@@ -161,12 +165,10 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		assign.add(deleteAssign);
 		assign.add(readAssign);
 
-		employees.add(addEmployee);
 		employees.add(updateEmployee);
 		employees.add(deleteEmployee);
 		employees.add(readEmployee);
 
-		customers.add(addCustomer);
 		customers.add(deleteCustomer);
 		customers.add(readCustomer);
 		customers.add(updateCustomer);
@@ -243,12 +245,10 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		deleteAssign.addActionListener(this);
 		readAssign.addActionListener(this);
 
-		addEmployee.addActionListener(this);
 		deleteEmployee.addActionListener(this);
 		readEmployee.addActionListener(this);
 		updateEmployee.addActionListener(this);
 
-		addCustomer.addActionListener(this);
 		deleteCustomer.addActionListener(this);
 		readCustomer.addActionListener(this);
 		updateCustomer.addActionListener(this);
@@ -329,9 +329,6 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		}
 		// EMPLOYEES
-		if (e.getSource() == addEmployee) {
-			this.addEmployee();
-		}
 		if (e.getSource() == updateEmployee) {
 			this.updateEmployee();
 		}
@@ -356,9 +353,6 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		}
 
 		// CUSTOMER
-		if (e.getSource() == addCustomer) {
-			this.addCustomer();
-		}
 		if (e.getSource() == updateCustomer) {
 			this.updateCustomer();
 		}
