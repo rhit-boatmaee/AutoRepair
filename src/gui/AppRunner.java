@@ -645,14 +645,14 @@ class AppRunner {
 		return myRepairs;
 	}
 
-	public ArrayList<MyVehicles> getAllVehicles() {
-		ArrayList<MyVehicles> myVehiclesList = new ArrayList<MyVehicles>();
+	public ArrayList<Vehicle> getAllVehicles() {
+		ArrayList<Vehicle> myVehiclesList = new ArrayList<Vehicle>();
 		try {
 			Connection c = dbService.getConnection();
 			CallableStatement cs = c.prepareCall(" {CALL ReadVehicle}");
 			ResultSet rs = cs.executeQuery();
 			while (rs.next()) {
-				MyVehicles row = new MyVehicles(rs.getString("VIN"), rs.getInt("Year"), rs.getString("Model"),
+				Vehicle row = new Vehicle(rs.getString("VIN"), rs.getInt("Year"), rs.getString("Model"),
 						rs.getInt("Mileage"), rs.getString("BodyType"));
 				myVehiclesList.add(row);
 			}
@@ -1755,7 +1755,7 @@ class AppRunner {
 		return true;
 	}
 
-	public ArrayList<MyVehicles> getPaidByVehicleInfo(String username) {
+	public ArrayList<Vehicle> getPaidByVehicleInfo(String username) {
 
 		ArrayList<MyPaidBy> repairs = this.getPaidBy(username);
 
@@ -1770,7 +1770,7 @@ class AppRunner {
 				vehicles.add(vin);
 			}
 		}
-		ArrayList<MyVehicles> cars = new ArrayList<>();
+		ArrayList<Vehicle> cars = new ArrayList<>();
 
 		for (String vehicle : vehicles) {
 			cars.add(this.getVehicleByVIN(vehicle));
@@ -1778,9 +1778,9 @@ class AppRunner {
 		return cars;
 	}
 
-	private MyVehicles getVehicleByVIN(String vehicle) {
+	private Vehicle getVehicleByVIN(String vehicle) {
 
-		MyVehicles car = null;
+		Vehicle car = null;
 		try {
 
 			PreparedStatement s = dbService.getConnection()
@@ -1790,7 +1790,7 @@ class AppRunner {
 
 			while (rs.next()) {
 				// String VIN, int Year,String Model, int Mileage, String BodyType
-				car = new MyVehicles(rs.getString("VIN"), rs.getInt("Year"), rs.getString("Model"),
+				car = new Vehicle(rs.getString("VIN"), rs.getInt("Year"), rs.getString("Model"),
 						rs.getInt("Mileage"), rs.getString("BodyType"));
 
 			}

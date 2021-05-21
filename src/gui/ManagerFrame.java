@@ -638,7 +638,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
+				
 				try {
 					int ID = (Integer) IDChooser.getSelectedItem();
 					String startDate = updatestartDateChooser.getText();
@@ -739,7 +739,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
+				
 
 				try {
 					String startDate = startDateChooser.getText();
@@ -812,21 +812,13 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		deleteButton.setBounds(100, 350, 150, 30);
 
-		idChooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-		});
+		
 
 		deleteButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
+			
 				try {
 					int id = (Integer) idChooser.getSelectedItem();
 					app.deleteRepair(id);
@@ -886,7 +878,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		this.setVisible(true);
 	}
 
-	public void addVehicle() { // 800x800
+	public void addVehicle() { 
 		container.removeAll();
 		container.add(toolBar);
 
@@ -930,7 +922,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
+				
 				try {
 					String VIN = (String) vinChooser.getText();
 					int Year = Integer.parseInt(yearChooser.getText());
@@ -977,7 +969,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.removeAll();
 		container.add(toolBar);
 
-		ArrayList<MyVehicles> myVehicles = app.getAllVehicles();
+		ArrayList<Vehicle> myVehicles = app.getAllVehicles();
 		String[] myVins = new String[myVehicles.size()];
 		for (int i = 0; i < myVehicles.size(); i++) {
 			myVins[i] = myVehicles.get(i).getVin();
@@ -1021,7 +1013,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
+				
 				try {
 					String VIN = (String) vinChooser.getSelectedItem();
 
@@ -1068,7 +1060,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 	public void deleteVehicle() {
 		container.removeAll();
 		container.add(toolBar);
-		ArrayList<MyVehicles> myVehicles = app.getAllVehicles();
+		ArrayList<Vehicle> myVehicles = app.getAllVehicles();
 		String[] vinNumbers = new String[myVehicles.size()];
 		for (int i = 0; i < myVehicles.size(); i++) {
 			vinNumbers[i] = myVehicles.get(i).getVin();
@@ -1124,7 +1116,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.add(toolBar);
 		JScrollPane myPane = new JScrollPane();
 
-		ArrayList<MyVehicles> myVehicles = app.getAllVehicles();
+		ArrayList<Vehicle> myVehicles = app.getAllVehicles();
 		JTable myTable = new JTable();
 		DefaultTableModel myModel = new DefaultTableModel();
 		String[] myColumns = { "VIN", "Year", "Model", "Mileage", "BodyType" };
@@ -3029,7 +3021,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.removeAll();
 		container.add(toolBar);
 
-		ArrayList<MyVehicles> myVehicles = app.getAllVehicles();
+		ArrayList<Vehicle> myVehicles = app.getAllVehicles();
 		ArrayList<MyRepairs> myRepairs = app.getRepairs();
 		ArrayList<MyTasks> myTasks = app.getTasks();
 
@@ -3071,40 +3063,12 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		addButton.setBounds(100, 400, 100, 100);
 
-		vinChooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-		});
-		repairIdChooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-		});
-
-		taskIdChooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-		});
 
 		addButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
+
 				try {
 					String VIN = (String) vinChooser.getSelectedItem();
 					Integer RepairID = (Integer) repairIdChooser.getSelectedItem();
@@ -3143,7 +3107,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.add(toolBar);
 
 		ArrayList<MyHas> myHas = app.getAllHas();
-		ArrayList<MyVehicles> myVehicles = app.getAllVehicles();
+		ArrayList<Vehicle> myVehicles = app.getAllVehicles();
 		ArrayList<MyRepairs> myRepairs = app.getRepairs();
 		ArrayList<MyTasks> myTasks = app.getTasks();
 
@@ -3193,40 +3157,6 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		addButton.setBounds(100, 450, 100, 100);
 
-		beforePartNumberChooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-		});
-
-		afterVehicleVinchooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-		});
-
-		afterTaskChooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-		});
-		afterRepairChooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-		});
 
 		addButton.addActionListener(new ActionListener() {
 
@@ -3295,16 +3225,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		deleteButton.setBounds(100, 350, 150, 30);
 
-		myHasChooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-		});
-
+		
 		deleteButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -3371,7 +3292,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.removeAll();
 		container.add(toolBar);
 
-		ArrayList<MyVehicles> myVehicles = app.getAllVehicles();
+		ArrayList<Vehicle> myVehicles = app.getAllVehicles();
 		ArrayList<MyRepairs> myRepairs = app.getRepairs();
 		ArrayList<MyCustomer> myCustomers = app.getCustomers();
 
@@ -3419,40 +3340,13 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		addButton.setBounds(100, 400, 100, 100);
 
-		vinChooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-		});
-		repairIdChooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-		});
-
-		customerChooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-		});
+		
 
 		addButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
+				
 				try {
 					String VIN = (String) vinChooser.getSelectedItem();
 					Integer RepairID = (Integer) repairIdChooser.getSelectedItem();
@@ -3518,20 +3412,12 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		addButton.setBounds(100, 450, 100, 100);
 
-		beforePartNumberChooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-		});
 
 		addButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
+	
 				try {
 					String BeforeVehicleVIN = ((MyPaidBy) beforePartNumberChooser.getSelectedItem()).getVehicleVIN();
 					Integer BeforeRepairID = ((MyPaidBy) beforePartNumberChooser.getSelectedItem()).getRepairID();
@@ -3586,16 +3472,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		deleteButton.setBounds(100, 350, 150, 30);
 
-		paidByChooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-		});
-
+		
 		deleteButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -3664,7 +3541,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.removeAll();
 		container.add(toolBar);
 
-		ArrayList<MyVehicles> myVehicles = app.getAllVehicles();
+		ArrayList<Vehicle> myVehicles = app.getAllVehicles();
 		ArrayList<MyRepairs> myRepairs = app.getRepairs();
 		ArrayList<MyInsurance> myInsurance = app.getInsurance();
 
@@ -3712,40 +3589,11 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		addButton.setBounds(100, 400, 100, 100);
 
-		vinChooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-		});
-		repairIdChooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-		});
-
-		customerChooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-		});
-
 		addButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
+				
 				try {
 					String VIN = (String) vinChooser.getSelectedItem();
 					Integer RepairID = (Integer) repairIdChooser.getSelectedItem();
@@ -3816,14 +3664,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		addButton.setBounds(100, 450, 100, 100);
 
-		beforePartNumberChooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-		});
+		
 
 		addButton.addActionListener(new ActionListener() {
 
@@ -4006,15 +3847,6 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		deleteButton.setBounds(100, 350, 150, 30);
 
-		paidByChooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-		});
 
 		deleteButton.addActionListener(new ActionListener() {
 
@@ -4050,7 +3882,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.add(toolBar);
 
 		ArrayList<MyGets> myGets = app.getGets();
-		ArrayList<MyVehicles> myVehicles = app.getAllVehicles();
+		ArrayList<Vehicle> myVehicles = app.getAllVehicles();
 		ArrayList<MyRepairs> myRepairs = app.getRepairs();
 
 		MyGets[] beforeGets = new MyGets[myGets.size()];
@@ -4088,38 +3920,11 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		addButton.setBounds(100, 450, 100, 100);
 
-		beforePartNumberChooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-		});
-
-		afterVehicleVinchooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-		});
-
-		afterRepairChooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-		});
 
 		addButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
 				try {
 					String BeforeVehicleVIN = ((MyGets) beforePartNumberChooser.getSelectedItem()).VIN;
 					Integer BeforeRepairID = ((MyGets) beforePartNumberChooser.getSelectedItem()).RepairID;
@@ -4163,7 +3968,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.removeAll();
 		container.add(toolBar);
 
-		ArrayList<MyVehicles> myVehicles = app.getAllVehicles();
+		ArrayList<Vehicle> myVehicles = app.getAllVehicles();
 		ArrayList<MyRepairs> myRepairs = app.getRepairs();
 
 		String[] myVins = new String[myVehicles.size()];
@@ -4176,7 +3981,6 @@ public class ManagerFrame extends JFrame implements ActionListener {
 			repairIds[i] = myRepairs.get(i).getID();
 		}
 
-		// Set up
 		JLabel vinLabel = new JLabel("VehicleVIN");
 		JComboBox<String> vinChooser = new JComboBox<String>(myVins);
 
@@ -4185,7 +3989,6 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		JButton addButton = new JButton("ADD");
 
-		// BOUNDS
 		vinLabel.setBounds(25, 50, 150, 30);
 		vinChooser.setBounds(100, 50, 150, 30);
 
@@ -4194,30 +3997,12 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		addButton.setBounds(100, 400, 100, 100);
 
-		vinChooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-		});
-		repairIdChooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-		});
 
 		addButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
+			
 				try {
 					String VIN = (String) vinChooser.getSelectedItem();
 					Integer RepairID = (Integer) repairIdChooser.getSelectedItem();

@@ -87,7 +87,7 @@ public class CustomerFrame extends JFrame implements ActionListener {
 
 		JScrollPane myPane = new JScrollPane();
 
-		ArrayList<MyVehicles> myRepairs = app.getPaidByVehicleInfo(this.username);
+		ArrayList<Vehicle> myRepairs = app.getPaidByVehicleInfo(this.username);
 
 		if (myRepairs == null) {
 			JOptionPane.showMessageDialog(this, "No vehicles in system!");
