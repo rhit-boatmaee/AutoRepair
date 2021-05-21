@@ -2833,6 +2833,10 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		ArrayList<Vehicle> myVehicles = app.getAllVehicles();
 		ArrayList<Repair> myRepairs = app.getRepairs();
 		ArrayList<Task> myTasks = app.getTasks();
+		
+		System.out.println(myVehicles);
+		System.out.println(myRepairs);
+		System.out.println(myTasks);
 
 		String[] myVins = new String[myVehicles.size()];
 		Integer[] repairIds = new Integer[myRepairs.size()];
@@ -2850,13 +2854,13 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		// Set up
 		JLabel vinLabel = new JLabel("VIN");
-		JComboBox<String> vinChooser = new JComboBox<>();
+		JComboBox<String> vinChooser = new JComboBox<>(myVins);
 
 		JLabel repairIdLabel = new JLabel("RepairID");
-		JComboBox<Integer> repairIdChooser = new JComboBox<>();
+		JComboBox<Integer> repairIdChooser = new JComboBox<>(repairIds);
 
 		JLabel taskIdLabel = new JLabel("TaskID");
-		JComboBox<Integer> taskIdChooser = new JComboBox<>();
+		JComboBox<Integer> taskIdChooser = new JComboBox<>(taskIds);
 
 		JButton addButton = new JButton("ADD");
 
