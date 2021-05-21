@@ -31,6 +31,7 @@ class AppRunner {
 	}
 
 	public void openManagerFrame(String userText) { // 800x800
+		System.out.println("Manager Frame method called!");
 		ManagerFrame managerFrame = new ManagerFrame(this, userText);
 		managerFrame.setTitle("AutoRepairDatabase - Manager");
 		managerFrame.setVisible(true);
@@ -73,6 +74,7 @@ class AppRunner {
 
 		byte[] saltPass = this.getNewSalt();
 		String hashedPass = this.hashPassword(saltPass, password);
+		System.out.println(hashedPass + " is hashpass");
 
 		try {
 			Connection c = dbService.getConnection();

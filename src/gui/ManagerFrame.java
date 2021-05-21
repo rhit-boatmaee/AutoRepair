@@ -4159,7 +4159,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 	}
 
 	private void addGets() {
-		// TODO Auto-generated method stub
+		
 		container.removeAll();
 		container.add(toolBar);
 
