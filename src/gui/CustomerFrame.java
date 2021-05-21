@@ -130,7 +130,7 @@ public class CustomerFrame extends JFrame implements ActionListener {
 
 		JScrollPane myPane = new JScrollPane();
 
-		ArrayList<MyPaidBy> myPaidBy = app.getPaidBy(this.username);
+		ArrayList<PaidBy> myPaidBy = app.getPaidBy(this.username);
 
 		if (myPaidBy == null) {
 			JOptionPane.showMessageDialog(this, "No repairs in system!");

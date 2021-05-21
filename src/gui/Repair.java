@@ -1,6 +1,6 @@
 package gui;
 
-public class MyRepairs {
+public class Repair {
 	int ID;
 	String startDate;
 	String endDate;
@@ -8,7 +8,7 @@ public class MyRepairs {
 	int Discount;
 	int TotalCost;
 	int Completion;
-	public MyRepairs(int ID,String startDate,String endDate,String Description, int Discount, int TotalCost, int Completion) {
+	public Repair(int ID,String startDate,String endDate,String Description, int Discount, int TotalCost, int Completion) {
 		this.ID = ID;
 		this.startDate = startDate;
 		this.endDate = endDate;

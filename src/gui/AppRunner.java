@@ -626,14 +626,14 @@ class AppRunner {
 		return vehicles;
 	}
 
-	public ArrayList<MyRepairs> getRepairs() {
-		ArrayList<MyRepairs> myRepairs = new ArrayList<MyRepairs>();
+	public ArrayList<Repair> getRepairs() {
+		ArrayList<Repair> myRepairs = new ArrayList<Repair>();
 		try {
 			Connection c = dbService.getConnection();
 			CallableStatement cs = c.prepareCall(" {CALL ReadRepair}");
 			ResultSet rs = cs.executeQuery();
 			while (rs.next()) {
-				MyRepairs row = new MyRepairs(rs.getInt("ID"), rs.getString("StartDate"), rs.getString("EndDate"),
+				Repair row = new Repair(rs.getInt("ID"), rs.getString("StartDate"), rs.getString("EndDate"),
 						rs.getString("Description"), rs.getInt("Discount"), rs.getInt("TotalCost"),
 						rs.getInt("Completion"));
 				myRepairs.add(row);
@@ -663,14 +663,14 @@ class AppRunner {
 		return myVehiclesList;
 	}
 
-	public ArrayList<MyTasks> getTasks() {
-		ArrayList<MyTasks> myTaskList = new ArrayList<MyTasks>();
+	public ArrayList<Task> getTasks() {
+		ArrayList<Task> myTaskList = new ArrayList<Task>();
 		try {
 			Connection c = dbService.getConnection();
 			CallableStatement cs = c.prepareCall(" {CALL ReadTask}");
 			ResultSet rs = cs.executeQuery();
 			while (rs.next()) {
-				MyTasks row = new MyTasks(rs.getInt("ID"), rs.getString("Name"), rs.getString("Description"),
+				Task row = new Task(rs.getInt("ID"), rs.getString("Name"), rs.getString("Description"),
 						rs.getInt("Price"), rs.getInt("Completion"));
 				myTaskList.add(row);
 			}
@@ -700,15 +700,15 @@ class AppRunner {
 		return myInsurance;
 	}
 
-	public ArrayList<MyOrder> getOrders() {
+	public ArrayList<Order> getOrders() {
 
-		ArrayList<MyOrder> myOrders = new ArrayList<>();
+		ArrayList<Order> myOrders = new ArrayList<>();
 		try {
 			Connection c = dbService.getConnection();
 			CallableStatement cs = c.prepareCall(" {CALL ReadOrders}");
 			ResultSet rs = cs.executeQuery();
 			while (rs.next()) {
-				MyOrder row = new MyOrder(rs.getString("ManagerUserName"), rs.getInt("PartNumber"));
+				Order row = new Order(rs.getString("ManagerUserName"), rs.getInt("PartNumber"));
 				myOrders.add(row);
 			}
 		} catch (SQLException e) {
@@ -735,15 +735,15 @@ class AppRunner {
 		return myOrders;
 	}
 
-	public ArrayList<MyPaidFor> getPaidFor() {
+	public ArrayList<PaidFor> getPaidFor() {
 
-		ArrayList<MyPaidFor> myPaidfor = new ArrayList<>();
+		ArrayList<PaidFor> myPaidfor = new ArrayList<>();
 		try {
 			Connection c = dbService.getConnection();
 			CallableStatement cs = c.prepareCall("{CALL ReadPaidFor}");
 			ResultSet rs = cs.executeQuery();
 			while (rs.next()) {
-				MyPaidFor row = new MyPaidFor(rs.getString("VehicleVIN"), rs.getInt("RepairID"),
+				PaidFor row = new PaidFor(rs.getString("VehicleVIN"), rs.getInt("RepairID"),
 						rs.getString("InsuranceClaimNumber"), rs.getString("Receipt"));
 				myPaidfor.add(row);
 			}
@@ -754,14 +754,14 @@ class AppRunner {
 		return myPaidfor;
 	}
 
-	public ArrayList<MyPaidBy> getFinalPaidBy() {
-		ArrayList<MyPaidBy> myPaidBys = new ArrayList<>();
+	public ArrayList<PaidBy> getFinalPaidBy() {
+		ArrayList<PaidBy> myPaidBys = new ArrayList<>();
 		try {
 			Connection c = dbService.getConnection();
 			CallableStatement cs = c.prepareCall("{CALL ReadFinalPaidBy}");
 			ResultSet rs = cs.executeQuery();
 			while (rs.next()) {
-				MyPaidBy row = new MyPaidBy(rs.getString("VehicleVIN"), rs.getInt("RepairID"),
+				PaidBy row = new PaidBy(rs.getString("VehicleVIN"), rs.getInt("RepairID"),
 						rs.getString("CustomerUserName"), rs.getString("Receipt"));
 				myPaidBys.add(row);
 			}
@@ -772,9 +772,9 @@ class AppRunner {
 		return myPaidBys;
 	}
 
-	public ArrayList<MyPaidBy> getPaidBy(String username) {
+	public ArrayList<PaidBy> getPaidBy(String username) {
 
-		ArrayList<MyPaidBy> myOrders = new ArrayList<>();
+		ArrayList<PaidBy> myOrders = new ArrayList<>();
 		try {
 			Connection c = dbService.getConnection();
 			CallableStatement cs = c.prepareCall(" { CALL ReadPaidBy(?)}");
@@ -787,7 +787,7 @@ class AppRunner {
 			}
 
 			while (rs.next()) {
-				MyPaidBy row = new MyPaidBy(rs.getString("VehicleVIN"), rs.getInt("RepairID"),
+				PaidBy row = new PaidBy(rs.getString("VehicleVIN"), rs.getInt("RepairID"),
 						rs.getString("CustomerUserName"), rs.getString("Receipt"));
 				myOrders.add(row);
 			}
@@ -852,14 +852,14 @@ class AppRunner {
 		return myManagers;
 	}
 
-	public ArrayList<MyParts> getParts() {
-		ArrayList<MyParts> myPartsList = new ArrayList<>();
+	public ArrayList<Part> getParts() {
+		ArrayList<Part> myPartsList = new ArrayList<>();
 		try {
 			Connection c = dbService.getConnection();
 			CallableStatement cs = c.prepareCall(" {CALL ReadPart}");
 			ResultSet rs = cs.executeQuery();
 			while (rs.next()) {
-				MyParts row = new MyParts(rs.getInt("PartNumber"), rs.getString("Name"), rs.getInt("Price"));
+				Part row = new Part(rs.getInt("PartNumber"), rs.getString("Name"), rs.getInt("Price"));
 				myPartsList.add(row);
 			}
 		} catch (SQLException e) {
@@ -924,8 +924,8 @@ class AppRunner {
 		return myRepairs;
 	}
 
-	public ArrayList<MyTasks> getAllEmployeeTasks(String username) {
-		ArrayList<MyTasks> myTaskList = new ArrayList<>();
+	public ArrayList<Task> getAllEmployeeTasks(String username) {
+		ArrayList<Task> myTaskList = new ArrayList<>();
 		try {
 			Connection c = dbService.getConnection();
 			CallableStatement cs = c.prepareCall(" {? = CALL ReadEmployeeTasks(?)}");
@@ -933,7 +933,7 @@ class AppRunner {
 			cs.setString(2, username);
 			ResultSet rs = cs.executeQuery();
 			while (rs.next()) {
-				MyTasks row = new MyTasks(rs.getInt("ID"), rs.getString("Name"), rs.getString("Description"),
+				Task row = new Task(rs.getInt("ID"), rs.getString("Name"), rs.getString("Description"),
 						rs.getInt("Price"), rs.getInt("Completion"));
 				myTaskList.add(row);
 			}
@@ -1757,7 +1757,7 @@ class AppRunner {
 
 	public ArrayList<Vehicle> getPaidByVehicleInfo(String username) {
 
-		ArrayList<MyPaidBy> repairs = this.getPaidBy(username);
+		ArrayList<PaidBy> repairs = this.getPaidBy(username);
 
 		ArrayList<String> vehicles = new ArrayList<>();
 

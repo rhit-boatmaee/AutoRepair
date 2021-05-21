@@ -1,9 +1,9 @@
 package gui;
 
-public class MyPaidBy {
+public class PaidBy {
 	String VehicleVIN, CustomerName, Receipt;
 	int RepairID;
-	public MyPaidBy(String VehicleVIN, int RepairID, String CustomerName, String Receipt) {
+	public PaidBy(String VehicleVIN, int RepairID, String CustomerName, String Receipt) {
 		this.VehicleVIN = VehicleVIN;
 		this.CustomerName = CustomerName;
 		this.Receipt = Receipt;

@@ -1,9 +1,9 @@
 package gui;
 
-public class MyOrder {
+public class Order {
 	String ManagerUserName;
 	int PartNumber;
-	public MyOrder(String managerUserName, int PartNumber) {
+	public Order(String managerUserName, int PartNumber) {
 		this.ManagerUserName = managerUserName;
 		this.PartNumber = PartNumber;
 	}

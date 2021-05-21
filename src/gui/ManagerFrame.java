@@ -507,7 +507,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		JLabel manager = new JLabel(this.userName);
 
-		ArrayList<MyTasks> myTasks = app.getTasks();
+		ArrayList<Task> myTasks = app.getTasks();
 		Integer[] tasks = new Integer[myTasks.size()];
 		for (int i = 0; i < myTasks.size(); i++) {
 			tasks[i] = myTasks.get(i).getID();
@@ -571,7 +571,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.removeAll();
 		container.add(toolBar);
 
-		ArrayList<MyRepairs> myRepairs = app.getRepairs();
+		ArrayList<Repair> myRepairs = app.getRepairs();
 		System.out.println("repairs gotten - update" + myRepairs.size());
 		Integer[] repairIdsd = new Integer[myRepairs.size()];
 		for (int i = 0; i < myRepairs.size(); i++) {
@@ -689,8 +689,8 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 	}
 
-	public void addRepair() { // 800x800
-		// StartDate,EndDate, description, Discount, Total Cost, VIN
+	public void addRepair() {
+
 		container.removeAll();
 		container.add(toolBar);
 
@@ -791,7 +791,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 	public void deleteRepair() {
 		container.removeAll();
 		container.add(toolBar);
-		ArrayList<MyRepairs> myRepairs = app.getRepairs();
+		ArrayList<Repair> myRepairs = app.getRepairs();
 		Integer[] repairIdsd = new Integer[myRepairs.size()];
 		for (int i = 0; i < myRepairs.size(); i++) {
 			repairIdsd[i] = myRepairs.get(i).getID();
@@ -837,7 +837,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.add(toolBar);
 		JScrollPane myPane = new JScrollPane();
 
-		ArrayList<MyRepairs> myRepairs = app.getRepairs();
+		ArrayList<Repair> myRepairs = app.getRepairs();
 		JTable myTable = new JTable();
 		DefaultTableModel myModel = new DefaultTableModel();
 		String[] myColumns = { "ID", "StartDate", "EndDate", "Description", "Discount", "TotalCost", "Completion" };
@@ -1067,21 +1067,11 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		deleteButton.setBounds(100, 350, 150, 30);
 
-		vinChooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-		});
-
 		deleteButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
+				
 				String id = (String) vinChooser.getSelectedItem();
 				if (id.length() != 0) {
 					app.deleteVehicle(id);
@@ -1171,7 +1161,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
+				
 				try {
 					String Name = (String) nameChooser.getText();
 					String Description = (descriptionChooser.getText());
@@ -1209,14 +1199,14 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.removeAll();
 		container.add(toolBar);
 
-		ArrayList<MyTasks> myTasks = app.getTasks();
+		ArrayList<Task> myTasks = app.getTasks();
 		Integer[] myIDS = new Integer[myTasks.size()];
 		for (int i = 0; i < myTasks.size(); i++) {
 			myIDS[i] = myTasks.get(i).getID();
 		}
 
 		JLabel IDLabel = new JLabel("ID");
-		JComboBox<Integer> IDChooser = new JComboBox<Integer>(myIDS);
+		JComboBox<Integer> IDChooser = new JComboBox<>(myIDS);
 
 		JLabel nameLabel = new JLabel("Name");
 		JTextField nameChooser = new JTextField();
@@ -1253,7 +1243,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
+		
 				try {
 					Integer ID = (Integer) IDChooser.getSelectedItem();
 					String Name = (nameChooser.getText());
@@ -1298,13 +1288,13 @@ public class ManagerFrame extends JFrame implements ActionListener {
 	public void deleteTask() {
 		container.removeAll();
 		container.add(toolBar);
-		ArrayList<MyTasks> myTasks = app.getTasks();
+		ArrayList<Task> myTasks = app.getTasks();
 		Integer[] idNumbers = new Integer[myTasks.size()];
 		for (int i = 0; i < myTasks.size(); i++) {
 			idNumbers[i] = myTasks.get(i).getID();
 		}
 		JLabel idLabel = new JLabel("ID");
-		JComboBox<Integer> idChooser = new JComboBox<Integer>(idNumbers);
+		JComboBox<Integer> idChooser = new JComboBox<>(idNumbers);
 
 		JButton deleteButton = new JButton("DELETE");
 
@@ -1313,21 +1303,13 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		deleteButton.setBounds(100, 350, 150, 30);
 
-		idChooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-		});
+		
 
 		deleteButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
+				
 				try {
 					Integer id = (Integer) idChooser.getSelectedItem();
 					app.deleteTask(id);
@@ -1354,7 +1336,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.add(toolBar);
 		JScrollPane myPane = new JScrollPane();
 
-		ArrayList<MyTasks> myTasks = app.getTasks();
+		ArrayList<Task> myTasks = app.getTasks();
 		JTable myTable = new JTable();
 		DefaultTableModel myModel = new DefaultTableModel();
 		String[] myColumns = { "ID", "Name", "Description", "Price", "Completion" };
@@ -1417,7 +1399,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
+				
 				try {
 					Integer PartNumber = Integer.parseInt(partNumberChooser.getText());
 					String Name = (nameLabelChooser.getText());
@@ -1455,7 +1437,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.removeAll();
 		container.add(toolBar);
 
-		ArrayList<MyParts> myParts = app.getParts();
+		ArrayList<Part> myParts = app.getParts();
 		Integer[] myPartNumbers = new Integer[myParts.size()];
 		for (int i = 0; i < myParts.size(); i++) {
 			myPartNumbers[i] = myParts.get(i).getPartNumber();
@@ -1483,20 +1465,12 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		addButton.setBounds(100, 450, 100, 100);
 
-		partNumberChooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-		});
 		addButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					// TODO Auto-generated method stub
+					
 					Integer PartNumber = (Integer) (partNumberChooser.getSelectedItem());
 					int Price = Integer.parseInt(priceChooser.getText());
 					String Name = nameChooser.getText();
@@ -1533,7 +1507,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 	public void deletePart() {
 		container.removeAll();
 		container.add(toolBar);
-		ArrayList<MyParts> myParts = app.getParts();
+		ArrayList<Part> myParts = app.getParts();
 		Integer[] partNumbers = new Integer[myParts.size()];
 		for (int i = 0; i < myParts.size(); i++) {
 			partNumbers[i] = myParts.get(i).getPartNumber();
@@ -1548,21 +1522,11 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		deleteButton.setBounds(100, 350, 150, 30);
 
-		partNumberChooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-		});
-
 		deleteButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
+				
 				Integer id = (Integer) partNumberChooser.getSelectedItem();
 				if (id != null) {
 					app.deletePart(id);
@@ -1589,7 +1553,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.add(toolBar);
 		JScrollPane myPane = new JScrollPane();
 
-		ArrayList<MyParts> myParts = app.getParts();
+		ArrayList<Part> myParts = app.getParts();
 		JTable myTable = new JTable();
 		DefaultTableModel myModel = new DefaultTableModel();
 		String[] myColumns = { "PartNumber", "Name", "Price" };
@@ -1650,7 +1614,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
+
 				try {
 					String Username = (String) usernameChooser.getText();
 					String FirstName = firstnameChooser.getText();
@@ -1716,13 +1680,12 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		addButton.setBounds(100, 450, 100, 100);
 
-		
 		addButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					
+
 					String Username = (String) userNameChooser.getSelectedItem();
 					String FirstName = (firstNameChooser.getText());
 					String LastName = lastNameChooser.getText();
@@ -1801,7 +1764,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		this.setResizable(false);
 	}
 
-	public void readAllEmployees() { 
+	public void readAllEmployees() {
 		container.removeAll();
 		container.add(toolBar);
 		JScrollPane myPane = new JScrollPane();
@@ -2228,7 +2191,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				String id = (String) userNameChooser.getSelectedItem();
 				if (id != null) {
 					app.deleteInsurance(id);
@@ -2289,7 +2252,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.add(toolBar);
 
 		ArrayList<Manager> myManagers = app.getManagers();
-		ArrayList<MyParts> myParts = app.getParts();
+		ArrayList<Part> myParts = app.getParts();
 		String[] myManagerUserNames = new String[myManagers.size()];
 		Integer[] partNumbers = new Integer[myParts.size()];
 		for (int i = 0; i < myManagers.size(); i++) {
@@ -2316,13 +2279,12 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		partNumberChooser.setBounds(100, 100, 150, 30);
 
 		addButton.setBounds(100, 400, 100, 100);
-		
 
 		addButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				try {
 					String ManagerUserName = (String) managerUserNameChooser.getSelectedItem();
 					Integer PartNumber = (Integer) partNumberChooser.getSelectedItem();
@@ -2356,10 +2318,10 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.removeAll();
 		container.add(toolBar);
 
-		ArrayList<MyOrder> myOrders = app.getOrders();
+		ArrayList<Order> myOrders = app.getOrders();
 		ArrayList<Manager> myManagers = app.getManagers();
-		ArrayList<MyParts> myParts = app.getParts();
-		MyOrder[] beforeCool = new MyOrder[myOrders.size()];
+		ArrayList<Part> myParts = app.getParts();
+		Order[] beforeCool = new Order[myOrders.size()];
 		String[] aftermyManagerUserNames = new String[myManagers.size()];
 		Integer[] afterpartNumbers = new Integer[myParts.size()];
 		for (int i = 0; i < myOrders.size(); i++) {
@@ -2372,7 +2334,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 			afterpartNumbers[i] = myParts.get(i).getPartNumber();
 		}
 		JLabel beforePartNumberLabel = new JLabel("BeforeOrder");
-		JComboBox<MyOrder> beforePartNumberChooser = new JComboBox<MyOrder>(beforeCool);
+		JComboBox<Order> beforePartNumberChooser = new JComboBox<>(beforeCool);
 
 		JLabel afterManagerUserNameLabel = new JLabel("AfterManagerUserName");
 		JComboBox<String> afterManagerUserNameChooser = new JComboBox<String>(aftermyManagerUserNames);
@@ -2397,11 +2359,11 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				try {
-					String BeforeManagerUserName = ((MyOrder) beforePartNumberChooser.getSelectedItem())
+					String BeforeManagerUserName = ((Order) beforePartNumberChooser.getSelectedItem())
 							.getManagerUserName();
-					Integer BeforePartNumber = ((MyOrder) beforePartNumberChooser.getSelectedItem()).getPartNumber();
+					Integer BeforePartNumber = ((Order) beforePartNumberChooser.getSelectedItem()).getPartNumber();
 					String AfterManagerUserName = (String) afterManagerUserNameChooser.getSelectedItem();
 					Integer AfterPartNumber = (Integer) afterPartNumberChooser.getSelectedItem();
 					boolean dontProceed = true;
@@ -2453,7 +2415,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.removeAll();
 		container.add(toolBar);
 
-		ArrayList<MyOrder> myOrders = app.getOrders();
+		ArrayList<Order> myOrders = app.getOrders();
 		String[] myManagerUserNames = new String[myOrders.size()];
 		Integer[] partNumbers = new Integer[myOrders.size()];
 		for (int i = 0; i < myOrders.size(); i++) {
@@ -2482,7 +2444,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-		
+
 				Integer partNumber = (Integer) partNumberChooser.getSelectedItem();
 				String managerUserName = (String) managerUserNameChooser.getSelectedItem();
 				if (partNumber != null && managerUserName.length() != 0) {
@@ -2512,7 +2474,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.add(toolBar);
 		JScrollPane myPane = new JScrollPane();
 
-		ArrayList<MyOrder> myInsurances = app.getOrders();
+		ArrayList<Order> myInsurances = app.getOrders();
 		JTable myTable = new JTable();
 		DefaultTableModel myModel = new DefaultTableModel();
 		String[] myColumns = { "ManagerUserName", "PartNumber" };
@@ -2570,7 +2532,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				try {
 					String currentManager = currentManagerText.getText();
 					String FirstName = managerFirstNameChooser.getText();
@@ -2640,8 +2602,8 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.removeAll();
 		container.add(toolBar);
 
-		ArrayList<MyTasks> myTasks = app.getTasks();
-		ArrayList<MyParts> myParts = app.getParts();
+		ArrayList<Task> myTasks = app.getTasks();
+		ArrayList<Part> myParts = app.getParts();
 		Integer[] myTaskID = new Integer[myTasks.size()];
 		Integer[] myPartNumber = new Integer[myParts.size()];
 		for (int i = 0; i < myTasks.size(); i++) {
@@ -2668,12 +2630,12 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		taskIdChooser.setBounds(100, 100, 150, 30);
 
 		addButton.setBounds(100, 400, 100, 100);
-		
+
 		addButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
+
 				try {
 					Integer TaskID = (Integer) taskIdChooser.getSelectedItem();
 					Integer PartNumber = (Integer) partNumberChooser.getSelectedItem();
@@ -2709,8 +2671,8 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.add(toolBar);
 
 		ArrayList<For> myFor = app.getAllFor();
-		ArrayList<MyTasks> myTasks = app.getTasks();
-		ArrayList<MyParts> myParts = app.getParts();
+		ArrayList<Task> myTasks = app.getTasks();
+		ArrayList<Part> myParts = app.getParts();
 		For[] beforeFor = new For[myFor.size()];
 		Integer[] afterMyPart = new Integer[myParts.size()];
 		Integer[] afterMyTask = new Integer[myTasks.size()];
@@ -2750,7 +2712,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-			
+
 				try {
 					Integer BeforePartNumber = ((For) beforePartNumberChooser.getSelectedItem()).getPartNumber();
 					Integer BeforeTaskID = ((For) beforePartNumberChooser.getSelectedItem()).getTaskID();
@@ -2816,12 +2778,11 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		deleteButton.setBounds(100, 350, 150, 30);
 
-
 		deleteButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				Integer partNumber = (Integer) partNumberChooser.getSelectedItem();
 				Integer taskID = (Integer) taskNumberChooser.getSelectedItem();
 				if (partNumber != null && taskID != null) {
@@ -2884,8 +2845,8 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.add(toolBar);
 
 		ArrayList<Vehicle> myVehicles = app.getAllVehicles();
-		ArrayList<MyRepairs> myRepairs = app.getRepairs();
-		ArrayList<MyTasks> myTasks = app.getTasks();
+		ArrayList<Repair> myRepairs = app.getRepairs();
+		ArrayList<Task> myTasks = app.getTasks();
 
 		String[] myVins = new String[myVehicles.size()];
 		Integer[] repairIds = new Integer[myRepairs.size()];
@@ -2969,8 +2930,8 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		ArrayList<Has> myHas = app.getAllHas();
 		ArrayList<Vehicle> myVehicles = app.getAllVehicles();
-		ArrayList<MyRepairs> myRepairs = app.getRepairs();
-		ArrayList<MyTasks> myTasks = app.getTasks();
+		ArrayList<Repair> myRepairs = app.getRepairs();
+		ArrayList<Task> myTasks = app.getTasks();
 
 		Has[] beforeHas = new Has[myHas.size()];
 		String[] afterVehicle = new String[myVehicles.size()];
@@ -3022,7 +2983,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				try {
 					String BeforeVehicleVIN = ((Has) beforePartNumberChooser.getSelectedItem()).getVehicleVin();
 					Integer BeforeRepairID = ((Has) beforePartNumberChooser.getSelectedItem()).getRepairID();
@@ -3089,7 +3050,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				String VIN = ((Has) myHasChooser.getSelectedItem()).getVehicleVin();
 				Integer RepairID = ((Has) myHasChooser.getSelectedItem()).getRepairID();
 				Integer TaskID = ((Has) myHasChooser.getSelectedItem()).getTaskID();
@@ -3152,7 +3113,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.add(toolBar);
 
 		ArrayList<Vehicle> myVehicles = app.getAllVehicles();
-		ArrayList<MyRepairs> myRepairs = app.getRepairs();
+		ArrayList<Repair> myRepairs = app.getRepairs();
 		ArrayList<Customer> myCustomers = app.getCustomers();
 
 		String[] myVins = new String[myVehicles.size()];
@@ -3245,16 +3206,16 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.removeAll();
 		container.add(toolBar);
 
-		ArrayList<MyPaidBy> myPaidBy = app.getFinalPaidBy();
+		ArrayList<PaidBy> myPaidBy = app.getFinalPaidBy();
 
-		MyPaidBy[] beforePaidBy = new MyPaidBy[myPaidBy.size()];
+		PaidBy[] beforePaidBy = new PaidBy[myPaidBy.size()];
 
 		for (int i = 0; i < myPaidBy.size(); i++) {
 			beforePaidBy[i] = myPaidBy.get(i);
 		}
 
 		JLabel beforePartNumberLabel = new JLabel("BeforePaidBy");
-		JComboBox<MyPaidBy> beforePartNumberChooser = new JComboBox<MyPaidBy>(beforePaidBy);
+		JComboBox<PaidBy> beforePartNumberChooser = new JComboBox<>(beforePaidBy);
 
 		JLabel afterReceiptLabel = new JLabel("AfterReceipt");
 		JTextField afterReceiptChooser = new JTextField();
@@ -3275,9 +3236,9 @@ public class ManagerFrame extends JFrame implements ActionListener {
 			public void actionPerformed(ActionEvent arg0) {
 
 				try {
-					String BeforeVehicleVIN = ((MyPaidBy) beforePartNumberChooser.getSelectedItem()).getVehicleVIN();
-					Integer BeforeRepairID = ((MyPaidBy) beforePartNumberChooser.getSelectedItem()).getRepairID();
-					String BeforeCustomer = ((MyPaidBy) beforePartNumberChooser.getSelectedItem()).getCustomerName();
+					String BeforeVehicleVIN = ((PaidBy) beforePartNumberChooser.getSelectedItem()).getVehicleVIN();
+					Integer BeforeRepairID = ((PaidBy) beforePartNumberChooser.getSelectedItem()).getRepairID();
+					String BeforeCustomer = ((PaidBy) beforePartNumberChooser.getSelectedItem()).getCustomerName();
 
 					String AfterReceipt = (String) afterReceiptChooser.getText();
 					if (BeforeRepairID != null && BeforeVehicleVIN.length() != 0 && BeforeCustomer.length() != 0
@@ -3311,15 +3272,15 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.removeAll();
 		container.add(toolBar);
 
-		ArrayList<MyPaidBy> myPaidBy = app.getFinalPaidBy();
-		MyPaidBy[] myListPaidBy = new MyPaidBy[myPaidBy.size()];
+		ArrayList<PaidBy> myPaidBy = app.getFinalPaidBy();
+		PaidBy[] myListPaidBy = new PaidBy[myPaidBy.size()];
 		for (int i = 0; i < myPaidBy.size(); i++) {
 			myListPaidBy[i] = myPaidBy.get(i);
 		}
 
 		// Set up
 		JLabel myPaidByLabel = new JLabel("PaidBy");
-		JComboBox<MyPaidBy> paidByChooser = new JComboBox<MyPaidBy>(myListPaidBy);
+		JComboBox<PaidBy> paidByChooser = new JComboBox<>(myListPaidBy);
 
 		JButton deleteButton = new JButton("DELETE");
 
@@ -3332,11 +3293,11 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				String VIN = ((MyPaidBy) paidByChooser.getSelectedItem()).getVehicleVIN();
-				Integer RepairID = ((MyPaidBy) paidByChooser.getSelectedItem()).getRepairID();
-				String CustomerUserName = ((MyPaidBy) paidByChooser.getSelectedItem()).getCustomerName();
-				String Receipt = ((MyPaidBy) paidByChooser.getSelectedItem()).getReceipt();
+
+				String VIN = ((PaidBy) paidByChooser.getSelectedItem()).getVehicleVIN();
+				Integer RepairID = ((PaidBy) paidByChooser.getSelectedItem()).getRepairID();
+				String CustomerUserName = ((PaidBy) paidByChooser.getSelectedItem()).getCustomerName();
+				String Receipt = ((PaidBy) paidByChooser.getSelectedItem()).getReceipt();
 				if (VIN.length() != 0 && RepairID != null && CustomerUserName.length() != 0 && Receipt.length() != 0) {
 					app.deletePaidBy(VIN, RepairID, CustomerUserName);
 				} else {
@@ -3362,7 +3323,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.add(toolBar);
 		JScrollPane myPane = new JScrollPane();
 
-		ArrayList<MyPaidBy> myPaidBy = app.getFinalPaidBy();
+		ArrayList<PaidBy> myPaidBy = app.getFinalPaidBy();
 		JTable myTable = new JTable();
 		DefaultTableModel myModel = new DefaultTableModel();
 		String[] myColumns = { "VehicleVIN", "RepairID", "CustomerUserName", "Receipt" };
@@ -3397,7 +3358,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.add(toolBar);
 
 		ArrayList<Vehicle> myVehicles = app.getAllVehicles();
-		ArrayList<MyRepairs> myRepairs = app.getRepairs();
+		ArrayList<Repair> myRepairs = app.getRepairs();
 		ArrayList<Insurance> myInsurance = app.getInsurance();
 
 		String[] myVins = new String[myVehicles.size()];
@@ -3494,7 +3455,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.removeAll();
 		container.add(toolBar);
 
-		ArrayList<MyPaidFor> myPaidBy = app.getPaidFor();
+		ArrayList<PaidFor> myPaidBy = app.getPaidFor();
 
 		String[] beforePaidBy = new String[myPaidBy.size()];
 
@@ -3523,7 +3484,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
+
 				try {
 					String mySelectedItem = ((String) beforePartNumberChooser.getSelectedItem());
 
@@ -3564,7 +3525,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.removeAll();
 		container.add(toolBar);
 
-		ArrayList<MyPaidFor> myPaidFor = app.getPaidFor();
+		ArrayList<PaidFor> myPaidFor = app.getPaidFor();
 		String[] myListPaidFor = new String[myPaidFor.size()];
 		for (int i = 0; i < myPaidFor.size(); i++) {
 			myListPaidFor[i] = myPaidFor.get(i).VehicleVIN + "/" + myPaidFor.get(i).RepairID + "/"
@@ -3584,7 +3545,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
+
 				String SelectedItem = (String) paidByChooser.getSelectedItem();
 				String[] myWords = SelectedItem.split("/");
 				String VIN = myWords[0];
@@ -3616,7 +3577,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.add(toolBar);
 		JScrollPane myPane = new JScrollPane();
 
-		ArrayList<MyPaidFor> myPaidBy = app.getPaidFor();
+		ArrayList<PaidFor> myPaidBy = app.getPaidFor();
 		JTable myTable = new JTable();
 		DefaultTableModel myModel = new DefaultTableModel();
 		String[] myColumns = { "VehicleVIN", "RepairID", "InsuranceClaimNumber", "Receipt" };
@@ -3647,7 +3608,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 	}
 
 	private void readGets() {
-		
+
 		container.removeAll();
 		container.add(toolBar);
 		JScrollPane myPane = new JScrollPane();
@@ -3681,7 +3642,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 	}
 
 	private void deleteGets() {
-		// TODO Auto-generated method stub
+
 		container.removeAll();
 		container.add(toolBar);
 
@@ -3704,7 +3665,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
+
 				String VIN = ((Get) paidByChooser.getSelectedItem()).VIN;
 				Integer RepairID = ((Get) paidByChooser.getSelectedItem()).RepairID;
 
@@ -3729,13 +3690,13 @@ public class ManagerFrame extends JFrame implements ActionListener {
 	}
 
 	private void updateGets() {
-		// TODO Auto-generated method stub
+
 		container.removeAll();
 		container.add(toolBar);
 
 		ArrayList<Get> myGets = app.getGets();
 		ArrayList<Vehicle> myVehicles = app.getAllVehicles();
-		ArrayList<MyRepairs> myRepairs = app.getRepairs();
+		ArrayList<Repair> myRepairs = app.getRepairs();
 
 		Get[] beforeGets = new Get[myGets.size()];
 		String[] afterVehicle = new String[myVehicles.size()];
@@ -3751,13 +3712,13 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		}
 
 		JLabel beforePartNumberLabel = new JLabel("BeforeGets");
-		JComboBox<Get> beforePartNumberChooser = new JComboBox<Get>(beforeGets);
+		JComboBox<Get> beforePartNumberChooser = new JComboBox<>(beforeGets);
 
 		JLabel afterVehicleVIN = new JLabel("AfterVehicleVIN");
-		JComboBox<String> afterVehicleVinchooser = new JComboBox<String>(afterVehicle);
+		JComboBox<String> afterVehicleVinchooser = new JComboBox<>(afterVehicle);
 
 		JLabel afterRepairLabel = new JLabel("AfterRepairID");
-		JComboBox<Integer> afterRepairChooser = new JComboBox<Integer>(afterRepair);
+		JComboBox<Integer> afterRepairChooser = new JComboBox<>(afterRepair);
 
 		JButton addButton = new JButton("UPDATE");
 
@@ -3820,7 +3781,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.add(toolBar);
 
 		ArrayList<Vehicle> myVehicles = app.getAllVehicles();
-		ArrayList<MyRepairs> myRepairs = app.getRepairs();
+		ArrayList<Repair> myRepairs = app.getRepairs();
 
 		String[] myVins = new String[myVehicles.size()];
 		Integer[] repairIds = new Integer[myRepairs.size()];

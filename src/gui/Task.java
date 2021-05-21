@@ -1,9 +1,9 @@
 package gui;
 
-public class MyTasks {
+public class Task {
 	int ID, Price,Completion;
 	String Name, Description;
-	public MyTasks(int ID, String Name, String Description, int price, int Completion) {
+	public Task(int ID, String Name, String Description, int price, int Completion) {
 		this.ID = ID;
 		this.Price = Price;
 		this.Name = Name;

@@ -1,8 +1,8 @@
 package gui;
 
-public class MyTools {
+public class Tool {
 	String Size,Name,Brand;
-	public MyTools(String Size, String Name, String Brand) {
+	public Tool(String Size, String Name, String Brand) {
 		this.Size = Size;
 		this.Name = Name;
 		this.Brand = Brand;

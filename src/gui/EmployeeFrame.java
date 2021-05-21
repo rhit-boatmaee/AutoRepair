@@ -119,10 +119,7 @@ public class EmployeeFrame extends JFrame implements ActionListener {
 				myRow[4] = assignment.status;
 				myModel.addRow(myRow);
 			}
-//			myTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-//			myTable.getColumnModel().getColumn(1).setPreferredWidth(130);
-//			myTable.getColumnModel().getColumn(2).setPreferredWidth(130);
-//			myTable.getColumnModel().getColumn(3).setPreferredWidth(190);
+
 			myPane.setBounds(30, 30, 540, 300);
 			container.add(myPane);
 
@@ -142,7 +139,7 @@ public class EmployeeFrame extends JFrame implements ActionListener {
 			container.add(toolBar);
 			JScrollPane myPane = new JScrollPane();
 
-			ArrayList<MyParts> myParts = app.getParts();
+			ArrayList<Part> myParts = app.getParts();
 			JTable myTable = new JTable();
 			DefaultTableModel myModel = new DefaultTableModel();
 			String[] myColumns = { "PartNumber", "Name", "Price" };
@@ -179,7 +176,7 @@ public class EmployeeFrame extends JFrame implements ActionListener {
 
 		JScrollPane myPane = new JScrollPane();
 
-		ArrayList<MyTasks> myTasks = app.getAllEmployeeTasks(this.userName);
+		ArrayList<Task> myTasks = app.getAllEmployeeTasks(this.userName);
 
 		Integer[] taskID = new Integer[myTasks.size()];
 		for (int i = 0; i < myTasks.size(); i++) {
