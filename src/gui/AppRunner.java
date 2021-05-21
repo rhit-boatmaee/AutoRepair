@@ -887,15 +887,15 @@ class AppRunner {
 		return myEmployeesList;
 	}
 
-	public ArrayList<MyCustomer> getCustomers() {
+	public ArrayList<Customer> getCustomers() {
 
-		ArrayList<MyCustomer> myCustomerList = new ArrayList<MyCustomer>();
+		ArrayList<Customer> myCustomerList = new ArrayList<Customer>();
 		try {
 			Connection c = dbService.getConnection();
 			CallableStatement cs = c.prepareCall(" {CALL ReadCustomer}");
 			ResultSet rs = cs.executeQuery();
 			while (rs.next()) {
-				MyCustomer row = new MyCustomer(rs.getString("Username"), rs.getInt("NumberOfVisits"));
+				Customer row = new Customer(rs.getString("Username"), rs.getInt("NumberOfVisits"));
 				myCustomerList.add(row);
 			}
 		} catch (SQLException e) {
@@ -905,15 +905,15 @@ class AppRunner {
 		return myCustomerList;
 	}
 
-	public ArrayList<MyAssignments> getAssignments() {
+	public ArrayList<Assignment> getAssignments() {
 
-		ArrayList<MyAssignments> myRepairs = new ArrayList<MyAssignments>();
+		ArrayList<Assignment> myRepairs = new ArrayList<Assignment>();
 		try {
 			Connection c = dbService.getConnection();
 			CallableStatement cs = c.prepareCall(" {CALL ReadAssign}");
 			ResultSet rs = cs.executeQuery();
 			while (rs.next()) {
-				MyAssignments row = new MyAssignments(rs.getString("ManagerUserName"), rs.getString("EmployeeUserName"),
+				Assignment row = new Assignment(rs.getString("ManagerUserName"), rs.getString("EmployeeUserName"),
 						rs.getInt("TaskID"));
 				myRepairs.add(row);
 			}

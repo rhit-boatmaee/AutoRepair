@@ -117,10 +117,9 @@ public class ManagerFrame extends JFrame implements ActionListener {
 	JMenuItem updateSettings = new JMenuItem("Update Your Info");
 	JMenuItem readMangerInfo = new JMenuItem("Read All Mangers");
 
-	
 	Container container = getContentPane();
 	AppRunner app;
-	
+
 	String userName = new String();
 
 	public ManagerFrame(AppRunner application, String userText) {
@@ -505,8 +504,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 	private void assignTaskToEmployee() {
 		container.removeAll();
 		container.add(toolBar);
-		
-		
+
 		JLabel manager = new JLabel(this.userName);
 
 		ArrayList<MyTasks> myTasks = app.getTasks();
@@ -526,25 +524,23 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		JLabel empLabel = new JLabel("Employee");
 		JComboBox<String> EmployeeChooser = new JComboBox<String>(emps);
-		
-		
+
 		JButton addButton = new JButton("Assign Task to Employee");
-		
+
 		TaskLabel.setBounds(25, 50, 100, 30);
 		TaskChooser.setBounds(150, 100, 100, 30);
-		
+
 		empLabel.setBounds(25, 200, 100, 30);
 		EmployeeChooser.setBounds(150, 250, 100, 30);
 		addButton.setBounds(150, 300, 100, 30);
-		
+
 		addButton.addActionListener(new ActionListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent arg0 ) {
-				
+			public void actionPerformed(ActionEvent arg0) {
+
 				try {
-					
-					
+
 					String managerUserName = manager.getText();
 					String employeeUserName = (String) EmployeeChooser.getSelectedItem();
 					Integer TaskID = (Integer) TaskChooser.getSelectedItem();
@@ -557,10 +553,10 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		});
 		container.add(TaskChooser);
 		container.add(TaskLabel);
-		
+
 		container.add(EmployeeChooser);
 		container.add(empLabel);
-		
+
 		container.add(addButton);
 
 		this.setTitle("Assigning task to employee");
@@ -568,8 +564,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		this.setBounds(10, 10, 800, 800);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
-		
-		
+
 	}
 
 	private void updateRepair() {
@@ -638,7 +633,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				try {
 					int ID = (Integer) IDChooser.getSelectedItem();
 					String startDate = updatestartDateChooser.getText();
@@ -739,7 +734,6 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				
 
 				try {
 					String startDate = startDateChooser.getText();
@@ -812,13 +806,11 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		deleteButton.setBounds(100, 350, 150, 30);
 
-		
-
 		deleteButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-			
+
 				try {
 					int id = (Integer) idChooser.getSelectedItem();
 					app.deleteRepair(id);
@@ -878,7 +870,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		this.setVisible(true);
 	}
 
-	public void addVehicle() { 
+	public void addVehicle() {
 		container.removeAll();
 		container.add(toolBar);
 
@@ -922,7 +914,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				try {
 					String VIN = (String) vinChooser.getText();
 					int Year = Integer.parseInt(yearChooser.getText());
@@ -1013,7 +1005,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				try {
 					String VIN = (String) vinChooser.getSelectedItem();
 
@@ -1257,7 +1249,6 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		addButton.setBounds(100, 450, 100, 100);
 
-	
 		addButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -1886,7 +1877,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
+
 				try {
 					String Username = (String) usernameChooser.getText();
 					String FirstName = firstnameChooser.getText();
@@ -1929,7 +1920,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.removeAll();
 		container.add(toolBar);
 
-		ArrayList<MyCustomer> myCustomers = app.getCustomers();
+		ArrayList<Customer> myCustomers = app.getCustomers();
 		String[] myUsernames = new String[myCustomers.size()];
 		for (int i = 0; i < myCustomers.size(); i++) {
 			myUsernames[i] = myCustomers.get(i).getusername();
@@ -2009,7 +2000,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 	public void deleteCustomer() { // 800x800
 		container.removeAll();
 		container.add(toolBar);
-		ArrayList<MyCustomer> myCustomers = app.getCustomers();
+		ArrayList<Customer> myCustomers = app.getCustomers();
 		String[] userNames = new String[myCustomers.size()];
 		for (int i = 0; i < myCustomers.size(); i++) {
 			userNames[i] = myCustomers.get(i).getusername();
@@ -2028,7 +2019,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
+
 				String id = (String) userNameChooser.getSelectedItem();
 				if (id != null) {
 					app.deleteCustomer(id);
@@ -2055,7 +2046,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.add(toolBar);
 		JScrollPane myPane = new JScrollPane();
 
-		ArrayList<MyCustomer> myCustomers = app.getCustomers();
+		ArrayList<Customer> myCustomers = app.getCustomers();
 		JTable myTable = new JTable();
 		DefaultTableModel myModel = new DefaultTableModel();
 		String[] myColumns = { "Username", "NumberOfVisits" };
@@ -2240,21 +2231,11 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		deleteButton.setBounds(100, 350, 150, 30);
 
-		userNameChooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-		});
-
 		deleteButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
+				
 				String id = (String) userNameChooser.getSelectedItem();
 				if (id != null) {
 					app.deleteInsurance(id);
@@ -2342,30 +2323,13 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		partNumberChooser.setBounds(100, 100, 150, 30);
 
 		addButton.setBounds(100, 400, 100, 100);
-		managerUserNameChooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-		});
-		partNumberChooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-		});
+		
 
 		addButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
+				
 				try {
 					String ManagerUserName = (String) managerUserNameChooser.getSelectedItem();
 					Integer PartNumber = (Integer) partNumberChooser.getSelectedItem();
@@ -2435,36 +2399,6 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		afterPartNumberChooser.setBounds(100, 150, 150, 60);
 
 		addButton.setBounds(100, 450, 100, 100);
-
-		beforePartNumberChooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-		});
-
-		afterManagerUserNameChooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-		});
-
-		afterPartNumberChooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-		});
 
 		addButton.addActionListener(new ActionListener() {
 
@@ -2550,8 +2484,6 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		partNumberChooser.setBounds(100, 50, 150, 30);
 
 		deleteButton.setBounds(100, 350, 150, 30);
-
-		
 
 		deleteButton.addActionListener(new ActionListener() {
 
@@ -3063,7 +2995,6 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		addButton.setBounds(100, 400, 100, 100);
 
-
 		addButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -3157,7 +3088,6 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		addButton.setBounds(100, 450, 100, 100);
 
-
 		addButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -3225,7 +3155,6 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		deleteButton.setBounds(100, 350, 150, 30);
 
-		
 		deleteButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -3294,7 +3223,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		ArrayList<Vehicle> myVehicles = app.getAllVehicles();
 		ArrayList<MyRepairs> myRepairs = app.getRepairs();
-		ArrayList<MyCustomer> myCustomers = app.getCustomers();
+		ArrayList<Customer> myCustomers = app.getCustomers();
 
 		String[] myVins = new String[myVehicles.size()];
 		Integer[] repairIds = new Integer[myRepairs.size()];
@@ -3340,13 +3269,11 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		addButton.setBounds(100, 400, 100, 100);
 
-		
-
 		addButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				try {
 					String VIN = (String) vinChooser.getSelectedItem();
 					Integer RepairID = (Integer) repairIdChooser.getSelectedItem();
@@ -3412,12 +3339,11 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		addButton.setBounds(100, 450, 100, 100);
 
-
 		addButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-	
+
 				try {
 					String BeforeVehicleVIN = ((MyPaidBy) beforePartNumberChooser.getSelectedItem()).getVehicleVIN();
 					Integer BeforeRepairID = ((MyPaidBy) beforePartNumberChooser.getSelectedItem()).getRepairID();
@@ -3472,7 +3398,6 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		deleteButton.setBounds(100, 350, 150, 30);
 
-		
 		deleteButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -3593,7 +3518,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				try {
 					String VIN = (String) vinChooser.getSelectedItem();
 					Integer RepairID = (Integer) repairIdChooser.getSelectedItem();
@@ -3663,8 +3588,6 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		afterReceiptChooser.setBounds(100, 100, 150, 30);
 
 		addButton.setBounds(100, 450, 100, 100);
-
-		
 
 		addButton.addActionListener(new ActionListener() {
 
@@ -3847,7 +3770,6 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		deleteButton.setBounds(100, 350, 150, 30);
 
-
 		deleteButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -3920,7 +3842,6 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		addButton.setBounds(100, 450, 100, 100);
 
-
 		addButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -3964,7 +3885,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 	}
 
 	private void addGets() {
-		
+
 		container.removeAll();
 		container.add(toolBar);
 
@@ -3997,12 +3918,11 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		addButton.setBounds(100, 400, 100, 100);
 
-
 		addButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-			
+
 				try {
 					String VIN = (String) vinChooser.getSelectedItem();
 					Integer RepairID = (Integer) repairIdChooser.getSelectedItem();

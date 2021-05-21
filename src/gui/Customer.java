@@ -1,18 +1,19 @@
 package gui;
 
-public class MyCustomer {
+public class Customer {
 
-	String username;
+	String userName;
 	int numberOfVisits;
-	public MyCustomer(String username, int numberOfVisits) {
-		this.username = username;
+
+	public Customer(String username, int numberOfVisits) {
+		this.userName = username;
 		this.numberOfVisits = numberOfVisits;
 	}
-	
+
 	public String getusername() {
-		return this.username;
+		return this.userName;
 	}
-	
+
 	public int getnumberOfVisits() {
 		return this.numberOfVisits;
 	}
