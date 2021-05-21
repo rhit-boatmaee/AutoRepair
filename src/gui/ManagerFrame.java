@@ -504,8 +504,8 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		JButton addButton = new JButton("Search");
 
 		searchLabel.setBounds(25, 100, 100, 30);
-		searchField.setBounds(100, 100, 100, 30);
-		addButton.setBounds(100, 300, 100, 30);
+		searchField.setBounds(150, 100, 100, 30);
+		addButton.setBounds(100, 150, 100, 30);
 
 		addButton.addActionListener(new ActionListener() {
 
@@ -568,11 +568,16 @@ public class ManagerFrame extends JFrame implements ActionListener {
 						tasks.getColumnModel().getColumn(i).setPreferredWidth(100);
 					}
 					
+					JLabel myRepairs = new JLabel("MY Repairs");
+					JLabel myTasks = new JLabel("My Tasks");
+					myRepairs.setBounds(50, 350, 100, 50);
+					myTasks.setBounds(550, 350, 100, 50);
+					myPane.setBounds(25, 400, 300, 300);
+					taskPane.setBounds(400, 400, 300, 300);
 					
-					myPane.setBounds(30, 30, 300, 300);
+					container.add(myRepairs);
+					container.add(myTasks);
 					container.add(myPane);
-					
-					taskPane.setBounds(400, 30, 300, 300);
 					container.add(taskPane);
 					
 
@@ -605,9 +610,9 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		JTextField searchField = new JTextField();
 		JButton addButton = new JButton("Search");
 
-		searchLabel.setBounds(25, 100, 100, 30);
-		searchField.setBounds(100, 100, 100, 30);
-		addButton.setBounds(100, 300, 100, 30);
+		searchLabel.setBounds(25, 100, 150, 30);
+		searchField.setBounds(150, 100, 150, 30);
+		addButton.setBounds(100, 600, 100, 30);
 
 		addButton.addActionListener(new ActionListener() {
 
@@ -644,7 +649,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 					}
 					
 					
-					myPane.setBounds(30, 30, 300, 300);
+					myPane.setBounds(25, 140, 300, 300);
 					container.add(myPane);
 					
 			
@@ -744,17 +749,24 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		String[] beforeAssign = new String[myAssign.size()];
 		String[] afterEmployee = new String[myEmployees.size()];
-		String[] afterManager = new String[myManagers.size()];
 		Integer[] afterTask = new Integer[myTasks.size()];
-
+		
+		int sizeCounter = 0;
 		for (int i = 0; i < myAssign.size(); i++) {
-			beforeAssign[i] = myAssign.get(i).ManagerUserName + "/"+myAssign.get(i).TaskID + "/" + myAssign.get(i).EmployeeUserName;
+			if(myAssign.get(i).ManagerUserName.equals(this.userName)) {
+				sizeCounter++;
+			}
+		}
+		beforeAssign = new String[sizeCounter];
+		int myCounter = 0;
+		for (int i = 0; i < myAssign.size(); i++) {
+			if(myAssign.get(i).ManagerUserName.equals(this.userName)) {
+				beforeAssign[myCounter] = myAssign.get(i).ManagerUserName + "/"+myAssign.get(i).TaskID + "/" + myAssign.get(i).EmployeeUserName;
+				myCounter++;
+			}
 		}
 		for (int i = 0; i < myEmployees.size(); i++) {
 			afterEmployee[i] = myEmployees.get(i).getUsername();
-		}
-		for (int i = 0; i < myManagers.size(); i++) {
-			afterManager[i] = myManagers.get(i).getUsername();
 		}
 		for (int i = 0; i < myTasks.size(); i++) {
 			afterTask[i] = myTasks.get(i).getID();
@@ -767,7 +779,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		JComboBox<String> afterVehicleVinchooser = new JComboBox<>(afterEmployee);
 
 		JLabel afterRepairLabel = new JLabel("AfterManager");
-		JComboBox<String> afterRepairChooser = new JComboBox<>(afterManager);
+		JLabel afterRepairChooser = new JLabel(this.userName);
 
 		JLabel afterTaskLabel = new JLabel("AfterTaskID");
 		JComboBox<Integer> afterTaskChooser = new JComboBox<>(afterTask);
@@ -797,7 +809,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 					String BeforeManagerUserName = splits[0];
 					String BeforeEmployeeUserName = splits[2];
 					Integer BeforeTaskID = Integer.parseInt(splits[1]);
-					String AfterManagerUserName = (String) afterRepairChooser.getSelectedItem();
+					String AfterManagerUserName = (String) afterRepairChooser.getText();
 					String AfterEmployeeUserName = (String) afterVehicleVinchooser.getSelectedItem();
 					Integer AfterTaskID = (Integer) afterTaskChooser.getSelectedItem();
 					System.out.println(AfterEmployeeUserName);
@@ -829,7 +841,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		this.setTitle("Update Assign");
 		this.setVisible(true);
-		this.setBounds(10, 10, 400, 700);
+		this.setBounds(10, 10, 800, 700);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 	}
@@ -841,9 +853,19 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		ArrayList<Assign> myAssign = app.getAssignments();
 
 		String[] beforeAssign = new String[myAssign.size()];
-
+		int sizeCounter = 0;
 		for (int i = 0; i < myAssign.size(); i++) {
-			beforeAssign[i] = myAssign.get(i).ManagerUserName + "/"+myAssign.get(i).TaskID + "/" + myAssign.get(i).EmployeeUserName;
+			if(myAssign.get(i).ManagerUserName.equals(this.userName)) {
+				sizeCounter++;
+			}
+		}
+		beforeAssign = new String[sizeCounter];
+		int myCounter = 0;
+		for (int i = 0; i < myAssign.size(); i++) {
+			if(myAssign.get(i).ManagerUserName.equals(this.userName)) {
+				beforeAssign[myCounter] = myAssign.get(i).ManagerUserName + "/"+myAssign.get(i).TaskID + "/" + myAssign.get(i).EmployeeUserName;
+				myCounter++;
+			}
 		}
 		JLabel beforePartNumberLabel = new JLabel("Assignments");
 		JComboBox<String> beforePartNumberChooser = new JComboBox<String>(beforeAssign);
@@ -1233,7 +1255,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.add(toolBar);
 
 		// Set up
-		JLabel vinLabel = new JLabel("VIN");
+		JLabel vinLabel = new JLabel("VIN(17)");
 		JTextField vinChooser = new JTextField();
 
 		JLabel yearLabel = new JLabel("Year");
@@ -1477,7 +1499,8 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		for (int i = 0; i < myRow.length; i++) {
 			myTable.getColumnModel().getColumn(i).setPreferredWidth(100);
 		}
-		myPane.setBounds(30, 30, 500, 300);
+		myTable.getColumnModel().getColumn(0).setPreferredWidth(200);
+		myPane.setBounds(30, 30, 600, 300);
 		container.add(myPane);
 
 		this.setTitle("Read Vehicles");
@@ -3037,11 +3060,11 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		ArrayList<For> myFor = app.getAllFor();
 		ArrayList<Task> myTasks = app.getTasks();
 		ArrayList<Part> myParts = app.getParts();
-		For[] beforeFor = new For[myFor.size()];
+		String[] beforeFor = new String[myFor.size()];
 		Integer[] afterMyPart = new Integer[myParts.size()];
 		Integer[] afterMyTask = new Integer[myTasks.size()];
 		for (int i = 0; i < myFor.size(); i++) {
-			beforeFor[i] = myFor.get(i);
+			beforeFor[i] = myFor.get(i).PartNumber + "/" + myFor.get(i).TaskID;
 		}
 		for (int i = 0; i < myParts.size(); i++) {
 			afterMyPart[i] = myParts.get(i).getPartNumber();
@@ -3051,7 +3074,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		}
 
 		JLabel beforePartNumberLabel = new JLabel("BeforePartNumber");
-		JComboBox<For> beforePartNumberChooser = new JComboBox<>(beforeFor);
+		JComboBox<String> beforePartNumberChooser = new JComboBox<>(beforeFor);
 
 		JLabel afterPartNumberLabel = new JLabel("AfterPartNumber");
 		JComboBox<Integer> afterPartNumberChooser = new JComboBox<>(afterMyPart);
@@ -3078,8 +3101,9 @@ public class ManagerFrame extends JFrame implements ActionListener {
 			public void actionPerformed(ActionEvent arg0) {
 
 				try {
-					Integer BeforePartNumber = ((For) beforePartNumberChooser.getSelectedItem()).getPartNumber();
-					Integer BeforeTaskID = ((For) beforePartNumberChooser.getSelectedItem()).getTaskID();
+					String[] mySplits = ((String) beforePartNumberChooser.getSelectedItem()).split("/");
+					Integer BeforePartNumber = Integer.parseInt(mySplits[1]);
+					Integer BeforeTaskID = Integer.parseInt(mySplits[0]);
 					Integer AfterPartNumber = (Integer) afterPartNumberChooser.getSelectedItem();
 					Integer AfterTaskID = (Integer) afterTaskChooser.getSelectedItem();
 					if (BeforePartNumber != null && BeforeTaskID != null && AfterPartNumber != null
@@ -3368,7 +3392,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 			myTable.getColumnModel().getColumn(i).setPreferredWidth(100);
 		}
 		myTable.getColumnModel().getColumn(0).setPreferredWidth(180);
-		myPane.setBounds(30, 30, 400, 300);
+		myPane.setBounds(30, 30, 380, 300);
 		container.add(myPane);
 
 		this.setTitle("Read Has");
