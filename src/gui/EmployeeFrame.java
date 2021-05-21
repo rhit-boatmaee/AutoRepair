@@ -25,7 +25,7 @@ public class EmployeeFrame extends JFrame implements ActionListener {
 	JMenu repairs = new JMenu("Repairs");
 	JMenu vehicles = new JMenu("Vehicles");
 	JMenu tasks = new JMenu("Tasks");
-	JMenu tools = new JMenu("Tools");
+	
 	JMenu parts = new JMenu("Parts");
 
 	JMenuItem readRepair = new JMenuItem("Read Repair");
@@ -63,7 +63,7 @@ public class EmployeeFrame extends JFrame implements ActionListener {
 
 		toolBar.add(repairs);
 		toolBar.add(vehicles);
-		toolBar.add(tools);
+		
 		toolBar.add(tasks);
 		toolBar.add(parts);
 

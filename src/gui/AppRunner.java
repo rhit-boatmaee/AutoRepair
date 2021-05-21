@@ -949,7 +949,7 @@ class AppRunner {
 		ArrayList<EmployeeTaskAssignments> myRepairs = new ArrayList<>();
 		try {
 			Connection c = dbService.getConnection();
-			CallableStatement cs = c.prepareCall(" {? = CALL ReadgetRepairTaskForEmployee}");
+			CallableStatement cs = c.prepareCall(" {? = CALL ReadgetRepairTaskForEmployee(?)}");
 			cs.registerOutParameter(1, Types.INTEGER);
 			cs.setString(2, username);
 			ResultSet rs = cs.executeQuery();
