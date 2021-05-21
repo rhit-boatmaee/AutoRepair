@@ -79,20 +79,20 @@ public class ManagerFrame extends JFrame implements ActionListener {
 	JMenuItem deleteVehicle = new JMenuItem("Delete Vehicle");
 	JMenuItem readVehicles = new JMenuItem("Read All Vehicles");
 
-	JMenuItem addfor = new JMenuItem("Add for");
-	JMenuItem updatefor = new JMenuItem("Update for");
-	JMenuItem deletefor = new JMenuItem("Delete for");
-	JMenuItem readfor = new JMenuItem("Read All for");
+	JMenuItem addfor = new JMenuItem("Add Part to Task");
+	JMenuItem updatefor = new JMenuItem("Update Part for Task");
+	JMenuItem deletefor = new JMenuItem("Delete Part for Task");
+	JMenuItem readfor = new JMenuItem("Read All Parts for Tasks");
 
-	JMenuItem addGets = new JMenuItem("Add Gets");
-	JMenuItem updateGets = new JMenuItem("Update Gets");
-	JMenuItem deleteGets = new JMenuItem("Delete Gets");
-	JMenuItem readGets = new JMenuItem("Read All Gets");
+	JMenuItem addGets = new JMenuItem("Add Vehicle to Repair");
+	JMenuItem updateGets = new JMenuItem("Update Vehicle for Repair");
+	JMenuItem deleteGets = new JMenuItem("Delete Vehicle for Repair");
+	JMenuItem readGets = new JMenuItem("Read All Vehicle for Repair");
 
-	JMenuItem addHas = new JMenuItem("Add Has");
-	JMenuItem updateHas = new JMenuItem("Update Has");
-	JMenuItem deleteHas = new JMenuItem("Delete Has");
-	JMenuItem readHas = new JMenuItem("Read All Has");
+	JMenuItem addHas = new JMenuItem("Add Task to Repair");
+	JMenuItem updateHas = new JMenuItem("Update Task for Repair");
+	JMenuItem deleteHas = new JMenuItem("Delete Task for Repair");
+	JMenuItem readHas = new JMenuItem("Read All Task for Repair");
 
 	JMenuItem addPaidBy = new JMenuItem("Add PaidBy");
 	JMenuItem updatePaidBy = new JMenuItem("Update PaidBy");
@@ -115,7 +115,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 	JMenuItem readPart = new JMenuItem("Read All Part");
 
 	JMenuItem updateSettings = new JMenuItem("Update Your Info");
-	JMenuItem readMangerInfo = new JMenuItem("Read All Mangers");
+	JMenuItem readMangerInfo = new JMenuItem("Read All Managers");
 
 	Container container = getContentPane();
 	AppRunner app;
@@ -144,7 +144,6 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 	public void addMenuItemsToToolBar() {
 
-		toolBar.add(assign);
 		toolBar.add(employees);
 		toolBar.add(customers);
 		toolBar.add(repairs);
@@ -153,20 +152,15 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		toolBar.add(parts);
 		toolBar.add(insurance);
 		toolBar.add(settings);
-		toolBar.add(theFor);
-		toolBar.add(theGets);
-		toolBar.add(theHas);
+
 		toolBar.add(thePaidBy);
 		toolBar.add(thePaidFor);
 
-		assign.add(addAssign);
-		assign.add(updateAssign);
-		assign.add(deleteAssign);
-		assign.add(readAssign);
-
+		
 		employees.add(updateEmployee);
 		employees.add(deleteEmployee);
 		employees.add(readEmployee);
+		
 
 		customers.add(deleteCustomer);
 		customers.add(readCustomer);
@@ -182,20 +176,23 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		orders.add(readOrder);
 		orders.add(updateOrder);
 
-		theFor.add(addfor);
-		theFor.add(updatefor);
-		theFor.add(deletefor);
-		theFor.add(readfor);
+		parts.add(addfor);
+		parts.add(updatefor);
+		parts.add(deletefor);
+		parts.add(readfor);
 
-		theGets.add(addGets);
-		theGets.add(updateGets);
-		theGets.add(deleteGets);
-		theGets.add(readGets);
-
-		theHas.add(addHas);
-		theHas.add(updateHas);
-		theHas.add(deleteHas);
-		theHas.add(readHas);
+		repairs.add(addGets);
+		repairs.add(updateGets);
+		repairs.add(deleteGets);
+		repairs.add(readGets);
+		repairs.add(addRepair);
+		repairs.add(updateRepair);
+		repairs.add(deleteRepair);
+		repairs.add(readRepair);
+		repairs.add(addHas);
+		repairs.add(updateHas);
+		repairs.add(deleteHas);
+		repairs.add(readHas);
 
 		thePaidBy.add(addPaidBy);
 		thePaidBy.add(updatePaidBy);
@@ -216,11 +213,12 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		tasks.add(updateTask);
 		tasks.add(deleteTask);
 		tasks.add(readTask);
+		tasks.add(addAssign);
+		tasks.add(updateAssign);
+		tasks.add(deleteAssign);
+		tasks.add(readAssign);
 
-		repairs.add(addRepair);
-		repairs.add(updateRepair);
-		repairs.add(deleteRepair);
-		repairs.add(readRepair);
+		
 
 		parts.add(addPart);
 		parts.add(updatePart);
