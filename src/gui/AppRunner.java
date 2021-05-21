@@ -41,8 +41,8 @@ class AppRunner {
 
 	}
 
-	protected void openCustomerFrame() {
-		CustomerFrame managerFrame = new CustomerFrame(this, null);
+	protected void openCustomerFrame(String userText) {
+		CustomerFrame managerFrame = new CustomerFrame(this, userText);
 		managerFrame.setTitle("AutoRepair - Customer");
 		managerFrame.setVisible(true);
 		managerFrame.setBounds(10, 10, 400, 600);
@@ -774,28 +774,22 @@ class AppRunner {
 
 	public ArrayList<PaidBy> getPaidBy(String username) {
 
-		ArrayList<PaidBy> myOrders = new ArrayList<>();
+		ArrayList<PaidBy> myPaidBys = new ArrayList<>();
 		try {
 			Connection c = dbService.getConnection();
-			CallableStatement cs = c.prepareCall(" { CALL ReadPaidBy(?)}");
+			CallableStatement cs = c.prepareCall("{CALL ReadPaidBy(?)}");
 			cs.setString(1, username);
-
 			ResultSet rs = cs.executeQuery();
-
-			if (!rs.next()) {
-				return null;
-			}
-
 			while (rs.next()) {
 				PaidBy row = new PaidBy(rs.getString("VehicleVIN"), rs.getInt("RepairID"),
 						rs.getString("CustomerUserName"), rs.getString("Receipt"));
-				myOrders.add(row);
+				myPaidBys.add(row);
 			}
-
 		} catch (SQLException e) {
+
 			e.printStackTrace();
 		}
-		return myOrders;
+		return myPaidBys;
 	}
 
 	public ArrayList<For> getAllFor() {
@@ -886,6 +880,24 @@ class AppRunner {
 		}
 		return myEmployeesList;
 	}
+	
+	public ArrayList<ManagerView> getManagerView() {
+		// TODO Auto-generated method stub
+		ArrayList<ManagerView> myEmployeesList = new ArrayList<>();
+		try {
+			Connection c = dbService.getConnection();
+			CallableStatement cs = c.prepareCall(" {CALL [ReadManagerCustomerView]}");
+			ResultSet rs = cs.executeQuery();
+			while (rs.next()) {
+				ManagerView row = new ManagerView(rs.getString("Username"),rs.getString("FirstName"),rs.getString("LastName"));
+				myEmployeesList.add(row);
+			}
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+		return myEmployeesList;
+	}
 
 	public ArrayList<Customer> getCustomers() {
 
@@ -904,16 +916,52 @@ class AppRunner {
 		}
 		return myCustomerList;
 	}
+	
+	public ArrayList<CustomerView> getCustomerViews() {
 
-	public ArrayList<Assignment> getAssignments() {
+		ArrayList<CustomerView> myCustomerList = new ArrayList<>();
+		try {
+			Connection c = dbService.getConnection();
+			CallableStatement cs = c.prepareCall(" {CALL ReadCustomerView}");
+			ResultSet rs = cs.executeQuery();
+			while (rs.next()) {
+				CustomerView row = new CustomerView(rs.getString("Username"), rs.getInt("NumberOfVisits"),rs.getString("FirstName"),rs.getString("LastName"));
+				myCustomerList.add(row);
+			}
+		} catch (SQLException e) {
 
-		ArrayList<Assignment> myRepairs = new ArrayList<>();
+			e.printStackTrace();
+		}
+		return myCustomerList;
+	}
+	
+	public ArrayList<EmployeeView> getEmployeeViews() {
+
+		ArrayList<EmployeeView> myEmployeeList = new ArrayList<>();
+		try {
+			Connection c = dbService.getConnection();
+			CallableStatement cs = c.prepareCall(" {CALL ReadEmployeeView}");
+			ResultSet rs = cs.executeQuery();
+			while (rs.next()) {
+				EmployeeView row = new EmployeeView(rs.getString("Username"), rs.getString("FirstName"),rs.getString("LastName"));
+				myEmployeeList.add(row);
+			}
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+		return myEmployeeList;
+	}
+
+	public ArrayList<Assign> getAssignments() {
+
+		ArrayList<Assign> myRepairs = new ArrayList<>();
 		try {
 			Connection c = dbService.getConnection();
 			CallableStatement cs = c.prepareCall(" {CALL ReadAssign}");
 			ResultSet rs = cs.executeQuery();
 			while (rs.next()) {
-				Assignment row = new Assignment(rs.getString("ManagerUserName"), rs.getString("EmployeeUserName"),
+				Assign row = new Assign(rs.getString("ManagerUserName"), rs.getString("EmployeeUserName"),
 						rs.getInt("TaskID"));
 				myRepairs.add(row);
 			}
@@ -1783,11 +1831,10 @@ class AppRunner {
 		Vehicle car = null;
 		try {
 
-			PreparedStatement s = dbService.getConnection()
-					.prepareStatement("SELECT * FROM VEHICLE WHERE VIN =" + vehicle);
-
-			ResultSet rs = s.executeQuery();
-
+			Connection c = dbService.getConnection();
+			CallableStatement cs = c.prepareCall(" {CALL getVehicleByVIN(?)}");
+			cs.setString(1, vehicle);
+			ResultSet rs = cs.executeQuery();
 			while (rs.next()) {
 				// String VIN, int Year,String Model, int Mileage, String BodyType
 				car = new Vehicle(rs.getString("VIN"), rs.getInt("Year"), rs.getString("Model"),
@@ -1800,4 +1847,6 @@ class AppRunner {
 
 		return car;
 	}
+
+	
 }

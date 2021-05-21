@@ -30,7 +30,7 @@ public class CustomerFrame extends JFrame implements ActionListener {
 	JMenuItem viewRepairs = new JMenuItem("View Repairs");
 	JMenu vehicles = new JMenu("Vehicles");
 	JMenuItem viewVehicles = new JMenuItem("View Vehicles");
-	private String username;
+	private String username = "";
 
 	public CustomerFrame(AppRunner application, String username) {
 		this.username = username;
@@ -127,16 +127,12 @@ public class CustomerFrame extends JFrame implements ActionListener {
 	private void viewRepairs() {
 		container.removeAll();
 		container.add(toolBar);
-
 		JScrollPane myPane = new JScrollPane();
-
 		ArrayList<PaidBy> myPaidBy = app.getPaidBy(this.username);
-
 		if (myPaidBy == null) {
 			JOptionPane.showMessageDialog(this, "No repairs in system!");
 			return;
 		}
-			System.out.println("PaidBy size" + myPaidBy.size());
 		JTable myTable = new JTable();
 		DefaultTableModel myModel = new DefaultTableModel();
 		String[] myColumns = { "VehicleVIN", "RepairID", "CustomerUserName", "Receipt" };

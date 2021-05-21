@@ -85,12 +85,10 @@ public class ManagerFrame extends JFrame implements ActionListener {
 	JMenuItem readfor = new JMenuItem("Read All Parts for Tasks");
 
 	JMenuItem addGets = new JMenuItem("Add Vehicle to Repair");
-	JMenuItem updateGets = new JMenuItem("Update Vehicle for Repair");
 	JMenuItem deleteGets = new JMenuItem("Delete Vehicle for Repair");
 	JMenuItem readGets = new JMenuItem("Read All Vehicle for Repair");
 
 	JMenuItem addHas = new JMenuItem("Add Task to Repair");
-	JMenuItem updateHas = new JMenuItem("Update Task for Repair");
 	JMenuItem deleteHas = new JMenuItem("Delete Task for Repair");
 	JMenuItem readHas = new JMenuItem("Read All Task for Repair");
 
@@ -189,7 +187,6 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		parts.add(readPart);
 
 		repairs.add(addGets);
-		repairs.add(updateGets);
 		repairs.add(deleteGets);
 		repairs.add(readGets);
 		repairs.add(addRepair);
@@ -197,7 +194,6 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		repairs.add(deleteRepair);
 		repairs.add(readRepair);
 		repairs.add(addHas);
-		repairs.add(updateHas);
 		repairs.add(deleteHas);
 		repairs.add(readHas);
 
@@ -266,12 +262,10 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		readfor.addActionListener(this);
 
 		addGets.addActionListener(this);
-		updateGets.addActionListener(this);
 		deleteGets.addActionListener(this);
 		readGets.addActionListener(this);
 
 		addHas.addActionListener(this);
-		updateHas.addActionListener(this);
 		deleteHas.addActionListener(this);
 		readHas.addActionListener(this);
 
@@ -307,13 +301,13 @@ public class ManagerFrame extends JFrame implements ActionListener {
 			this.assignTaskToEmployee();
 		}
 		if (e.getSource() == updateAssign) {
-
+			this.updateAssignTaskToEmployee();
 		}
 		if (e.getSource() == deleteAssign) {
-
+			this.deleteAssignTaskToEmployee();
 		}
 		if (e.getSource() == readAssign) {
-
+			this.readAssignTaskToEmployee();
 		}
 		// EMPLOYEES
 		if (e.getSource() == updateEmployee) {
@@ -329,9 +323,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		if (e.getSource() == addGets) {
 			this.addGets();
 		}
-		if (e.getSource() == updateGets) {
-			this.updateGets();
-		}
+
 		if (e.getSource() == deleteGets) {
 			this.deleteGets();
 		}
@@ -391,9 +383,6 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		// theHas
 		if (e.getSource() == addHas) {
 			this.addHas();
-		}
-		if (e.getSource() == updateHas) {
-			this.updateHas();
 		}
 		if (e.getSource() == deleteHas) {
 			this.deleteHas();
@@ -515,12 +504,12 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		JButton addButton = new JButton("Assign Task to Employee");
 
-		TaskLabel.setBounds(25, 50, 100, 30);
-		TaskChooser.setBounds(150, 100, 100, 30);
+		TaskLabel.setBounds(25, 100, 100, 30);
+		TaskChooser.setBounds(100, 100, 100, 30);
 
-		empLabel.setBounds(25, 200, 100, 30);
-		EmployeeChooser.setBounds(150, 250, 100, 30);
-		addButton.setBounds(150, 300, 100, 30);
+		empLabel.setBounds(25, 150, 100, 30);
+		EmployeeChooser.setBounds(100, 150, 100, 30);
+		addButton.setBounds(100, 300, 100, 30);
 
 		addButton.addActionListener(new ActionListener() {
 
@@ -555,6 +544,198 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 	}
 
+	private void updateAssignTaskToEmployee() {
+		container.removeAll();
+		container.add(toolBar);
+
+		ArrayList<Assign> myAssign = app.getAssignments();
+		ArrayList<Employee> myEmployees = app.getEmployees();
+		ArrayList<Manager> myManagers = app.getManagers();
+		ArrayList<Task> myTasks = app.getTasks();
+
+		String[] beforeAssign = new String[myAssign.size()];
+		String[] afterEmployee = new String[myEmployees.size()];
+		String[] afterManager = new String[myManagers.size()];
+		Integer[] afterTask = new Integer[myTasks.size()];
+
+		for (int i = 0; i < myAssign.size(); i++) {
+			beforeAssign[i] = myAssign.get(i).ManagerUserName + "/"+myAssign.get(i).TaskID + "/" + myAssign.get(i).EmployeeUserName;
+		}
+		for (int i = 0; i < myEmployees.size(); i++) {
+			afterEmployee[i] = myEmployees.get(i).getUsername();
+		}
+		for (int i = 0; i < myManagers.size(); i++) {
+			afterManager[i] = myManagers.get(i).getUsername();
+		}
+		for (int i = 0; i < myTasks.size(); i++) {
+			afterTask[i] = myTasks.get(i).getID();
+		}
+
+		JLabel beforePartNumberLabel = new JLabel("BeforeAssign");
+		JComboBox<String> beforePartNumberChooser = new JComboBox<String>(beforeAssign);
+
+		JLabel afterVehicleVIN = new JLabel("AfterEmployee");
+		JComboBox<String> afterVehicleVinchooser = new JComboBox<>(afterEmployee);
+
+		JLabel afterRepairLabel = new JLabel("AfterManager");
+		JComboBox<String> afterRepairChooser = new JComboBox<>(afterManager);
+
+		JLabel afterTaskLabel = new JLabel("AfterTaskID");
+		JComboBox<Integer> afterTaskChooser = new JComboBox<>(afterTask);
+
+		JButton addButton = new JButton("UPDATE");
+
+		beforePartNumberLabel.setBounds(25, 50, 150, 30);
+		beforePartNumberChooser.setBounds(150, 50, 150, 30);
+
+		afterVehicleVIN.setBounds(25, 100, 150, 30);
+		afterVehicleVinchooser.setBounds(150, 100, 150, 30);
+
+		afterRepairLabel.setBounds(25, 150, 150, 30);
+		afterRepairChooser.setBounds(150, 150, 150, 30);
+
+		afterTaskLabel.setBounds(25, 200, 150, 30);
+		afterTaskChooser.setBounds(150, 200, 150, 30);
+
+		addButton.setBounds(100, 450, 100, 100);
+
+		addButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+
+				try {
+					String[] splits = ((String)beforePartNumberChooser.getSelectedItem()).split("/") ;
+					String BeforeManagerUserName = splits[0];
+					String BeforeEmployeeUserName = splits[2];
+					Integer BeforeTaskID = Integer.parseInt(splits[1]);
+					String AfterManagerUserName = (String) afterRepairChooser.getSelectedItem();
+					String AfterEmployeeUserName = (String) afterVehicleVinchooser.getSelectedItem();
+					Integer AfterTaskID = (Integer) afterTaskChooser.getSelectedItem();
+					System.out.println(AfterEmployeeUserName);
+					if (BeforeManagerUserName != null && BeforeTaskID != null && BeforeEmployeeUserName != null && AfterManagerUserName != null
+							&& AfterEmployeeUserName.length() != 0 && AfterTaskID != 0) {
+						app.updateAssign(BeforeManagerUserName, BeforeEmployeeUserName, BeforeTaskID, AfterManagerUserName, AfterEmployeeUserName, AfterTaskID);
+					} else {
+						JOptionPane.showMessageDialog(null, "The Fields are incorrect");
+					}
+				} catch (NumberFormatException e) {
+					JOptionPane.showMessageDialog(null, "Fields are incorrect");
+				}
+			}
+		});
+
+		container.add(beforePartNumberLabel);
+		container.add(beforePartNumberChooser);
+
+		container.add(afterVehicleVinchooser);
+		container.add(afterVehicleVIN);
+
+		container.add(afterRepairChooser);
+		container.add(afterRepairLabel);
+
+		container.add(afterTaskLabel);
+		container.add(afterTaskChooser);
+
+		container.add(addButton);
+
+		this.setTitle("Update Assign");
+		this.setVisible(true);
+		this.setBounds(10, 10, 400, 700);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setResizable(false);
+	}
+	
+	private void deleteAssignTaskToEmployee() {
+		container.removeAll();
+		container.add(toolBar);
+
+		ArrayList<Assign> myAssign = app.getAssignments();
+
+		String[] beforeAssign = new String[myAssign.size()];
+
+		for (int i = 0; i < myAssign.size(); i++) {
+			beforeAssign[i] = myAssign.get(i).ManagerUserName + "/"+myAssign.get(i).TaskID + "/" + myAssign.get(i).EmployeeUserName;
+		}
+		JLabel beforePartNumberLabel = new JLabel("Assignments");
+		JComboBox<String> beforePartNumberChooser = new JComboBox<String>(beforeAssign);
+
+		JButton addButton = new JButton("DELETE");
+
+		beforePartNumberLabel.setBounds(25, 50, 150, 30);
+		beforePartNumberChooser.setBounds(150, 50, 150, 30);
+
+		addButton.setBounds(100, 450, 100, 100);
+
+		addButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+
+				try {
+					String[] splits = ((String)beforePartNumberChooser.getSelectedItem()).split("/") ;
+					String BeforeManagerUserName = splits[0];
+					String BeforeEmployeeUserName = splits[2];
+					Integer BeforeTaskID = Integer.parseInt(splits[1]);
+					
+					if (BeforeManagerUserName != null && BeforeTaskID != null && BeforeEmployeeUserName != null) {
+						app.deleteAssign(BeforeManagerUserName, BeforeTaskID, BeforeEmployeeUserName);
+					} else {
+						JOptionPane.showMessageDialog(null, "The Fields are incorrect");
+					}
+				} catch (NumberFormatException e) {
+					JOptionPane.showMessageDialog(null, "Fields are incorrect");
+				}
+			}
+		});
+
+		container.add(beforePartNumberLabel);
+		container.add(beforePartNumberChooser);
+
+		container.add(addButton);
+
+		this.setTitle("Update Assign");
+		this.setVisible(true);
+		this.setBounds(10, 10, 800, 700);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setResizable(false);
+		
+		
+	}
+
+	private void readAssignTaskToEmployee() {
+		container.removeAll();
+		container.add(toolBar);
+		JScrollPane myPane = new JScrollPane();
+
+		ArrayList<Assign> myAssigns = app.getAssignments();
+		JTable myTable = new JTable();
+		DefaultTableModel myModel = new DefaultTableModel();
+		String[] myColumns = { "ManagerUserName", "TaskID", "EmployeeUserName"};
+		myTable.setModel(myModel);
+		myModel.setColumnIdentifiers(myColumns);
+		myPane.setViewportView(myTable);
+		Object[] myRow = new Object[3];
+		for (int i = 0; i < myAssigns.size(); i++) {
+			myRow[0] = myAssigns.get(i).ManagerUserName;
+			myRow[1] = myAssigns.get(i).TaskID;
+			myRow[2] = myAssigns.get(i).EmployeeUserName;
+			myModel.addRow(myRow);
+		}
+		myTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
+		for (int i = 0; i < myRow.length; i++) {
+			myTable.getColumnModel().getColumn(i).setPreferredWidth(100);
+		}
+		myPane.setBounds(30, 30, 300, 300);
+		container.add(myPane);
+
+		this.setTitle("Read Assign");
+		this.setBounds(10, 10, 800, 800);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setResizable(false);
+		this.setVisible(true);
+	}
+	
 	private void updateRepair() {
 		container.removeAll();
 		container.add(toolBar);
@@ -973,7 +1154,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		JButton addButton = new JButton("UPDATE");
 
 		vinLabel.setBounds(25, 50, 150, 30);
-		vinChooser.setBounds(100, 50, 150, 30);
+		vinChooser.setBounds(100, 50, 250, 30);
 
 		yearLabel.setBounds(25, 100, 150, 30);
 		yearChooser.setBounds(100, 100, 150, 30);
@@ -1051,7 +1232,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		JButton deleteButton = new JButton("DELETE");
 
 		vinLabel.setBounds(25, 50, 150, 30);
-		vinChooser.setBounds(100, 50, 150, 30);
+		vinChooser.setBounds(100, 50, 250, 30);
 
 		deleteButton.setBounds(100, 350, 150, 30);
 
@@ -1323,6 +1504,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		JScrollPane myPane = new JScrollPane();
 
 		ArrayList<Task> myTasks = app.getTasks();
+		System.out.println(myTasks.get(0).Price);
 		JTable myTable = new JTable();
 		DefaultTableModel myModel = new DefaultTableModel();
 		String[] myColumns = { "ID", "Name", "Description", "Price", "Completion" };
@@ -1755,16 +1937,18 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.add(toolBar);
 		JScrollPane myPane = new JScrollPane();
 
-		ArrayList<Employee> myEmployees = app.getEmployees();
+		ArrayList<EmployeeView> myEmployees = app.getEmployeeViews();
 		JTable myTable = new JTable();
 		DefaultTableModel myModel = new DefaultTableModel();
-		String[] myColumns = { "Username" };
+		String[] myColumns = { "Username","FirstName","LastName" };
 		myTable.setModel(myModel);
 		myModel.setColumnIdentifiers(myColumns);
 		myPane.setViewportView(myTable);
-		Object[] myRow = new Object[1];
+		Object[] myRow = new Object[3];
 		for (int i = 0; i < myEmployees.size(); i++) {
-			myRow[0] = myEmployees.get(i).getUsername();
+			myRow[0] = myEmployees.get(i).Username;
+			myRow[1] = myEmployees.get(i).FirstName;
+			myRow[2] = myEmployees.get(i).LastName;
 			myModel.addRow(myRow);
 		}
 		myTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -1772,15 +1956,16 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		for (int i = 0; i < myRow.length; i++) {
 			myTable.getColumnModel().getColumn(i).setPreferredWidth(100);
 		}
-		myPane.setBounds(30, 30, 100, 300);
+		myPane.setBounds(30, 30, 300, 300);
 		container.add(myPane);
 
-		this.setTitle("Read Employees");
+		this.setTitle("Read All Employees");
 		this.setBounds(10, 10, 800, 800);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 		this.setVisible(true);
 	}
+	
 
 	public void addCustomer() {
 		container.removeAll();
@@ -1905,9 +2090,8 @@ public class ManagerFrame extends JFrame implements ActionListener {
 					String FirstName = (firstNameChooser.getText());
 					String LastName = lastNameChooser.getText();
 					int numberVisits = Integer.parseInt(numberVisitsChooser.getText());
-
 					if (Username.length() != 0 && FirstName.length() != 0 && LastName.length() != 0
-							&& numberVisits > 0) {
+							&& numberVisits >= 0) {
 						app.updateCustomer(Username, FirstName, LastName, numberVisits);
 					} else {
 						JOptionPane.showMessageDialog(null, "The Fields are incorrect");
@@ -1988,17 +2172,19 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.add(toolBar);
 		JScrollPane myPane = new JScrollPane();
 
-		ArrayList<Customer> myCustomers = app.getCustomers();
+		ArrayList<CustomerView> myCustomers = app.getCustomerViews();
 		JTable myTable = new JTable();
 		DefaultTableModel myModel = new DefaultTableModel();
-		String[] myColumns = { "Username", "NumberOfVisits" };
+		String[] myColumns = { "Username", "NumberOfVisits","FirstName", "LastName"};
 		myTable.setModel(myModel);
 		myModel.setColumnIdentifiers(myColumns);
 		myPane.setViewportView(myTable);
-		Object[] myRow = new Object[2];
+		Object[] myRow = new Object[4];
 		for (int i = 0; i < myCustomers.size(); i++) {
-			myRow[0] = myCustomers.get(i).getusername();
-			myRow[1] = myCustomers.get(i).getnumberOfVisits();
+			myRow[0] = myCustomers.get(i).Username;
+			myRow[1] = myCustomers.get(i).NumberOfVisits;
+			myRow[2] = myCustomers.get(i).FirstName;
+			myRow[3] = myCustomers.get(i).LastName;
 			myModel.addRow(myRow);
 		}
 		myTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -2006,10 +2192,11 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		for (int i = 0; i < myRow.length; i++) {
 			myTable.getColumnModel().getColumn(i).setPreferredWidth(100);
 		}
-		myPane.setBounds(30, 30, 200, 300);
+		myTable.getColumnModel().getColumn(0).setPreferredWidth(200);
+		myPane.setBounds(30, 30, 400, 300);
 		container.add(myPane);
 
-		this.setTitle("Read Customers");
+		this.setTitle("Read All Customers");
 		this.setBounds(10, 10, 800, 800);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
@@ -2557,16 +2744,18 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.add(toolBar);
 		JScrollPane myPane = new JScrollPane();
 
-		ArrayList<Manager> myManagers = app.getManagers();
+		ArrayList<ManagerView> myManagers = app.getManagerView();
 		JTable myTable = new JTable();
 		DefaultTableModel myModel = new DefaultTableModel();
-		String[] myColumns = { "UserName" };
+		String[] myColumns = { "UserName","FirstName","LastName"};
 		myTable.setModel(myModel);
 		myModel.setColumnIdentifiers(myColumns);
 		myPane.setViewportView(myTable);
-		Object[] myRow = new Object[1];
+		Object[] myRow = new Object[3];
 		for (int i = 0; i < myManagers.size(); i++) {
-			myRow[0] = myManagers.get(i).getUsername();
+			myRow[0] = myManagers.get(i).Username;
+			myRow[1] = myManagers.get(i).FirstName;
+			myRow[2] = myManagers.get(i).LastName;
 			myModel.addRow(myRow);
 		}
 		myTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -2574,7 +2763,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		for (int i = 0; i < myRow.length; i++) {
 			myTable.getColumnModel().getColumn(i).setPreferredWidth(100);
 		}
-		myPane.setBounds(30, 30, 100, 300);
+		myPane.setBounds(30, 30, 300, 300);
 		container.add(myPane);
 
 		this.setTitle("Read Managers");
@@ -2866,7 +3055,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		// BOUNDS
 		vinLabel.setBounds(25, 50, 150, 30);
-		vinChooser.setBounds(100, 50, 150, 30);
+		vinChooser.setBounds(100, 50, 250, 30);
 
 		repairIdLabel.setBounds(25, 100, 150, 30);
 		repairIdChooser.setBounds(100, 100, 150, 30);
@@ -2914,125 +3103,26 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		this.setResizable(false);
 	}
 
-	public void updateHas() {
-		container.removeAll();
-		container.add(toolBar);
-
-		ArrayList<Has> myHas = app.getAllHas();
-		ArrayList<Vehicle> myVehicles = app.getAllVehicles();
-		ArrayList<Repair> myRepairs = app.getRepairs();
-		ArrayList<Task> myTasks = app.getTasks();
-
-		Has[] beforeHas = new Has[myHas.size()];
-		String[] afterVehicle = new String[myVehicles.size()];
-		Integer[] afterRepair = new Integer[myRepairs.size()];
-		Integer[] afterTask = new Integer[myTasks.size()];
-
-		for (int i = 0; i < myHas.size(); i++) {
-			beforeHas[i] = myHas.get(i);
-		}
-		for (int i = 0; i < myVehicles.size(); i++) {
-			afterVehicle[i] = myVehicles.get(i).getVin();
-		}
-		for (int i = 0; i < myRepairs.size(); i++) {
-			afterRepair[i] = myRepairs.get(i).getID();
-		}
-		for (int i = 0; i < myTasks.size(); i++) {
-			afterTask[i] = myTasks.get(i).getID();
-		}
-
-		JLabel beforePartNumberLabel = new JLabel("BeforeHas");
-		JComboBox<Has> beforePartNumberChooser = new JComboBox<>(beforeHas);
-
-		JLabel afterVehicleVIN = new JLabel("AftterVehicleVIN");
-		JComboBox<String> afterVehicleVinchooser = new JComboBox<>(afterVehicle);
-
-		JLabel afterRepairLabel = new JLabel("AfterRepairID");
-		JComboBox<Integer> afterRepairChooser = new JComboBox<>(afterRepair);
-
-		JLabel afterTaskLabel = new JLabel("AfterTaskID");
-		JComboBox<Integer> afterTaskChooser = new JComboBox<>(afterTask);
-
-		JButton addButton = new JButton("UPDATE");
-
-		beforePartNumberLabel.setBounds(25, 50, 150, 30);
-		beforePartNumberChooser.setBounds(100, 50, 150, 30);
-
-		afterVehicleVIN.setBounds(25, 100, 150, 30);
-		afterVehicleVinchooser.setBounds(100, 100, 150, 60);
-
-		afterRepairLabel.setBounds(25, 150, 150, 30);
-		afterRepairChooser.setBounds(100, 150, 150, 60);
-
-		afterTaskLabel.setBounds(25, 200, 150, 30);
-		afterTaskChooser.setBounds(100, 200, 150, 60);
-
-		addButton.setBounds(100, 450, 100, 100);
-
-		addButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-
-				try {
-					String BeforeVehicleVIN = ((Has) beforePartNumberChooser.getSelectedItem()).getVehicleVin();
-					Integer BeforeRepairID = ((Has) beforePartNumberChooser.getSelectedItem()).getRepairID();
-					Integer BeforeTaskID = ((Has) beforePartNumberChooser.getSelectedItem()).getTaskID();
-					String AfterVehicleVIN = (String) afterVehicleVinchooser.getSelectedItem();
-					Integer AfterRepairID = (Integer) afterRepairChooser.getSelectedItem();
-					Integer AfterTaskID = (Integer) afterTaskChooser.getSelectedItem();
-					if (BeforeRepairID != null && BeforeTaskID != null && AfterRepairID != null && AfterTaskID != null
-							&& BeforeVehicleVIN.length() != 0 && AfterVehicleVIN.length() != 0) {
-						app.updateHas(BeforeRepairID, BeforeVehicleVIN, BeforeTaskID, AfterRepairID, AfterVehicleVIN,
-								AfterTaskID);
-					} else {
-						JOptionPane.showMessageDialog(null, "The Fields are incorrect");
-					}
-				} catch (NumberFormatException e) {
-					JOptionPane.showMessageDialog(null, "Fields are incorrect");
-				}
-			}
-		});
-
-		container.add(beforePartNumberLabel);
-		container.add(beforePartNumberChooser);
-
-		container.add(afterVehicleVinchooser);
-		container.add(afterVehicleVIN);
-
-		container.add(afterRepairChooser);
-		container.add(afterRepairLabel);
-
-		container.add(afterTaskLabel);
-		container.add(afterTaskChooser);
-
-		container.add(addButton);
-
-		this.setTitle("Update Has");
-		this.setVisible(true);
-		this.setBounds(10, 10, 370, 700);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setResizable(false);
-	}
+	
 
 	public void deleteHas() {
 		container.removeAll();
 		container.add(toolBar);
 
 		ArrayList<Has> myHas = app.getAllHas();
-		Has[] myListHas = new Has[myHas.size()];
+		String[] myListHas = new String[myHas.size()];
 		for (int i = 0; i < myHas.size(); i++) {
-			myListHas[i] = myHas.get(i);
+			myListHas[i] = myHas.get(i).VehicleVIN + "/" + myHas.get(i).RepairID + "/" + myHas.get(i).TaskId;
 		}
 
 		// Set up
 		JLabel myHasLabel = new JLabel("Has");
-		JComboBox<Has> myHasChooser = new JComboBox<>(myListHas);
+		JComboBox<String> myHasChooser = new JComboBox<String>(myListHas);
 
 		JButton deleteButton = new JButton("DELETE");
 
 		myHasLabel.setBounds(25, 50, 150, 30);
-		myHasChooser.setBounds(100, 50, 150, 30);
+		myHasChooser.setBounds(100, 50, 250, 30);
 
 		deleteButton.setBounds(100, 350, 150, 30);
 
@@ -3040,10 +3130,10 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-
-				String VIN = ((Has) myHasChooser.getSelectedItem()).getVehicleVin();
-				Integer RepairID = ((Has) myHasChooser.getSelectedItem()).getRepairID();
-				Integer TaskID = ((Has) myHasChooser.getSelectedItem()).getTaskID();
+				String[] mySplit = ((String) myHasChooser.getSelectedItem()).split("/");
+				String VIN = mySplit[0];
+				Integer RepairID = Integer.parseInt(mySplit[1]);
+				Integer TaskID = Integer.parseInt(mySplit[2]);
 				if (VIN.length() != 0 && RepairID != null && TaskID != null) {
 					app.deleteHas(VIN, RepairID, TaskID);
 				} else {
@@ -3088,7 +3178,8 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		for (int i = 0; i < myRow.length; i++) {
 			myTable.getColumnModel().getColumn(i).setPreferredWidth(100);
 		}
-		myPane.setBounds(30, 30, 300, 300);
+		myTable.getColumnModel().getColumn(0).setPreferredWidth(180);
+		myPane.setBounds(30, 30, 400, 300);
 		container.add(myPane);
 
 		this.setTitle("Read Has");
@@ -3137,7 +3228,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		// BOUNDS
 		vinLabel.setBounds(25, 50, 150, 30);
-		vinChooser.setBounds(200, 50, 150, 30);
+		vinChooser.setBounds(200, 50, 250, 30);
 
 		repairIdLabel.setBounds(25, 100, 150, 30);
 		repairIdChooser.setBounds(200, 100, 150, 30);
@@ -3161,7 +3252,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 					String CustomerUserName = (String) customerChooser.getSelectedItem();
 					String Receipt = receiptChooser.getText();
 
-					if (VIN.length() != 0 && RepairID != null && CustomerUserName != null && Receipt.length() != 0) {
+					if (VIN.length() != 0 && RepairID != null && CustomerUserName != null) {
 						app.addPaidBy(VIN, RepairID, CustomerUserName, Receipt);
 					} else {
 						JOptionPane.showMessageDialog(null, "The Fields are incorrect");
@@ -3198,14 +3289,14 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		ArrayList<PaidBy> myPaidBy = app.getFinalPaidBy();
 
-		PaidBy[] beforePaidBy = new PaidBy[myPaidBy.size()];
+		String[] beforePaidBy = new String[myPaidBy.size()];
 
 		for (int i = 0; i < myPaidBy.size(); i++) {
-			beforePaidBy[i] = myPaidBy.get(i);
+			beforePaidBy[i] = myPaidBy.get(i).VehicleVIN + "/" + myPaidBy.get(i).RepairID + "/" + myPaidBy.get(i).CustomerName;
 		}
 
 		JLabel beforePartNumberLabel = new JLabel("BeforePaidBy");
-		JComboBox<PaidBy> beforePartNumberChooser = new JComboBox<>(beforePaidBy);
+		JComboBox<String> beforePartNumberChooser = new JComboBox<String>(beforePaidBy);
 
 		JLabel afterReceiptLabel = new JLabel("AfterReceipt");
 		JTextField afterReceiptChooser = new JTextField();
@@ -3213,12 +3304,12 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		JButton addButton = new JButton("UPDATE");
 
 		beforePartNumberLabel.setBounds(25, 50, 150, 30);
-		beforePartNumberChooser.setBounds(150, 50, 150, 30);
+		beforePartNumberChooser.setBounds(150, 50, 250, 30);
 
-		afterReceiptLabel.setBounds(25, 250, 150, 30);
-		afterReceiptChooser.setBounds(150, 250, 150, 30);
+		afterReceiptLabel.setBounds(25, 100, 150, 30);
+		afterReceiptChooser.setBounds(150, 100, 150, 30);
 
-		addButton.setBounds(100, 450, 100, 100);
+		addButton.setBounds(100, 200, 100, 50);
 
 		addButton.addActionListener(new ActionListener() {
 
@@ -3226,9 +3317,10 @@ public class ManagerFrame extends JFrame implements ActionListener {
 			public void actionPerformed(ActionEvent arg0) {
 
 				try {
-					String BeforeVehicleVIN = ((PaidBy) beforePartNumberChooser.getSelectedItem()).getVehicleVIN();
-					Integer BeforeRepairID = ((PaidBy) beforePartNumberChooser.getSelectedItem()).getRepairID();
-					String BeforeCustomer = ((PaidBy) beforePartNumberChooser.getSelectedItem()).getCustomerName();
+					String[] mySplits = ((String)beforePartNumberChooser.getSelectedItem()).split("/");
+					String BeforeVehicleVIN = mySplits[0];
+					Integer BeforeRepairID = Integer.parseInt(mySplits[1]);
+					String BeforeCustomer = mySplits[2];
 
 					String AfterReceipt = (String) afterReceiptChooser.getText();
 					if (BeforeRepairID != null && BeforeVehicleVIN.length() != 0 && BeforeCustomer.length() != 0
@@ -3253,7 +3345,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		this.setTitle("Update MyPaidBy");
 		this.setVisible(true);
-		this.setBounds(10, 10, 800, 700);
+		this.setBounds(10, 10, 700, 400);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 	}
@@ -3263,32 +3355,34 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.add(toolBar);
 
 		ArrayList<PaidBy> myPaidBy = app.getFinalPaidBy();
-		PaidBy[] myListPaidBy = new PaidBy[myPaidBy.size()];
+
+		String[] beforePaidBy = new String[myPaidBy.size()];
+
 		for (int i = 0; i < myPaidBy.size(); i++) {
-			myListPaidBy[i] = myPaidBy.get(i);
+			beforePaidBy[i] = myPaidBy.get(i).VehicleVIN + "/" + myPaidBy.get(i).RepairID + "/" + myPaidBy.get(i).CustomerName;
 		}
 
 		// Set up
 		JLabel myPaidByLabel = new JLabel("PaidBy");
-		JComboBox<PaidBy> paidByChooser = new JComboBox<>(myListPaidBy);
+		JComboBox<String> paidByChooser = new JComboBox<>(beforePaidBy);
 
 		JButton deleteButton = new JButton("DELETE");
 
 		myPaidByLabel.setBounds(25, 50, 150, 30);
-		paidByChooser.setBounds(100, 50, 150, 30);
+		paidByChooser.setBounds(100, 50, 250, 30);
 
-		deleteButton.setBounds(100, 350, 150, 30);
+		deleteButton.setBounds(100, 100, 150, 30);
 
 		deleteButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 
-				String VIN = ((PaidBy) paidByChooser.getSelectedItem()).getVehicleVIN();
-				Integer RepairID = ((PaidBy) paidByChooser.getSelectedItem()).getRepairID();
-				String CustomerUserName = ((PaidBy) paidByChooser.getSelectedItem()).getCustomerName();
-				String Receipt = ((PaidBy) paidByChooser.getSelectedItem()).getReceipt();
-				if (VIN.length() != 0 && RepairID != null && CustomerUserName.length() != 0 && Receipt.length() != 0) {
+				String[] mySplits = ((String)paidByChooser.getSelectedItem()).split("/");
+				String VIN = mySplits[0];
+				Integer RepairID = Integer.parseInt(mySplits[1]);
+				String CustomerUserName = mySplits[2];
+				if (VIN.length() != 0 && RepairID != null && CustomerUserName.length() != 0) {
 					app.deletePaidBy(VIN, RepairID, CustomerUserName);
 				} else {
 					JOptionPane.showMessageDialog(null, "Fields are incorrect");
@@ -3303,7 +3397,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		this.setTitle("Delete PaidBy");
 		this.setVisible(true);
-		this.setBounds(10, 10, 800, 600);
+		this.setBounds(10, 10, 600, 300);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 	}
@@ -3333,11 +3427,12 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		for (int i = 0; i < myRow.length; i++) {
 			myTable.getColumnModel().getColumn(i).setPreferredWidth(100);
 		}
+		myTable.getColumnModel().getColumn(0).setPreferredWidth(200);
 		myPane.setBounds(30, 30, 400, 300);
 		container.add(myPane);
 
 		this.setTitle("Read PaidBy");
-		this.setBounds(10, 10, 680, 600);
+		this.setBounds(10, 10, 680, 500);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 		this.setVisible(true);
@@ -3382,7 +3477,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		// BOUNDS
 		vinLabel.setBounds(25, 50, 150, 30);
-		vinChooser.setBounds(100, 50, 150, 30);
+		vinChooser.setBounds(100, 50, 250, 30);
 
 		repairIdLabel.setBounds(25, 100, 150, 30);
 		repairIdChooser.setBounds(100, 100, 150, 30);
@@ -3409,8 +3504,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 					System.out.println(RepairID);
 					System.out.println(InsuranceClaimNumber);
 					System.out.println(Receipt);
-					if (VIN.length() != 0 && RepairID != null && InsuranceClaimNumber.length() != 0
-							&& Receipt.length() != 0) {
+					if (VIN.length() != 0 && RepairID != null && InsuranceClaimNumber.length() != 0) {
 						app.addPaidFor(VIN, RepairID, InsuranceClaimNumber, Receipt);
 					} else {
 						JOptionPane.showMessageDialog(null, "The Fields are incorrect");
@@ -3618,14 +3712,13 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		}
 		myTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-		for (int i = 0; i < myRow.length; i++) {
-			myTable.getColumnModel().getColumn(i).setPreferredWidth(100);
-		}
-		myPane.setBounds(30, 30, 200, 300);
+		myTable.getColumnModel().getColumn(0).setPreferredWidth(250);
+		myTable.getColumnModel().getColumn(1).setPreferredWidth(100);
+		myPane.setBounds(30, 30, 350, 300);
 		container.add(myPane);
 
 		this.setTitle("Read Gets");
-		this.setBounds(10, 10, 800, 600);
+		this.setBounds(10, 10, 650, 500);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 		this.setVisible(true);
@@ -3637,27 +3730,27 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.add(toolBar);
 
 		ArrayList<Get> myPaidFor = app.getGets();
-		Get[] myListPaidFor = new Get[myPaidFor.size()];
+		String[] myListPaidFor = new String[myPaidFor.size()];
 		for (int i = 0; i < myPaidFor.size(); i++) {
-			myListPaidFor[i] = myPaidFor.get(i);
+			myListPaidFor[i] = myPaidFor.get(i).VIN + "/" + myPaidFor.get(i).RepairID;
 		}
 		// Set up
-		JLabel myPaidByLabel = new JLabel("MyGets");
-		JComboBox<Get> paidByChooser = new JComboBox<Get>(myListPaidFor);
+		JLabel myPaidByLabel = new JLabel("MyVehicleAndRep");
+		JComboBox<String> paidByChooser = new JComboBox<String>(myListPaidFor);
 		JButton deleteButton = new JButton("DELETE");
 
 		myPaidByLabel.setBounds(25, 50, 150, 30);
-		paidByChooser.setBounds(100, 50, 150, 30);
+		paidByChooser.setBounds(150, 50, 250, 30);
 
-		deleteButton.setBounds(100, 350, 150, 30);
+		deleteButton.setBounds(100, 100, 150, 30);
 
 		deleteButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-
-				String VIN = ((Get) paidByChooser.getSelectedItem()).VIN;
-				Integer RepairID = ((Get) paidByChooser.getSelectedItem()).RepairID;
+				String[] mySplits = ((String) paidByChooser.getSelectedItem()).split("/");
+				String VIN = mySplits[0];
+				Integer RepairID = Integer.parseInt(mySplits[1]);
 
 				if (VIN.length() != 0 && RepairID != null) {
 					app.deleteGets(VIN, RepairID);
@@ -3674,96 +3767,12 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		this.setTitle("Delete Gets");
 		this.setVisible(true);
-		this.setBounds(10, 10, 370, 600);
+		this.setBounds(10, 10, 650, 400);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 	}
 
-	private void updateGets() {
-
-		container.removeAll();
-		container.add(toolBar);
-
-		ArrayList<Get> myGets = app.getGets();
-		ArrayList<Vehicle> myVehicles = app.getAllVehicles();
-		ArrayList<Repair> myRepairs = app.getRepairs();
-
-		Get[] beforeGets = new Get[myGets.size()];
-		String[] afterVehicle = new String[myVehicles.size()];
-		Integer[] afterRepair = new Integer[myRepairs.size()];
-		for (int i = 0; i < myGets.size(); i++) {
-			beforeGets[i] = myGets.get(i);
-		}
-		for (int i = 0; i < myVehicles.size(); i++) {
-			afterVehicle[i] = myVehicles.get(i).getVin();
-		}
-		for (int i = 0; i < myRepairs.size(); i++) {
-			afterRepair[i] = myRepairs.get(i).getID();
-		}
-
-		JLabel beforePartNumberLabel = new JLabel("BeforeGets");
-		JComboBox<Get> beforePartNumberChooser = new JComboBox<>(beforeGets);
-
-		JLabel afterVehicleVIN = new JLabel("AfterVehicleVIN");
-		JComboBox<String> afterVehicleVinchooser = new JComboBox<>(afterVehicle);
-
-		JLabel afterRepairLabel = new JLabel("AfterRepairID");
-		JComboBox<Integer> afterRepairChooser = new JComboBox<>(afterRepair);
-
-		JButton addButton = new JButton("UPDATE");
-
-		beforePartNumberLabel.setBounds(25, 50, 150, 30);
-		beforePartNumberChooser.setBounds(150, 50, 150, 30);
-
-		afterVehicleVIN.setBounds(25, 100, 150, 30);
-		afterVehicleVinchooser.setBounds(150, 100, 150, 30);
-
-		afterRepairLabel.setBounds(25, 150, 150, 30);
-		afterRepairChooser.setBounds(150, 150, 150, 30);
-
-		addButton.setBounds(100, 450, 100, 100);
-
-		addButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				try {
-					String BeforeVehicleVIN = ((Get) beforePartNumberChooser.getSelectedItem()).VIN;
-					Integer BeforeRepairID = ((Get) beforePartNumberChooser.getSelectedItem()).RepairID;
-
-					String AfterVehicleVIN = (String) afterVehicleVinchooser.getSelectedItem();
-					Integer AfterRepairID = (Integer) afterRepairChooser.getSelectedItem();
-
-					if (BeforeRepairID != null && AfterRepairID != null && BeforeVehicleVIN.length() != 0
-							&& AfterVehicleVIN.length() != 0 && BeforeVehicleVIN.length() != 0
-							&& AfterVehicleVIN.length() != 0) {
-						app.UpdateGets(BeforeVehicleVIN, BeforeRepairID, AfterVehicleVIN, AfterRepairID);
-					} else {
-						JOptionPane.showMessageDialog(null, "The Fields are incorrect");
-					}
-				} catch (NumberFormatException e) {
-					JOptionPane.showMessageDialog(null, "Fields are incorrect");
-				}
-			}
-		});
-
-		container.add(beforePartNumberLabel);
-		container.add(beforePartNumberChooser);
-
-		container.add(afterVehicleVIN);
-		container.add(afterVehicleVinchooser);
-
-		container.add(afterRepairChooser);
-		container.add(afterRepairLabel);
-
-		container.add(addButton);
-
-		this.setTitle("Update MyPaidFor");
-		this.setVisible(true);
-		this.setBounds(10, 10, 800, 700);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setResizable(false);
-	}
+	
 
 	private void addGets() {
 
@@ -3792,7 +3801,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		JButton addButton = new JButton("ADD");
 
 		vinLabel.setBounds(25, 50, 150, 30);
-		vinChooser.setBounds(100, 50, 150, 30);
+		vinChooser.setBounds(100, 50, 250, 30);
 
 		repairIdLabel.setBounds(25, 100, 150, 30);
 		repairIdChooser.setBounds(100, 100, 150, 30);
