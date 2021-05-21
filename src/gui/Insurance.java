@@ -1,10 +1,10 @@
 package gui;
 
-public class MyInsurance {
+public class Insurance {
 
 	String ClaimNumber,PolicyNumber;
 	int deductible;
-	public MyInsurance(String ClaimNumber,String PolicyNumber, int deductible) {
+	public Insurance(String ClaimNumber,String PolicyNumber, int deductible) {
 		this.ClaimNumber = ClaimNumber;
 		this.PolicyNumber = PolicyNumber;
 		this.deductible = deductible;

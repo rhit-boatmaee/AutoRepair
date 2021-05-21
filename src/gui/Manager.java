@@ -1,8 +1,8 @@
 package gui;
 
-public class MyManager {
+public class Manager {
 String username;
-public MyManager(String username) {
+public Manager(String username) {
 	this.username = username;
 }
 

@@ -681,15 +681,15 @@ class AppRunner {
 		return myTaskList;
 	}
 
-	public ArrayList<MyInsurance> getInsurance() {
+	public ArrayList<Insurance> getInsurance() {
 
-		ArrayList<MyInsurance> myInsurance = new ArrayList<MyInsurance>();
+		ArrayList<Insurance> myInsurance = new ArrayList<>();
 		try {
 			Connection c = dbService.getConnection();
 			CallableStatement cs = c.prepareCall(" {CALL ReadInsurance}");
 			ResultSet rs = cs.executeQuery();
 			while (rs.next()) {
-				MyInsurance row = new MyInsurance(rs.getString("ClaimNumber"), rs.getString("PolicyNumber"),
+				Insurance row = new Insurance(rs.getString("ClaimNumber"), rs.getString("PolicyNumber"),
 						rs.getInt("Deductible"));
 				myInsurance.add(row);
 			}
@@ -702,7 +702,7 @@ class AppRunner {
 
 	public ArrayList<MyOrder> getOrders() {
 
-		ArrayList<MyOrder> myOrders = new ArrayList<MyOrder>();
+		ArrayList<MyOrder> myOrders = new ArrayList<>();
 		try {
 			Connection c = dbService.getConnection();
 			CallableStatement cs = c.prepareCall(" {CALL ReadOrders}");
@@ -718,14 +718,14 @@ class AppRunner {
 		return myOrders;
 	}
 
-	public ArrayList<MyGets> getGets() {
-		ArrayList<MyGets> myOrders = new ArrayList<MyGets>();
+	public ArrayList<Get> getGets() {
+		ArrayList<Get> myOrders = new ArrayList<>();
 		try {
 			Connection c = dbService.getConnection();
 			CallableStatement cs = c.prepareCall(" {CALL ReadGets}");
 			ResultSet rs = cs.executeQuery();
 			while (rs.next()) {
-				MyGets row = new MyGets(rs.getString("VIN"), rs.getInt("RepairID"));
+				Get row = new Get(rs.getString("VIN"), rs.getInt("RepairID"));
 				myOrders.add(row);
 			}
 		} catch (SQLException e) {
@@ -737,7 +737,7 @@ class AppRunner {
 
 	public ArrayList<MyPaidFor> getPaidFor() {
 
-		ArrayList<MyPaidFor> myPaidfor = new ArrayList<MyPaidFor>();
+		ArrayList<MyPaidFor> myPaidfor = new ArrayList<>();
 		try {
 			Connection c = dbService.getConnection();
 			CallableStatement cs = c.prepareCall("{CALL ReadPaidFor}");
@@ -755,7 +755,7 @@ class AppRunner {
 	}
 
 	public ArrayList<MyPaidBy> getFinalPaidBy() {
-		ArrayList<MyPaidBy> myPaidBys = new ArrayList<MyPaidBy>();
+		ArrayList<MyPaidBy> myPaidBys = new ArrayList<>();
 		try {
 			Connection c = dbService.getConnection();
 			CallableStatement cs = c.prepareCall("{CALL ReadFinalPaidBy}");
@@ -774,7 +774,7 @@ class AppRunner {
 
 	public ArrayList<MyPaidBy> getPaidBy(String username) {
 
-		ArrayList<MyPaidBy> myOrders = new ArrayList<MyPaidBy>();
+		ArrayList<MyPaidBy> myOrders = new ArrayList<>();
 		try {
 			Connection c = dbService.getConnection();
 			CallableStatement cs = c.prepareCall(" { CALL ReadPaidBy(?)}");
@@ -800,7 +800,7 @@ class AppRunner {
 
 	public ArrayList<For> getAllFor() {
 
-		ArrayList<For> myFor = new ArrayList<For>();
+		ArrayList<For> myFor = new ArrayList<>();
 		try {
 			Connection c = dbService.getConnection();
 			CallableStatement cs = c.prepareCall(" {CALL ReadFor}");
@@ -816,15 +816,15 @@ class AppRunner {
 		return myFor;
 	}
 
-	public ArrayList<MyHas> getAllHas() {
+	public ArrayList<Has> getAllHas() {
 
-		ArrayList<MyHas> myHas = new ArrayList<MyHas>();
+		ArrayList<Has> myHas = new ArrayList<>();
 		try {
 			Connection c = dbService.getConnection();
 			CallableStatement cs = c.prepareCall(" {CALL ReadHas}");
 			ResultSet rs = cs.executeQuery();
 			while (rs.next()) {
-				MyHas row = new MyHas(rs.getString("VehicleVIN"), rs.getInt("RepairID"), rs.getInt("TaskID"));
+				Has row = new Has(rs.getString("VehicleVIN"), rs.getInt("RepairID"), rs.getInt("TaskID"));
 				myHas.add(row);
 			}
 		} catch (SQLException e) {
@@ -834,15 +834,15 @@ class AppRunner {
 		return myHas;
 	}
 
-	public ArrayList<MyManager> getManagers() {
+	public ArrayList<Manager> getManagers() {
 
-		ArrayList<MyManager> myManagers = new ArrayList<MyManager>();
+		ArrayList<Manager> myManagers = new ArrayList<>();
 		try {
 			Connection c = dbService.getConnection();
 			CallableStatement cs = c.prepareCall(" {CALL ReadManagers}");
 			ResultSet rs = cs.executeQuery();
 			while (rs.next()) {
-				MyManager row = new MyManager(rs.getString("UserName"));
+				Manager row = new Manager(rs.getString("UserName"));
 				myManagers.add(row);
 			}
 		} catch (SQLException e) {
@@ -853,7 +853,7 @@ class AppRunner {
 	}
 
 	public ArrayList<MyParts> getParts() {
-		ArrayList<MyParts> myPartsList = new ArrayList<MyParts>();
+		ArrayList<MyParts> myPartsList = new ArrayList<>();
 		try {
 			Connection c = dbService.getConnection();
 			CallableStatement cs = c.prepareCall(" {CALL ReadPart}");
@@ -871,7 +871,7 @@ class AppRunner {
 
 	public ArrayList<Employee> getEmployees() {
 
-		ArrayList<Employee> myEmployeesList = new ArrayList<Employee>();
+		ArrayList<Employee> myEmployeesList = new ArrayList<>();
 		try {
 			Connection c = dbService.getConnection();
 			CallableStatement cs = c.prepareCall(" {CALL ReadEmployee}");
@@ -889,7 +889,7 @@ class AppRunner {
 
 	public ArrayList<Customer> getCustomers() {
 
-		ArrayList<Customer> myCustomerList = new ArrayList<Customer>();
+		ArrayList<Customer> myCustomerList = new ArrayList<>();
 		try {
 			Connection c = dbService.getConnection();
 			CallableStatement cs = c.prepareCall(" {CALL ReadCustomer}");
@@ -907,7 +907,7 @@ class AppRunner {
 
 	public ArrayList<Assignment> getAssignments() {
 
-		ArrayList<Assignment> myRepairs = new ArrayList<Assignment>();
+		ArrayList<Assignment> myRepairs = new ArrayList<>();
 		try {
 			Connection c = dbService.getConnection();
 			CallableStatement cs = c.prepareCall(" {CALL ReadAssign}");
@@ -925,7 +925,7 @@ class AppRunner {
 	}
 
 	public ArrayList<MyTasks> getAllEmployeeTasks(String username) {
-		ArrayList<MyTasks> myTaskList = new ArrayList<MyTasks>();
+		ArrayList<MyTasks> myTaskList = new ArrayList<>();
 		try {
 			Connection c = dbService.getConnection();
 			CallableStatement cs = c.prepareCall(" {? = CALL ReadEmployeeTasks(?)}");
@@ -946,7 +946,7 @@ class AppRunner {
 	}
 
 	public ArrayList<EmployeeTaskAssignments> getRepairTaskForEmployee(String username) {
-		ArrayList<EmployeeTaskAssignments> myRepairs = new ArrayList<EmployeeTaskAssignments>();
+		ArrayList<EmployeeTaskAssignments> myRepairs = new ArrayList<>();
 		try {
 			Connection c = dbService.getConnection();
 			CallableStatement cs = c.prepareCall(" {? = CALL ReadgetRepairTaskForEmployee}");

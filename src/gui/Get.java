@@ -1,9 +1,9 @@
 package gui;
 
-public class MyGets {
+public class Get {
 	String VIN;
 	int RepairID;
-	public MyGets(String VIN, int RepairID) {
+	public Get(String VIN, int RepairID) {
 		this.VIN = VIN;
 		this.RepairID = RepairID;
 	}
