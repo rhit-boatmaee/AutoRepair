@@ -94,15 +94,15 @@ public class ManagerFrame extends JFrame implements ActionListener {
 	JMenuItem deleteHas = new JMenuItem("Delete Task for Repair");
 	JMenuItem readHas = new JMenuItem("Read All Task for Repair");
 
-	JMenuItem addPaidBy = new JMenuItem("Add PaidBy");
-	JMenuItem updatePaidBy = new JMenuItem("Update PaidBy");
-	JMenuItem deletePaidBy = new JMenuItem("Delete PaidBy");
-	JMenuItem readPaidBy = new JMenuItem("Read All PaidBy");
+	JMenuItem addPaidBy = new JMenuItem("Add Customer Payment");
+	JMenuItem updatePaidBy = new JMenuItem("Update Customer Payment");
+	JMenuItem deletePaidBy = new JMenuItem("Delete Customer Payment");
+	JMenuItem readPaidBy = new JMenuItem("Read All Customer Payment");
 
-	JMenuItem addPaidFor = new JMenuItem("Add PaidFor");
-	JMenuItem updatePaidFor = new JMenuItem("Update PaidFor");
-	JMenuItem deletePaidFor = new JMenuItem("Delete PaidFor");
-	JMenuItem readPaidFor = new JMenuItem("Read All PaidFor");
+	JMenuItem addPaidFor = new JMenuItem("Add Insurance Payment");
+	JMenuItem updatePaidFor = new JMenuItem("Update Insurance Payment");
+	JMenuItem deletePaidFor = new JMenuItem("Delete Insurance Payment");
+	JMenuItem readPaidFor = new JMenuItem("Read All Insurance Payments");
 
 	JMenuItem addTask = new JMenuItem("Add Task");
 	JMenuItem updateTask = new JMenuItem("Update Task");
@@ -153,19 +153,22 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		toolBar.add(insurance);
 		toolBar.add(settings);
 
-		toolBar.add(thePaidBy);
-		toolBar.add(thePaidFor);
-
-		
 		employees.add(updateEmployee);
 		employees.add(deleteEmployee);
 		employees.add(readEmployee);
-		
 
+		customers.add(addPaidBy);
+		customers.add(updatePaidBy);
+		customers.add(deletePaidBy);
+		customers.add(readPaidBy);
 		customers.add(deleteCustomer);
 		customers.add(readCustomer);
 		customers.add(updateCustomer);
 
+		insurance.add(addPaidFor);
+		insurance.add(updatePaidFor);
+		insurance.add(deletePaidFor);
+		insurance.add(readPaidFor);
 		insurance.add(addInsurance);
 		insurance.add(deleteInsurance);
 		insurance.add(readInsurance);
@@ -180,6 +183,10 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		parts.add(updatefor);
 		parts.add(deletefor);
 		parts.add(readfor);
+		parts.add(addPart);
+		parts.add(updatePart);
+		parts.add(deletePart);
+		parts.add(readPart);
 
 		repairs.add(addGets);
 		repairs.add(updateGets);
@@ -194,16 +201,6 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		repairs.add(deleteHas);
 		repairs.add(readHas);
 
-		thePaidBy.add(addPaidBy);
-		thePaidBy.add(updatePaidBy);
-		thePaidBy.add(deletePaidBy);
-		thePaidBy.add(readPaidBy);
-
-		thePaidFor.add(addPaidFor);
-		thePaidFor.add(updatePaidFor);
-		thePaidFor.add(deletePaidFor);
-		thePaidFor.add(readPaidFor);
-
 		vehicles.add(addVehicle);
 		vehicles.add(updateVehicle);
 		vehicles.add(deleteVehicle);
@@ -217,13 +214,6 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		tasks.add(updateAssign);
 		tasks.add(deleteAssign);
 		tasks.add(readAssign);
-
-		
-
-		parts.add(addPart);
-		parts.add(updatePart);
-		parts.add(deletePart);
-		parts.add(readPart);
 
 		settings.add(updateSettings);
 		settings.add(readMangerInfo);
@@ -1069,7 +1059,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				String id = (String) vinChooser.getSelectedItem();
 				if (id.length() != 0) {
 					app.deleteVehicle(id);
@@ -1159,7 +1149,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				try {
 					String Name = (String) nameChooser.getText();
 					String Description = (descriptionChooser.getText());
@@ -1241,7 +1231,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-		
+
 				try {
 					Integer ID = (Integer) IDChooser.getSelectedItem();
 					String Name = (nameChooser.getText());
@@ -1301,13 +1291,11 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		deleteButton.setBounds(100, 350, 150, 30);
 
-		
-
 		deleteButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				try {
 					Integer id = (Integer) idChooser.getSelectedItem();
 					app.deleteTask(id);
@@ -1397,7 +1385,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				try {
 					Integer PartNumber = Integer.parseInt(partNumberChooser.getText());
 					String Name = (nameLabelChooser.getText());
@@ -1468,7 +1456,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					
+
 					Integer PartNumber = (Integer) (partNumberChooser.getSelectedItem());
 					int Price = Integer.parseInt(priceChooser.getText());
 					String Name = nameChooser.getText();
@@ -1524,7 +1512,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				Integer id = (Integer) partNumberChooser.getSelectedItem();
 				if (id != null) {
 					app.deletePart(id);
