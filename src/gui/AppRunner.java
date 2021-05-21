@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Container;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
@@ -880,7 +881,7 @@ class AppRunner {
 		}
 		return myEmployeesList;
 	}
-	
+
 	public ArrayList<ManagerView> getManagerView() {
 		// TODO Auto-generated method stub
 		ArrayList<ManagerView> myEmployeesList = new ArrayList<>();
@@ -889,7 +890,8 @@ class AppRunner {
 			CallableStatement cs = c.prepareCall(" {CALL [ReadManagerCustomerView]}");
 			ResultSet rs = cs.executeQuery();
 			while (rs.next()) {
-				ManagerView row = new ManagerView(rs.getString("Username"),rs.getString("FirstName"),rs.getString("LastName"));
+				ManagerView row = new ManagerView(rs.getString("Username"), rs.getString("FirstName"),
+						rs.getString("LastName"));
 				myEmployeesList.add(row);
 			}
 		} catch (SQLException e) {
@@ -916,7 +918,7 @@ class AppRunner {
 		}
 		return myCustomerList;
 	}
-	
+
 	public ArrayList<CustomerView> getCustomerViews() {
 
 		ArrayList<CustomerView> myCustomerList = new ArrayList<>();
@@ -925,7 +927,8 @@ class AppRunner {
 			CallableStatement cs = c.prepareCall(" {CALL ReadCustomerView}");
 			ResultSet rs = cs.executeQuery();
 			while (rs.next()) {
-				CustomerView row = new CustomerView(rs.getString("Username"), rs.getInt("NumberOfVisits"),rs.getString("FirstName"),rs.getString("LastName"));
+				CustomerView row = new CustomerView(rs.getString("Username"), rs.getInt("NumberOfVisits"),
+						rs.getString("FirstName"), rs.getString("LastName"));
 				myCustomerList.add(row);
 			}
 		} catch (SQLException e) {
@@ -934,7 +937,7 @@ class AppRunner {
 		}
 		return myCustomerList;
 	}
-	
+
 	public ArrayList<EmployeeView> getEmployeeViews() {
 
 		ArrayList<EmployeeView> myEmployeeList = new ArrayList<>();
@@ -943,7 +946,8 @@ class AppRunner {
 			CallableStatement cs = c.prepareCall(" {CALL ReadEmployeeView}");
 			ResultSet rs = cs.executeQuery();
 			while (rs.next()) {
-				EmployeeView row = new EmployeeView(rs.getString("Username"), rs.getString("FirstName"),rs.getString("LastName"));
+				EmployeeView row = new EmployeeView(rs.getString("Username"), rs.getString("FirstName"),
+						rs.getString("LastName"));
 				myEmployeeList.add(row);
 			}
 		} catch (SQLException e) {
@@ -1837,8 +1841,8 @@ class AppRunner {
 			ResultSet rs = cs.executeQuery();
 			while (rs.next()) {
 				// String VIN, int Year,String Model, int Mileage, String BodyType
-				car = new Vehicle(rs.getString("VIN"), rs.getInt("Year"), rs.getString("Model"),
-						rs.getInt("Mileage"), rs.getString("BodyType"));
+				car = new Vehicle(rs.getString("VIN"), rs.getInt("Year"), rs.getString("Model"), rs.getInt("Mileage"),
+						rs.getString("BodyType"));
 
 			}
 		} catch (SQLException e) {
@@ -1848,5 +1852,48 @@ class AppRunner {
 		return car;
 	}
 
-	
+	public ArrayList<Repair> searchByID(int id) {
+
+		ArrayList<Repair> allRepairs = this.getRepairs();
+		ArrayList<Repair> repairsByID = new ArrayList<>();
+		for (Repair r : allRepairs) {
+			if (r.getID() == id)
+				repairsByID.add(r);
+		}
+
+		return repairsByID;
+	}
+
+	public ArrayList<Task> getTaskByRepairID(int id) {
+		
+		ArrayList<Has> allHas = this.getAllHas();
+		ArrayList<Task> allTasks = this.getTasks();
+		ArrayList<Task> tasksByID = new ArrayList<>();
+		
+		for(Has h : allHas) {
+			
+			if(h.getRepairID() == id) {
+				int taskID = h.getTaskID();
+			
+				for(Task t : allTasks) {
+					if(t.getID() == taskID) {
+						tasksByID.add(t);
+					}
+				}
+			}
+		
+		}return tasksByID;
+}
+
+	public ArrayList<Part> searchByPartNumber(int number) {
+		ArrayList<Part> allParts = this.getParts();
+		ArrayList<Part> partsByNum = new ArrayList<>();
+		for (Part r : allParts) {
+			if (r.getPartNumber() == number)
+				partsByNum.add(r);
+		}
+
+		return partsByNum;
+	}
+
 }

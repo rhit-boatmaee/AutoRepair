@@ -43,6 +43,9 @@ public class ManagerFrame extends JFrame implements ActionListener {
 	JMenu thePaidBy = new JMenu("PaidBy");
 	JMenu thePaidFor = new JMenu("PaidFor");
 	JMenu settings = new JMenu("Settings");
+	
+	JMenuItem searchByID = new JMenuItem("Search by RepairID");
+	JMenuItem searchByPartNumber = new JMenuItem("Search by PartNumber");
 
 	JMenuItem addAssign = new JMenuItem("Assign Task to Employee");
 	JMenuItem updateAssign = new JMenuItem("Update Task to Employee");
@@ -185,6 +188,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		parts.add(updatePart);
 		parts.add(deletePart);
 		parts.add(readPart);
+		parts.add(searchByPartNumber);
 
 		repairs.add(addGets);
 		repairs.add(deleteGets);
@@ -196,6 +200,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		repairs.add(addHas);
 		repairs.add(deleteHas);
 		repairs.add(readHas);
+		repairs.add(searchByID);
 
 		vehicles.add(addVehicle);
 		vehicles.add(updateVehicle);
@@ -291,6 +296,9 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		updateSettings.addActionListener(this);
 		readMangerInfo.addActionListener(this);
+		
+		searchByID.addActionListener(this);
+		searchByPartNumber.addActionListener(this);
 	}
 
 	@Override
@@ -429,6 +437,11 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		if (e.getSource() == readRepair) {
 			this.readAllRepairs();
 		}
+		
+		if(e.getSource() == searchByID) {
+			this.searchByID();
+		}
+		
 		// VEHICLES
 		if (e.getSource() == addVehicle) {
 			this.addVehicle();
@@ -468,6 +481,9 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		if (e.getSource() == readPart) {
 			this.readAllParts();
 		}
+		if(e.getSource() == searchByPartNumber) {
+			this.searchByPartNumber();
+		}
 
 		// Manager
 		if (e.getSource() == updateSettings) {
@@ -476,6 +492,178 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		if (e.getSource() == readMangerInfo) {
 			this.readallManagers();
 		}
+	}
+
+	private void searchByID() {
+	
+		container.removeAll();
+		container.add(toolBar);
+
+		JLabel searchLabel = new JLabel("Enter Repair ID");
+		JTextField searchField = new JTextField();
+		JButton addButton = new JButton("Search");
+
+		searchLabel.setBounds(25, 100, 100, 30);
+		searchField.setBounds(100, 100, 100, 30);
+		addButton.setBounds(100, 300, 100, 30);
+
+		addButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+
+				try {
+
+					int id = Integer.parseInt(searchField.getText());
+					
+					JScrollPane myPane = new JScrollPane();
+
+					ArrayList<Repair> repairs = app.searchByID(id);
+					
+					ArrayList<Task> taskList = app.getTaskByRepairID(id);
+					
+					
+					JTable myTable = new JTable();
+					DefaultTableModel myModel = new DefaultTableModel();
+					String[] myColumns = { "ID" , "Description" , "Completion"};
+					myTable.setModel(myModel);
+					myModel.setColumnIdentifiers(myColumns);
+					myPane.setViewportView(myTable);
+					Object[] myRow = new Object[3];
+					for (int i = 0; i < repairs.size(); i++) {
+						myRow[0] = repairs.get(i).getID();
+						myRow[1] = repairs.get(i).Description;
+						myRow[2] = repairs.get(i).Completion;
+						myModel.addRow(myRow);
+					}
+					myTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
+					for (int i = 0; i < myRow.length; i++) {
+						myTable.getColumnModel().getColumn(i).setPreferredWidth(100);
+					}
+					
+					
+					
+					JScrollPane taskPane = new JScrollPane();
+
+					JTable tasks = new JTable();
+					DefaultTableModel taskModel = new DefaultTableModel();
+					String[] taskColumn = { "ID" , "Description" , "Completion", "Name", "Price"};
+					tasks.setModel(taskModel);
+					taskModel.setColumnIdentifiers(taskColumn);
+					taskPane.setViewportView(tasks);
+					Object[] taskRow = new Object[5];
+					for (int i = 0; i < taskList.size(); i++) {
+						taskRow[0] = taskList.get(i).getID();
+						taskRow[1] = taskList.get(i).Description;
+						taskRow[2] = taskList.get(i).Completion;
+						taskRow[3] = taskList.get(i).Name;
+						taskRow[4] = taskList.get(i).Price;
+						taskModel.addRow(taskRow);
+					}
+					tasks.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
+					for (int i = 0; i < taskRow.length; i++) {
+						tasks.getColumnModel().getColumn(i).setPreferredWidth(100);
+					}
+					
+					
+					myPane.setBounds(30, 30, 300, 300);
+					container.add(myPane);
+					
+					taskPane.setBounds(400, 30, 300, 300);
+					container.add(taskPane);
+					
+
+
+				} catch (NumberFormatException e) {
+					JOptionPane.showMessageDialog(null, "The Fields are incorrect");
+				}
+			}
+		});
+		container.add(searchLabel);
+		container.add(searchField);
+		container.add(addButton);
+
+		this.setTitle("Assigning task to employee");
+		this.setVisible(true);
+		this.setBounds(10, 10, 800, 800);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setResizable(false);
+		
+		
+		
+	}
+
+	private void searchByPartNumber() {
+		System.out.println("searchbyID called");
+		container.removeAll();
+		container.add(toolBar);
+
+		JLabel searchLabel = new JLabel("Enter Part Number");
+		JTextField searchField = new JTextField();
+		JButton addButton = new JButton("Search");
+
+		searchLabel.setBounds(25, 100, 100, 30);
+		searchField.setBounds(100, 100, 100, 30);
+		addButton.setBounds(100, 300, 100, 30);
+
+		addButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+
+				try {
+
+					int number = Integer.parseInt(searchField.getText());
+					
+					JScrollPane myPane = new JScrollPane();
+
+					ArrayList<Part> part = app.searchByPartNumber(number);
+					
+					
+					
+					JTable myTable = new JTable();
+					DefaultTableModel myModel = new DefaultTableModel();
+					String[] myColumns = { "Name" , "PartNumber" , "Price"};
+					myTable.setModel(myModel);
+					myModel.setColumnIdentifiers(myColumns);
+					myPane.setViewportView(myTable);
+					Object[] myRow = new Object[3];
+					for (int i = 0; i < part.size(); i++) {
+						myRow[0] = part.get(i).Name;
+						myRow[1] = part.get(i).PartNumber;
+						myRow[2] = part.get(i).Price;
+						myModel.addRow(myRow);
+					}
+					myTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
+					for (int i = 0; i < myRow.length; i++) {
+						myTable.getColumnModel().getColumn(i).setPreferredWidth(100);
+					}
+					
+					
+					myPane.setBounds(30, 30, 300, 300);
+					container.add(myPane);
+					
+			
+
+				} catch (NumberFormatException e) {
+					JOptionPane.showMessageDialog(null, "The Fields are incorrect");
+				}
+			}
+		});
+		container.add(searchLabel);
+		container.add(searchField);
+		container.add(addButton);
+
+		this.setTitle("Search by Part Number");
+		this.setVisible(true);
+		this.setBounds(10, 10, 800, 800);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setResizable(false);
+		
+		
 	}
 
 	private void assignTaskToEmployee() {
