@@ -95,6 +95,11 @@ public class EmployeeFrame extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
+		
+		if(e.getSource() == readRepair) {
+			this.readVehicles();
+			
+		}
 		if (e.getSource() == readRepair) {
 			container.removeAll();
 			container.add(toolBar);
@@ -167,6 +172,40 @@ public class EmployeeFrame extends JFrame implements ActionListener {
 			this.setVisible(true);
 		}
 
+	}
+
+	private void readVehicles() {
+		container.removeAll();
+		container.add(toolBar);
+
+		JScrollPane myPane = new JScrollPane();
+
+		
+		ArrayList<String> assignments = app.getVehicles();
+		JTable myTable = new JTable();
+		DefaultTableModel myModel = new DefaultTableModel();
+		
+		
+		String[] myColumns = { "VIN" };
+		myTable.setModel(myModel);
+		myModel.setColumnIdentifiers(myColumns);
+		myPane.setViewportView(myTable);
+		Object[] myRow = new Object[1];
+
+		for (String assignment : assignments) {
+			myRow[0] = assignment;
+			
+			myModel.addRow(myRow);
+		}
+
+		myPane.setBounds(30, 30, 540, 300);
+		container.add(myPane);
+
+		this.setTitle("Current Vehicles");
+		this.setBounds(10, 10, 680, 600);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setResizable(false);
+		this.setVisible(true);
 	}
 
 	private void readTasks() {

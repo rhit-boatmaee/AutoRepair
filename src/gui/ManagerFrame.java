@@ -1716,7 +1716,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		JScrollPane myPane = new JScrollPane();
 
 		ArrayList<Task> myTasks = app.getTasks();
-		System.out.println(myTasks.get(0).Price);
+		
 		JTable myTable = new JTable();
 		DefaultTableModel myModel = new DefaultTableModel();
 		String[] myColumns = { "ID", "Name", "Description", "Price", "Completion" };

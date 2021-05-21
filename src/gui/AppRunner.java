@@ -674,6 +674,7 @@ class AppRunner {
 			while (rs.next()) {
 				Task row = new Task(rs.getInt("ID"), rs.getString("Name"), rs.getString("Description"),
 						rs.getInt("Price"), rs.getInt("Completion"));
+				
 				myTaskList.add(row);
 			}
 		} catch (SQLException e) {
