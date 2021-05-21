@@ -516,7 +516,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		JLabel TaskLabel = new JLabel("Task");
 		JComboBox<Integer> TaskChooser = new JComboBox<Integer>(tasks);
 
-		ArrayList<MyEmployee> employees = app.getEmployees();
+		ArrayList<Employee> employees = app.getEmployees();
 		String[] emps = new String[employees.size()];
 		for (int i = 0; i < employees.size(); i++) {
 			emps[i] = employees.get(i).getUsername();
@@ -1688,7 +1688,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.removeAll();
 		container.add(toolBar);
 
-		ArrayList<MyEmployee> myEmployees = app.getEmployees();
+		ArrayList<Employee> myEmployees = app.getEmployees();
 		String[] myUsernames = new String[myEmployees.size()];
 		for (int i = 0; i < myEmployees.size(); i++) {
 			myUsernames[i] = myEmployees.get(i).getUsername();
@@ -1716,20 +1716,13 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		addButton.setBounds(100, 450, 100, 100);
 
-		userNameChooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-		});
+		
 		addButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					// TODO Auto-generated method stub
+					
 					String Username = (String) userNameChooser.getSelectedItem();
 					String FirstName = (firstNameChooser.getText());
 					String LastName = lastNameChooser.getText();
@@ -1762,10 +1755,10 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		this.setResizable(false);
 	}
 
-	public void deleteEmployee() { // 800x800
+	public void deleteEmployee() {
 		container.removeAll();
 		container.add(toolBar);
-		ArrayList<MyEmployee> myEmployees = app.getEmployees();
+		ArrayList<Employee> myEmployees = app.getEmployees();
 
 		String[] userNames = new String[myEmployees.size()];
 
@@ -1808,12 +1801,12 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		this.setResizable(false);
 	}
 
-	public void readAllEmployees() { // 800x800
+	public void readAllEmployees() { 
 		container.removeAll();
 		container.add(toolBar);
 		JScrollPane myPane = new JScrollPane();
 
-		ArrayList<MyEmployee> myEmployees = app.getEmployees();
+		ArrayList<Employee> myEmployees = app.getEmployees();
 		JTable myTable = new JTable();
 		DefaultTableModel myModel = new DefaultTableModel();
 		String[] myColumns = { "Username" };
@@ -1840,7 +1833,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		this.setVisible(true);
 	}
 
-	public void addCustomer() { // 800x800
+	public void addCustomer() {
 		container.removeAll();
 		container.add(toolBar);
 		// Set up
@@ -2732,10 +2725,10 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.removeAll();
 		container.add(toolBar);
 
-		ArrayList<MyFor> myFor = app.getAllFor();
+		ArrayList<For> myFor = app.getAllFor();
 		ArrayList<MyTasks> myTasks = app.getTasks();
 		ArrayList<MyParts> myParts = app.getParts();
-		MyFor[] beforeFor = new MyFor[myFor.size()];
+		For[] beforeFor = new For[myFor.size()];
 		Integer[] afterMyPart = new Integer[myParts.size()];
 		Integer[] afterMyTask = new Integer[myTasks.size()];
 		for (int i = 0; i < myFor.size(); i++) {
@@ -2749,7 +2742,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		}
 
 		JLabel beforePartNumberLabel = new JLabel("BeforePartNumber");
-		JComboBox<MyFor> beforePartNumberChooser = new JComboBox<MyFor>(beforeFor);
+		JComboBox<For> beforePartNumberChooser = new JComboBox<For>(beforeFor);
 
 		JLabel afterPartNumberLabel = new JLabel("AfterPartNumber");
 		JComboBox<Integer> afterPartNumberChooser = new JComboBox<Integer>(afterMyPart);
@@ -2770,41 +2763,14 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		addButton.setBounds(100, 450, 100, 100);
 
-		beforePartNumberChooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-		});
-
-		afterPartNumberChooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-		});
-
-		afterTaskChooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-		});
-
 		addButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
+			
 				try {
-					Integer BeforePartNumber = ((MyFor) beforePartNumberChooser.getSelectedItem()).getPartNumber();
-					Integer BeforeTaskID = ((MyFor) beforePartNumberChooser.getSelectedItem()).getTaskID();
+					Integer BeforePartNumber = ((For) beforePartNumberChooser.getSelectedItem()).getPartNumber();
+					Integer BeforeTaskID = ((For) beforePartNumberChooser.getSelectedItem()).getTaskID();
 					Integer AfterPartNumber = (Integer) afterPartNumberChooser.getSelectedItem();
 					Integer AfterTaskID = (Integer) afterTaskChooser.getSelectedItem();
 					if (BeforePartNumber != null && BeforeTaskID != null && AfterPartNumber != null
@@ -2842,7 +2808,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.removeAll();
 		container.add(toolBar);
 
-		ArrayList<MyFor> myFor = app.getAllFor();
+		ArrayList<For> myFor = app.getAllFor();
 		Integer[] partNumbers = new Integer[myFor.size()];
 		Integer[] taskNumbers = new Integer[myFor.size()];
 		for (int i = 0; i < myFor.size(); i++) {
@@ -2867,25 +2833,6 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		deleteButton.setBounds(100, 350, 150, 30);
 
-		partNumberChooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-		});
-
-		taskNumberChooser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-		});
 
 		deleteButton.addActionListener(new ActionListener() {
 
@@ -2921,7 +2868,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		container.add(toolBar);
 		JScrollPane myPane = new JScrollPane();
 
-		ArrayList<MyFor> myFors = app.getAllFor();
+		ArrayList<For> myFors = app.getAllFor();
 		JTable myTable = new JTable();
 		DefaultTableModel myModel = new DefaultTableModel();
 		String[] myColumns = { "PartNumber", "TaskID" };
@@ -3092,7 +3039,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
+				
 				try {
 					String BeforeVehicleVIN = ((MyHas) beforePartNumberChooser.getSelectedItem()).getVehicleVin();
 					Integer BeforeRepairID = ((MyHas) beforePartNumberChooser.getSelectedItem()).getRepairID();

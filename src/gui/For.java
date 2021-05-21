@@ -1,9 +1,9 @@
 package gui;
 
-public class MyFor {
+public class For {
 
 	int TaskID, PartNumber;
-	public MyFor(int TaskID, int PartNumber) {
+	public For(int TaskID, int PartNumber) {
 		this.TaskID = TaskID;
 		this.PartNumber = PartNumber;
 	}

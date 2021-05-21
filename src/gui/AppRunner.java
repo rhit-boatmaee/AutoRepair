@@ -798,15 +798,15 @@ class AppRunner {
 		return myOrders;
 	}
 
-	public ArrayList<MyFor> getAllFor() {
+	public ArrayList<For> getAllFor() {
 
-		ArrayList<MyFor> myFor = new ArrayList<MyFor>();
+		ArrayList<For> myFor = new ArrayList<For>();
 		try {
 			Connection c = dbService.getConnection();
 			CallableStatement cs = c.prepareCall(" {CALL ReadFor}");
 			ResultSet rs = cs.executeQuery();
 			while (rs.next()) {
-				MyFor row = new MyFor(rs.getInt("PartNumber"), rs.getInt("TaskID"));
+				For row = new For(rs.getInt("PartNumber"), rs.getInt("TaskID"));
 				myFor.add(row);
 			}
 		} catch (SQLException e) {
@@ -869,15 +869,15 @@ class AppRunner {
 		return myPartsList;
 	}
 
-	public ArrayList<MyEmployee> getEmployees() {
+	public ArrayList<Employee> getEmployees() {
 
-		ArrayList<MyEmployee> myEmployeesList = new ArrayList<MyEmployee>();
+		ArrayList<Employee> myEmployeesList = new ArrayList<Employee>();
 		try {
 			Connection c = dbService.getConnection();
 			CallableStatement cs = c.prepareCall(" {CALL ReadEmployee}");
 			ResultSet rs = cs.executeQuery();
 			while (rs.next()) {
-				MyEmployee row = new MyEmployee(rs.getString("Username"));
+				Employee row = new Employee(rs.getString("Username"));
 				myEmployeesList.add(row);
 			}
 		} catch (SQLException e) {
