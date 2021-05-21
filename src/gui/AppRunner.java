@@ -637,6 +637,7 @@ class AppRunner {
 				Repair row = new Repair(rs.getInt("ID"), rs.getString("StartDate"), rs.getString("EndDate"),
 						rs.getString("Description"), rs.getInt("Discount"), rs.getInt("TotalCost"),
 						rs.getInt("Completion"));
+				row.priceCompleted = rs.getInt("PriceCompleted");
 				myRepairs.add(row);
 			}
 		} catch (SQLException e) {

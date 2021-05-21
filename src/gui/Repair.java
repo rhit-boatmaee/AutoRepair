@@ -8,6 +8,7 @@ public class Repair {
 	int Discount;
 	int TotalCost;
 	int Completion;
+	Object priceCompleted ;
 	public Repair(int ID,String startDate,String endDate,String Description, int Discount, int TotalCost, int Completion) {
 		this.ID = ID;
 		this.startDate = startDate;

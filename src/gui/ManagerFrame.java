@@ -525,15 +525,16 @@ public class ManagerFrame extends JFrame implements ActionListener {
 					
 					JTable myTable = new JTable();
 					DefaultTableModel myModel = new DefaultTableModel();
-					String[] myColumns = { "ID" , "Description" , "Completion"};
+					String[] myColumns = { "ID" , "Description" , "Completion" , "PaidStatus"};
 					myTable.setModel(myModel);
 					myModel.setColumnIdentifiers(myColumns);
 					myPane.setViewportView(myTable);
-					Object[] myRow = new Object[3];
+					Object[] myRow = new Object[4];
 					for (int i = 0; i < repairs.size(); i++) {
 						myRow[0] = repairs.get(i).getID();
 						myRow[1] = repairs.get(i).Description;
 						myRow[2] = repairs.get(i).Completion;
+						myRow[3] = repairs.get(i).priceCompleted;
 						myModel.addRow(myRow);
 					}
 					myTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
